@@ -77,6 +77,7 @@ class _LoginScreenState extends State<LoginScreen> {
       required BuildContext context}) async {
     FirebaseAuth auth = FirebaseAuth.instance;
     User? user;
+
     try {
       UserCredential userCredential = await auth.signInWithEmailAndPassword(
           email: email, password: password);
@@ -88,6 +89,29 @@ class _LoginScreenState extends State<LoginScreen> {
     }
 
     return user;
+  }
+
+  Future<String> signUp(String email, String password) async {
+    try {
+      FirebaseAuth auth = FirebaseAuth.instance;
+      await auth
+          .createUserWithEmailAndPassword(email: email, password: password)
+          .then((value) async {
+        User? user = FirebaseAuth.instance.currentUser;
+
+        await FirebaseFirestore.instance
+            .collection("users")
+            .doc(user?.uid)
+            .set({
+          'uid': user?.uid,
+          'email': email,
+          'password': password,
+        });
+      });
+      return "Signed Up";
+      // ignore: empty_catches
+    } catch (e) {}
+    return "hola";
   }
 
   @override
@@ -162,6 +186,16 @@ class _LoginScreenState extends State<LoginScreen> {
                   if (user != null) {
                     Navigator.of(context).pushReplacement(MaterialPageRoute(
                         builder: (context) => ProfileScreen()));
+                  } else if (_emailController.text.isEmpty ||
+                      _passwordController.text.isEmpty) {
+                    Fluttertoast.showToast(
+                        msg: "Please write an email and a password", // message
+                        toastLength: Toast.LENGTH_SHORT, // length
+                        gravity: ToastGravity.BOTTOM, // location
+                        timeInSecForIosWeb: 2,
+                        backgroundColor: Colors.black38,
+                        fontSize: 12.0 // duration
+                        );
                   } else {
                     Fluttertoast.showToast(
                         msg: "This email or password are incorrect", // message
@@ -174,6 +208,37 @@ class _LoginScreenState extends State<LoginScreen> {
                   }
                 },
                 child: const Text("Login",
+                    style: TextStyle(color: Colors.white, fontSize: 18.0)),
+              )),
+          const SizedBox(
+            height: 25.0,
+          ),
+          Container(
+              width: double.infinity,
+              child: RawMaterialButton(
+                fillColor: const Color(0XFF0069FE),
+                elevation: 0.0,
+                padding: const EdgeInsets.symmetric(vertical: 20.0),
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12.0)),
+                onPressed: () async {
+                  await signUp(
+                    _emailController.text,
+                    _passwordController.text,
+                  ).then((value) async {
+                    User? user = FirebaseAuth.instance.currentUser;
+
+                    await FirebaseFirestore.instance
+                        .collection("users")
+                        .doc(user?.uid)
+                        .set({
+                      'uid': user?.uid,
+                      'email': _emailController.text,
+                      'password': _passwordController.text,
+                    });
+                  });
+                },
+                child: const Text("Create",
                     style: TextStyle(color: Colors.white, fontSize: 18.0)),
               ))
         ],
