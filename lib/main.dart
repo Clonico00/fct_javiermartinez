@@ -246,3 +246,6 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 }
+/*
+  TODO hacer compruebe de entrada de datos
+ */
