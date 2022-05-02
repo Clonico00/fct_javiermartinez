@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "828808111949",
+    "project_id": "fct-javiermartinez-a4fe3",
+    "storage_bucket": "fct-javiermartinez-a4fe3.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:828808111949:android:df0b9459277f8c4966b904",
+        "android_client_info": {
+          "package_name": "com.example.fct_javiermartinez"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "828808111949-bt44s6uda7h0pm4bosnf7osvqb5kkrdb.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD8SE1ERFYoQJQEbVOvktZEC0SJZA_IeVM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "828808111949-bt44s6uda7h0pm4bosnf7osvqb5kkrdb.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
