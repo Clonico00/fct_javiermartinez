@@ -1,4 +1,6 @@
 // ignore_for_file: unused_import, prefer_const_constructors, unnecessary_const, sized_box_for_whitespace, use_full_hex_values_for_flutter_colors, unused_local_variable, unused_element, avoid_print, body_might_complete_normally_nullable, unnecessary_new
+import 'dart:math';
+
 import 'package:fct_javiermartinez/profile_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -77,7 +79,6 @@ class _LoginScreenState extends State<LoginScreen> {
       required BuildContext context}) async {
     FirebaseAuth auth = FirebaseAuth.instance;
     User? user;
-
     try {
       UserCredential userCredential = await auth.signInWithEmailAndPassword(
           email: email, password: password);
@@ -87,7 +88,6 @@ class _LoginScreenState extends State<LoginScreen> {
         print("No user found for that email");
       }
     }
-
     return user;
   }
 
@@ -98,20 +98,19 @@ class _LoginScreenState extends State<LoginScreen> {
           .createUserWithEmailAndPassword(email: email, password: password)
           .then((value) async {
         User? user = FirebaseAuth.instance.currentUser;
-
         await FirebaseFirestore.instance
             .collection("users")
-            .doc(user?.uid)
+            .doc(user!.uid)
             .set({
-          'uid': user?.uid,
+          'uid': user.uid,
           'email': email,
           'password': password,
         });
       });
-      return "Signed Up";
-      // ignore: empty_catches
-    } catch (e) {}
-    return "hola";
+    } on FirebaseAuthException catch (e) {
+      print(e.code.toString());
+    }
+    return "";
   }
 
   @override
@@ -222,24 +221,40 @@ class _LoginScreenState extends State<LoginScreen> {
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(12.0)),
                 onPressed: () async {
-                  await signUp(
-                    _emailController.text,
-                    _passwordController.text,
-                  ).then((value) async {
-                    User? user = FirebaseAuth.instance.currentUser;
-                    String pattern =
-                        r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
-                    RegExp regExp = new RegExp(pattern);
-
+                  String pattern =
+                      r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
+                  RegExp regExp = new RegExp(pattern);
+                  if (_passwordController.text.length >= 6) {
                     if (regExp.hasMatch(_emailController.text)) {
-                      await FirebaseFirestore.instance
-                          .collection("users")
-                          .doc(user?.uid)
-                          .set({
-                        'uid': user?.uid,
-                        'email': _emailController.text,
-                        'password': _passwordController.text,
-                      });
+                      User? user = await loginUsingEmailPassword(
+                          email: _emailController.text,
+                          password: _passwordController.text,
+                          context: context);
+                      if (user == null) {
+                        await signUp(
+                          _emailController.text.trim(),
+                          _passwordController.text.trim(),
+                        ).then((value) async {
+                          user = FirebaseAuth.instance.currentUser;
+                          await FirebaseFirestore.instance
+                              .collection("users")
+                              .doc(user?.uid)
+                              .set({
+                            'uid': user?.uid,
+                            'email': _emailController.text,
+                            'password': _passwordController.text,
+                          });
+                        });
+                      } else {
+                        Fluttertoast.showToast(
+                            msg: "Email already exists", // message
+                            toastLength: Toast.LENGTH_SHORT, // length
+                            gravity: ToastGravity.BOTTOM, // location
+                            timeInSecForIosWeb: 2,
+                            backgroundColor: Colors.black38,
+                            fontSize: 12.0 // duration
+                            );
+                      }
                     } else if (_emailController.text.isEmpty ||
                         _passwordController.text.isEmpty) {
                       Fluttertoast.showToast(
@@ -262,7 +277,17 @@ class _LoginScreenState extends State<LoginScreen> {
                           fontSize: 12.0 // duration
                           );
                     }
-                  });
+                  } else {
+                    Fluttertoast.showToast(
+                        msg:
+                            "The minimun lenght for the password is 6", // message
+                        toastLength: Toast.LENGTH_SHORT, // length
+                        gravity: ToastGravity.BOTTOM, // location
+                        timeInSecForIosWeb: 2,
+                        backgroundColor: Colors.black38,
+                        fontSize: 12.0 // duration
+                        );
+                  }
                 },
                 child: const Text("Create",
                     style: TextStyle(color: Colors.white, fontSize: 18.0)),
@@ -273,5 +298,5 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 }
 /*
-  TODO hacer compruebe de entrada de datos
+  TODO: comprobar si puede restablecer su contrasenia
  */
