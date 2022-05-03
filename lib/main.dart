@@ -1,4 +1,4 @@
-// ignore_for_file: unused_import, prefer_const_constructors, unnecessary_const, sized_box_for_whitespace, use_full_hex_values_for_flutter_colors, unused_local_variable, unused_element, avoid_print, body_might_complete_normally_nullable
+// ignore_for_file: unused_import, prefer_const_constructors, unnecessary_const, sized_box_for_whitespace, use_full_hex_values_for_flutter_colors, unused_local_variable, unused_element, avoid_print, body_might_complete_normally_nullable, unnecessary_new
 import 'package:fct_javiermartinez/profile_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -227,15 +227,41 @@ class _LoginScreenState extends State<LoginScreen> {
                     _passwordController.text,
                   ).then((value) async {
                     User? user = FirebaseAuth.instance.currentUser;
+                    String pattern =
+                        r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
+                    RegExp regExp = new RegExp(pattern);
 
-                    await FirebaseFirestore.instance
-                        .collection("users")
-                        .doc(user?.uid)
-                        .set({
-                      'uid': user?.uid,
-                      'email': _emailController.text,
-                      'password': _passwordController.text,
-                    });
+                    if (regExp.hasMatch(_emailController.text)) {
+                      await FirebaseFirestore.instance
+                          .collection("users")
+                          .doc(user?.uid)
+                          .set({
+                        'uid': user?.uid,
+                        'email': _emailController.text,
+                        'password': _passwordController.text,
+                      });
+                    } else if (_emailController.text.isEmpty ||
+                        _passwordController.text.isEmpty) {
+                      Fluttertoast.showToast(
+                          msg:
+                              "Please write an email and a password", // message
+                          toastLength: Toast.LENGTH_SHORT, // length
+                          gravity: ToastGravity.BOTTOM, // location
+                          timeInSecForIosWeb: 2,
+                          backgroundColor: Colors.black38,
+                          fontSize: 12.0 // duration
+                          );
+                    } else {
+                      Fluttertoast.showToast(
+                          msg:
+                              "This email or password are incorrect", // message
+                          toastLength: Toast.LENGTH_SHORT, // length
+                          gravity: ToastGravity.BOTTOM, // location
+                          timeInSecForIosWeb: 2,
+                          backgroundColor: Colors.black38,
+                          fontSize: 12.0 // duration
+                          );
+                    }
                   });
                 },
                 child: const Text("Create",
