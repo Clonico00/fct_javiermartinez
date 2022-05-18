@@ -31,7 +31,7 @@ class MyApp extends StatelessWidget {
   Step 5 : Init the firebase app
   Step 6 : Create the login function
   Step 7 : create a user and test the app
-
+  IMPORTANTE:NO OLVIDAR IMPLMENTAR PREFERENCIAS
 */
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
