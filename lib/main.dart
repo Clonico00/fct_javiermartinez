@@ -277,6 +277,14 @@ class _LoginScreenState extends State<LoginScreen> {
                             'password': _passwordController.text,
                           });
                         });
+                        Fluttertoast.showToast(
+                            msg: "Usuario creado correctamente", // message
+                            toastLength: Toast.LENGTH_LONG, // length
+                            gravity: ToastGravity.TOP, // location
+                            timeInSecForIosWeb: 2,
+                            backgroundColor: Color.fromARGB(255, 18, 22, 134),
+                            fontSize: 12.0 // duration
+                            );
                       } else {
                         Fluttertoast.showToast(
                             msg: "Email already exists", // message
