@@ -91,6 +91,17 @@ class _LoginScreenState extends State<LoginScreen> {
     return user;
   }
 
+  Color _getColorFromHex(String hexColor) {
+    hexColor = hexColor.replaceAll("#", "");
+    if (hexColor.length == 6) {
+      hexColor = "FF" + hexColor;
+    }
+    if (hexColor.length == 8) {
+      return Color(int.parse("0x$hexColor"));
+    }
+    return Color(0xFF42A5F5);
+  }
+
   Future<String> signUp(String email, String password) async {
     try {
       FirebaseAuth auth = FirebaseAuth.instance;
@@ -119,24 +130,41 @@ class _LoginScreenState extends State<LoginScreen> {
     TextEditingController _emailController = TextEditingController();
     TextEditingController _passwordController = TextEditingController();
 
-    return Padding(
+    return DefaultTextStyle(
+      style: Theme.of(context).textTheme.bodyText2!,
+      child: LayoutBuilder(
+        builder: (BuildContext context, BoxConstraints viewportConstraints) {
+          return SingleChildScrollView(
+            child: ConstrainedBox(
+              constraints: BoxConstraints(
+                minHeight: viewportConstraints.maxHeight,
+              ),
+              child :Padding(
       padding: EdgeInsets.all(16.0),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.start,
         // ignore: prefer_const_literals_to_create_immutables
+
         children: [
-          const Text("MyApp Title",
-              style: TextStyle(
-                  color: Colors.black,
-                  fontSize: 28.0,
-                  fontWeight: FontWeight.bold)),
-          const Text(
-            "Login to your App",
-            style: TextStyle(
-                color: Colors.black,
-                fontSize: 44.0,
-                fontWeight: FontWeight.bold),
+          Center(
+            child: Image.asset(
+              'assets/images/cp.jpg',
+              height: 175,
+              width: 175,
+            ),
+          ),
+          const SizedBox(
+            height: 44.0,
+          ),
+          Center(
+            child: const Text("Croissanteria Parraga",
+                textAlign: TextAlign.justify,
+                style: TextStyle(
+                  color: Color.fromARGB(255, 18, 22, 134),
+                  fontSize: 30.0,
+                  fontFamily: 'Comfortaa',
+                )),
           ),
           const SizedBox(
             height: 44.0,
@@ -145,8 +173,9 @@ class _LoginScreenState extends State<LoginScreen> {
             controller: _emailController,
             keyboardType: TextInputType.emailAddress,
             decoration: const InputDecoration(
-                hintText: "User Email",
-                prefixIcon: Icon(Icons.mail, color: Colors.black)),
+                hintText: "Email",
+                prefixIcon:
+                    Icon(Icons.mail, color: Color.fromARGB(255, 18, 22, 134))),
           ),
           const SizedBox(
             height: 44.0,
@@ -154,24 +183,22 @@ class _LoginScreenState extends State<LoginScreen> {
           TextField(
             controller: _passwordController,
             keyboardType: TextInputType.emailAddress,
+            obscureText: true,
             decoration: const InputDecoration(
-                hintText: "User password",
-                prefixIcon: Icon(Icons.lock, color: Colors.black)),
+                hintText: "Contraseña",
+                prefixIcon:
+                    Icon(Icons.lock, color: Color.fromARGB(255, 18, 22, 134))),
           ),
           const SizedBox(
             height: 12.0,
           ),
-          const Text(
-            "Don't remember your password?",
-            style: TextStyle(color: Colors.blue),
-          ),
           const SizedBox(
-            height: 88.0,
+            height: 40.0,
           ),
           Container(
               width: double.infinity,
               child: RawMaterialButton(
-                fillColor: const Color(0XFF0069FE),
+                fillColor: const Color(0XFFEEF08D),
                 elevation: 0.0,
                 padding: const EdgeInsets.symmetric(vertical: 20.0),
                 shape: RoundedRectangleBorder(
@@ -188,26 +215,31 @@ class _LoginScreenState extends State<LoginScreen> {
                   } else if (_emailController.text.isEmpty ||
                       _passwordController.text.isEmpty) {
                     Fluttertoast.showToast(
-                        msg: "Please write an email and a password", // message
-                        toastLength: Toast.LENGTH_SHORT, // length
-                        gravity: ToastGravity.BOTTOM, // location
-                        timeInSecForIosWeb: 2,
-                        backgroundColor: Colors.black38,
-                        fontSize: 12.0 // duration
-                        );
+                      msg: "Please write an email and a password", // message
+                      toastLength: Toast.LENGTH_LONG, // length
+                      gravity: ToastGravity.TOP, // location
+                      timeInSecForIosWeb: 2,
+                      backgroundColor: Color.fromARGB(255, 18, 22, 134),
+                      fontSize: 12.0,
+                      // duration
+                    );
                   } else {
                     Fluttertoast.showToast(
                         msg: "This email or password are incorrect", // message
-                        toastLength: Toast.LENGTH_SHORT, // length
-                        gravity: ToastGravity.BOTTOM, // location
+                        toastLength: Toast.LENGTH_LONG, // length
+                        gravity: ToastGravity.TOP, // location
                         timeInSecForIosWeb: 2,
-                        backgroundColor: Colors.black38,
-                        fontSize: 12.0 // duration
+                        backgroundColor: Color.fromARGB(255, 18, 22, 134),
+                        fontSize: 15.0 // duration
                         );
                   }
                 },
-                child: const Text("Login",
-                    style: TextStyle(color: Colors.white, fontSize: 18.0)),
+                child: const Text("ACCEDER",
+                    style: TextStyle(
+                        color: Color.fromARGB(255, 18, 22, 134),
+                        fontSize: 18.0,
+                        fontWeight: FontWeight.w900,
+                        fontFamily: 'Comfortaa')),
               )),
           const SizedBox(
             height: 25.0,
@@ -215,7 +247,7 @@ class _LoginScreenState extends State<LoginScreen> {
           Container(
               width: double.infinity,
               child: RawMaterialButton(
-                fillColor: const Color(0XFF0069FE),
+                fillColor: const Color(0XFFEEF08D),
                 elevation: 0.0,
                 padding: const EdgeInsets.symmetric(vertical: 20.0),
                 shape: RoundedRectangleBorder(
@@ -248,10 +280,10 @@ class _LoginScreenState extends State<LoginScreen> {
                       } else {
                         Fluttertoast.showToast(
                             msg: "Email already exists", // message
-                            toastLength: Toast.LENGTH_SHORT, // length
-                            gravity: ToastGravity.BOTTOM, // location
+                            toastLength: Toast.LENGTH_LONG, // length
+                            gravity: ToastGravity.TOP, // location
                             timeInSecForIosWeb: 2,
-                            backgroundColor: Colors.black38,
+                            backgroundColor: Color.fromARGB(255, 18, 22, 134),
                             fontSize: 12.0 // duration
                             );
                       }
@@ -260,20 +292,20 @@ class _LoginScreenState extends State<LoginScreen> {
                       Fluttertoast.showToast(
                           msg:
                               "Please write an email and a password", // message
-                          toastLength: Toast.LENGTH_SHORT, // length
-                          gravity: ToastGravity.BOTTOM, // location
+                          toastLength: Toast.LENGTH_LONG, // length
+                          gravity: ToastGravity.TOP, // location
                           timeInSecForIosWeb: 2,
-                          backgroundColor: Colors.black38,
+                          backgroundColor: Color.fromARGB(255, 18, 22, 134),
                           fontSize: 12.0 // duration
                           );
                     } else {
                       Fluttertoast.showToast(
                           msg:
                               "This email or password are incorrect", // message
-                          toastLength: Toast.LENGTH_SHORT, // length
-                          gravity: ToastGravity.BOTTOM, // location
+                          toastLength: Toast.LENGTH_LONG, // length
+                          gravity: ToastGravity.TOP, // location
                           timeInSecForIosWeb: 2,
-                          backgroundColor: Colors.black38,
+                          backgroundColor: Color.fromARGB(255, 18, 22, 134),
                           fontSize: 12.0 // duration
                           );
                     }
@@ -281,22 +313,23 @@ class _LoginScreenState extends State<LoginScreen> {
                     Fluttertoast.showToast(
                         msg:
                             "The minimun lenght for the password is 6", // message
-                        toastLength: Toast.LENGTH_SHORT, // length
-                        gravity: ToastGravity.BOTTOM, // location
+                        toastLength: Toast.LENGTH_LONG, // length
+                        gravity: ToastGravity.TOP, // location
                         timeInSecForIosWeb: 2,
-                        backgroundColor: Colors.black38,
+                        backgroundColor: Color.fromARGB(255, 18, 22, 134),
                         fontSize: 12.0 // duration
                         );
                   }
                 },
-                child: const Text("Create",
-                    style: TextStyle(color: Colors.white, fontSize: 18.0)),
+                child: const Text("CREAR USUARIO",
+                    style: TextStyle(
+                        color: Color.fromARGB(255, 18, 22, 134),
+                        fontSize: 18.0,
+                        fontWeight: FontWeight.w900,
+                        fontFamily: 'Comfortaa')),
               ))
         ],
       ),
-    );
-  }
-}
-/*
-  TODO: comprobar si puede restablecer su contrasenia
- */
+    )));
+      
+}));}}
