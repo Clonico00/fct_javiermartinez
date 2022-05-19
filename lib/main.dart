@@ -174,7 +174,11 @@ class _LoginScreenState extends State<LoginScreen> {
                           TextField(
                             controller: _emailController,
                             keyboardType: TextInputType.emailAddress,
-                            style: TextStyle(color: Colors.white),
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 14.0,
+                                fontWeight: FontWeight.w900,
+                                fontFamily: 'Comfortaa'),
                             decoration: const InputDecoration(
                                 hintText: "Email",
                                 border: OutlineInputBorder(
@@ -194,7 +198,11 @@ class _LoginScreenState extends State<LoginScreen> {
                             controller: _passwordController,
                             keyboardType: TextInputType.emailAddress,
                             obscureText: true,
-                            style: TextStyle(color: Colors.white),
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 14.0,
+                                fontWeight: FontWeight.w900,
+                                fontFamily: 'Comfortaa'),
                             decoration: const InputDecoration(
                                 hintText: "Contraseña",
                                 border: OutlineInputBorder(
@@ -344,8 +352,8 @@ class _LoginScreenState extends State<LoginScreen> {
                                               Toast.LENGTH_LONG, // length
                                           gravity: ToastGravity.TOP, // location
                                           timeInSecForIosWeb: 2,
-                                          backgroundColor: Color.fromARGB(
-                                              255, 195, 195, 214),
+                                          backgroundColor:
+                                              Color.fromARGB(255, 18, 22, 134),
                                           fontSize: 15.0 // duration
                                           );
                                     } else {
@@ -361,6 +369,19 @@ class _LoginScreenState extends State<LoginScreen> {
                                           fontSize: 15.0 // duration
                                           );
                                     }
+                                  } else if (_emailController.text.isEmpty ||
+                                      _passwordController.text.isEmpty) {
+                                    Fluttertoast.showToast(
+                                        msg:
+                                            "Por favor escriba un email y una contraseña", // message
+                                        toastLength:
+                                            Toast.LENGTH_LONG, // length
+                                        gravity: ToastGravity.TOP, // location
+                                        timeInSecForIosWeb: 2,
+                                        backgroundColor:
+                                            Color.fromARGB(255, 18, 22, 134),
+                                        fontSize: 15.0 // duration
+                                        );
                                   } else {
                                     Fluttertoast.showToast(
                                         msg:
