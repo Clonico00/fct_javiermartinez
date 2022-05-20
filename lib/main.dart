@@ -94,23 +94,7 @@ class _LoginScreenState extends State<LoginScreen> {
       }
     } on FirebaseException catch (e) {
       if (e.code == "user-not-found") {
-        Fluttertoast.showToast(
-          msg: "No hay usuario con estos datos", // message
-          toastLength: Toast.LENGTH_LONG, // length
-          gravity: ToastGravity.TOP, // location
-          backgroundColor: Color.fromARGB(255, 6, 9, 94),
-          fontSize: 15.0,
-          // duration
-        );
-      } else {
-        Fluttertoast.showToast(
-          msg: "Un error inexperado ha ocurrido", // message
-          toastLength: Toast.LENGTH_LONG, // length
-          gravity: ToastGravity.TOP, // location
-          backgroundColor: Color.fromARGB(255, 6, 9, 94),
-          fontSize: 15.0,
-          // duration
-        );
+        print("No user found for that email");
       }
     } on SocketException catch (_) {
       Fluttertoast.showToast(
@@ -126,7 +110,7 @@ class _LoginScreenState extends State<LoginScreen> {
     return user;
   }
 
-  Future<String> signUp(String email, String password) async {
+  Future signUp(String email, String password) async {
     try {
       final result = await InternetAddress.lookup('example.com');
       if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
@@ -145,16 +129,6 @@ class _LoginScreenState extends State<LoginScreen> {
           });
         });
       }
-    } on FirebaseException catch (e) {
-      Fluttertoast.showToast(
-        msg: "Un error inexperado ha ocurrido", // message
-        toastLength: Toast.LENGTH_LONG, // length
-        gravity: ToastGravity.TOP, // location
-        timeInSecForIosWeb: 2,
-        backgroundColor: Color.fromARGB(255, 6, 9, 94),
-        fontSize: 15.0,
-        // duration
-      );
     } on SocketException catch (e) {
       Fluttertoast.showToast(
         msg: "Revise su conexion a internet", // message
@@ -166,7 +140,6 @@ class _LoginScreenState extends State<LoginScreen> {
         // duration
       );
     }
-    return "";
   }
 
   @override
@@ -276,18 +249,32 @@ class _LoginScreenState extends State<LoginScreen> {
                                 shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(12.0)),
                                 onPressed: () async {
-                                  User? user = await loginUsingEmailPassword(
-                                      email: _emailController.text,
-                                      password: _passwordController.text,
-                                      context: context);
-                                  print(user);
-                                  if (user != null) {
-                                    Navigator.of(context).pushReplacement(
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                                ProfileScreen()));
-                                  } else if (_emailController.text.isEmpty ||
-                                      _passwordController.text.isEmpty) {
+                                  if (!_emailController.text.isEmpty ||
+                                      !_passwordController.text.isEmpty) {
+                                    User? user = await loginUsingEmailPassword(
+                                        email: _emailController.text,
+                                        password: _passwordController.text,
+                                        context: context);
+                                    if (user != null) {
+                                      Navigator.of(context).pushReplacement(
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  ProfileScreen()));
+                                    } else {
+                                      Fluttertoast.showToast(
+                                        msg:
+                                            "Email y contraseña incorrectos", // message
+                                        toastLength:
+                                            Toast.LENGTH_LONG, // length
+                                        gravity: ToastGravity.TOP, // location
+                                        timeInSecForIosWeb: 2,
+                                        backgroundColor:
+                                            Color.fromARGB(255, 6, 9, 94),
+                                        fontSize: 15.0,
+                                        // duration
+                                      );
+                                    }
+                                  } else {
                                     Fluttertoast.showToast(
                                       msg:
                                           "Por favor escribe un email y una contraseña", // message
@@ -299,18 +286,6 @@ class _LoginScreenState extends State<LoginScreen> {
                                       fontSize: 15.0,
                                       // duration
                                     );
-                                  } else {
-                                    Fluttertoast.showToast(
-                                        msg:
-                                            "Este correo y contraseña son incorrectos", // message
-                                        toastLength:
-                                            Toast.LENGTH_LONG, // length
-                                        gravity: ToastGravity.TOP, // location
-                                        timeInSecForIosWeb: 2,
-                                        backgroundColor:
-                                            Color.fromARGB(255, 18, 22, 134),
-                                        fontSize: 15.0 // duration
-                                        );
                                   }
                                 },
                                 child: const Text("ACCEDER",
@@ -336,48 +311,64 @@ class _LoginScreenState extends State<LoginScreen> {
                                   String pattern =
                                       r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
                                   RegExp regExp = new RegExp(pattern);
-                                  if (_passwordController.text.length >= 6) {
-                                    if (regExp
-                                        .hasMatch(_emailController.text)) {
-                                      User? user =
-                                          await loginUsingEmailPassword(
-                                              email: _emailController.text,
-                                              password:
+                                  if (!_emailController.text.isEmpty ||
+                                      !_passwordController.text.isEmpty) {
+                                    if (_passwordController.text.length >= 6) {
+                                      if (regExp
+                                          .hasMatch(_emailController.text)) {
+                                        User? user =
+                                            await loginUsingEmailPassword(
+                                                email: _emailController.text,
+                                                password:
+                                                    _passwordController.text,
+                                                context: context);
+                                        if (user == null) {
+                                          await signUp(
+                                            _emailController.text.trim(),
+                                            _passwordController.text.trim(),
+                                          ).then((value) async {
+                                            user = FirebaseAuth
+                                                .instance.currentUser;
+                                            await FirebaseFirestore.instance
+                                                .collection("users")
+                                                .doc(user?.uid)
+                                                .set({
+                                              'uid': user?.uid,
+                                              'email': _emailController.text,
+                                              'password':
                                                   _passwordController.text,
-                                              context: context);
-                                      if (user == null) {
-                                        await signUp(
-                                          _emailController.text.trim(),
-                                          _passwordController.text.trim(),
-                                        ).then((value) async {
-                                          user =
-                                              FirebaseAuth.instance.currentUser;
-                                          await FirebaseFirestore.instance
-                                              .collection("users")
-                                              .doc(user?.uid)
-                                              .set({
-                                            'uid': user?.uid,
-                                            'email': _emailController.text,
-                                            'password':
-                                                _passwordController.text,
+                                            });
                                           });
-                                        });
-                                        Fluttertoast.showToast(
-                                            msg:
-                                                "Usuario creado correctamente", // message
-                                            toastLength:
-                                                Toast.LENGTH_LONG, // length
-                                            gravity:
-                                                ToastGravity.TOP, // location
-                                            timeInSecForIosWeb: 2,
-                                            backgroundColor: Color.fromARGB(
-                                                255, 18, 22, 134),
-                                            fontSize: 15.0 // duration
-                                            );
+                                          Fluttertoast.showToast(
+                                              msg:
+                                                  "Usuario creado correctamente", // message
+                                              toastLength:
+                                                  Toast.LENGTH_LONG, // length
+                                              gravity:
+                                                  ToastGravity.TOP, // location
+                                              timeInSecForIosWeb: 2,
+                                              backgroundColor: Color.fromARGB(
+                                                  255, 18, 22, 134),
+                                              fontSize: 15.0 // duration
+                                              );
+                                        } else {
+                                          Fluttertoast.showToast(
+                                              msg:
+                                                  "El email ya existe", // message
+                                              toastLength:
+                                                  Toast.LENGTH_LONG, // length
+                                              gravity:
+                                                  ToastGravity.TOP, // location
+                                              timeInSecForIosWeb: 2,
+                                              backgroundColor: Color.fromARGB(
+                                                  255, 18, 22, 134),
+                                              fontSize: 15.0 // duration
+                                              );
+                                        }
                                       } else {
                                         Fluttertoast.showToast(
                                             msg:
-                                                "El email ya existe", // message
+                                                "Este email y contraseña son incorrectos", // message
                                             toastLength:
                                                 Toast.LENGTH_LONG, // length
                                             gravity:
@@ -388,23 +379,10 @@ class _LoginScreenState extends State<LoginScreen> {
                                             fontSize: 15.0 // duration
                                             );
                                       }
-                                    } else if (_emailController.text.isEmpty ||
-                                        _passwordController.text.isEmpty) {
-                                      Fluttertoast.showToast(
-                                          msg:
-                                              "Por favor escriba un email y una contraseña", // message
-                                          toastLength:
-                                              Toast.LENGTH_LONG, // length
-                                          gravity: ToastGravity.TOP, // location
-                                          timeInSecForIosWeb: 2,
-                                          backgroundColor:
-                                              Color.fromARGB(255, 18, 22, 134),
-                                          fontSize: 15.0 // duration
-                                          );
                                     } else {
                                       Fluttertoast.showToast(
                                           msg:
-                                              "Este email y contraseña son incorrectos", // message
+                                              "La longitud minima de la contraseña es 6", // message
                                           toastLength:
                                               Toast.LENGTH_LONG, // length
                                           gravity: ToastGravity.TOP, // location
@@ -414,8 +392,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                           fontSize: 15.0 // duration
                                           );
                                     }
-                                  } else if (_emailController.text.isEmpty ||
-                                      _passwordController.text.isEmpty) {
+                                  } else {
                                     Fluttertoast.showToast(
                                         msg:
                                             "Por favor escriba un email y una contraseña", // message
@@ -427,19 +404,8 @@ class _LoginScreenState extends State<LoginScreen> {
                                             Color.fromARGB(255, 18, 22, 134),
                                         fontSize: 15.0 // duration
                                         );
-                                  } else {
-                                    Fluttertoast.showToast(
-                                        msg:
-                                            "La longitud minima de la contraseña es 6", // message
-                                        toastLength:
-                                            Toast.LENGTH_LONG, // length
-                                        gravity: ToastGravity.TOP, // location
-                                        timeInSecForIosWeb: 2,
-                                        backgroundColor:
-                                            Color.fromARGB(255, 18, 22, 134),
-                                        fontSize: 15.0 // duration
-                                        );
                                   }
+                                  ;
                                 },
                                 child: const Text("CREAR USUARIO",
                                     style: TextStyle(
