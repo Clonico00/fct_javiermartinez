@@ -1,4 +1,5 @@
 // ignore_for_file: unused_import, prefer_const_constructors, unnecessary_const, sized_box_for_whitespace, use_full_hex_values_for_flutter_colors, unused_local_variable, unused_element, avoid_print, body_might_complete_normally_nullable, unnecessary_new, unused_catch_clause
+import 'dart:io';
 import 'dart:math';
 
 import 'package:connection_status_bar/connection_status_bar.dart';
@@ -91,10 +92,9 @@ class _LoginScreenState extends State<LoginScreen> {
     } on FirebaseException catch (e) {
       if (e.code == "user-not-found") {
         Fluttertoast.showToast(
-          msg: "No hay usuario con estos datos: " + e.code, // message
+          msg: "No hay usuario con estos datos", // message
           toastLength: Toast.LENGTH_LONG, // length
           gravity: ToastGravity.TOP, // location
-          timeInSecForIosWeb: 2,
           backgroundColor: Color.fromARGB(255, 6, 9, 94),
           fontSize: 15.0,
           // duration
@@ -104,7 +104,6 @@ class _LoginScreenState extends State<LoginScreen> {
           msg: "Un error inexperado ha ocurrido", // message
           toastLength: Toast.LENGTH_LONG, // length
           gravity: ToastGravity.TOP, // location
-          timeInSecForIosWeb: 2,
           backgroundColor: Color.fromARGB(255, 6, 9, 94),
           fontSize: 15.0,
           // duration
@@ -116,23 +115,36 @@ class _LoginScreenState extends State<LoginScreen> {
 
   Future<String> signUp(String email, String password) async {
     try {
-      FirebaseAuth auth = FirebaseAuth.instance;
-      await auth
-          .createUserWithEmailAndPassword(email: email, password: password)
-          .then((value) async {
-        User? user = FirebaseAuth.instance.currentUser;
-        await FirebaseFirestore.instance
-            .collection("users")
-            .doc(user!.uid)
-            .set({
-          'uid': user.uid,
-          'email': email,
-          'password': password,
+      final result = await InternetAddress.lookup('example.com');
+      if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
+        FirebaseAuth auth = FirebaseAuth.instance;
+        await auth
+            .createUserWithEmailAndPassword(email: email, password: password)
+            .then((value) async {
+          User? user = FirebaseAuth.instance.currentUser;
+          await FirebaseFirestore.instance
+              .collection("users")
+              .doc(user!.uid)
+              .set({
+            'uid': user.uid,
+            'email': email,
+            'password': password,
+          });
         });
-      });
+      }
     } on FirebaseException catch (e) {
       Fluttertoast.showToast(
         msg: "Un error inexperado ha ocurrido", // message
+        toastLength: Toast.LENGTH_LONG, // length
+        gravity: ToastGravity.TOP, // location
+        timeInSecForIosWeb: 2,
+        backgroundColor: Color.fromARGB(255, 6, 9, 94),
+        fontSize: 15.0,
+        // duration
+      );
+    } on SocketException catch (e) {
+      Fluttertoast.showToast(
+        msg: "Revise su conexion a internet", // message
         toastLength: Toast.LENGTH_LONG, // length
         gravity: ToastGravity.TOP, // location
         timeInSecForIosWeb: 2,
