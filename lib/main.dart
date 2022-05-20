@@ -86,9 +86,12 @@ class _LoginScreenState extends State<LoginScreen> {
 
     User? user;
     try {
-      UserCredential userCredential = await auth.signInWithEmailAndPassword(
-          email: email, password: password);
-      user = userCredential.user;
+      final result = await InternetAddress.lookup('example.com');
+      if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
+        UserCredential userCredential = await auth.signInWithEmailAndPassword(
+            email: email, password: password);
+        user = userCredential.user;
+      }
     } on FirebaseException catch (e) {
       if (e.code == "user-not-found") {
         Fluttertoast.showToast(
@@ -109,6 +112,16 @@ class _LoginScreenState extends State<LoginScreen> {
           // duration
         );
       }
+    } on SocketException catch (_) {
+      Fluttertoast.showToast(
+        msg: "Revise su conexion a internet", // message
+        toastLength: Toast.LENGTH_LONG, // length
+        gravity: ToastGravity.TOP, // location
+        timeInSecForIosWeb: 2,
+        backgroundColor: Color.fromARGB(255, 6, 9, 94),
+        fontSize: 15.0,
+        // duration
+      );
     }
     return user;
   }
