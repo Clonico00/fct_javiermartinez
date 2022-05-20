@@ -1,8 +1,10 @@
-// ignore_for_file: unused_import, prefer_const_constructors, unnecessary_const, sized_box_for_whitespace, use_full_hex_values_for_flutter_colors, unused_local_variable, unused_element, avoid_print, body_might_complete_normally_nullable, unnecessary_new
+// ignore_for_file: unused_import, prefer_const_constructors, unnecessary_const, sized_box_for_whitespace, use_full_hex_values_for_flutter_colors, unused_local_variable, unused_element, avoid_print, body_might_complete_normally_nullable, unnecessary_new, unused_catch_clause
 import 'dart:math';
 
+import 'package:connection_status_bar/connection_status_bar.dart';
 import 'package:fct_javiermartinez/profile_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -42,8 +44,10 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   //iniatialze firebase app
+
   Future<FirebaseApp> _initializeFirebase() async {
     FirebaseApp firebaseApp = await Firebase.initializeApp();
+
     return firebaseApp;
   }
 
@@ -78,28 +82,36 @@ class _LoginScreenState extends State<LoginScreen> {
       required String password,
       required BuildContext context}) async {
     FirebaseAuth auth = FirebaseAuth.instance;
+
     User? user;
     try {
       UserCredential userCredential = await auth.signInWithEmailAndPassword(
           email: email, password: password);
       user = userCredential.user;
-    } on FirebaseAuthException catch (e) {
+    } on FirebaseException catch (e) {
       if (e.code == "user-not-found") {
-        print("No user found for that email");
+        Fluttertoast.showToast(
+          msg: "No hay usuario con estos datos: " + e.code, // message
+          toastLength: Toast.LENGTH_LONG, // length
+          gravity: ToastGravity.TOP, // location
+          timeInSecForIosWeb: 2,
+          backgroundColor: Color.fromARGB(255, 6, 9, 94),
+          fontSize: 15.0,
+          // duration
+        );
+      } else {
+        Fluttertoast.showToast(
+          msg: "Un error inexperado ha ocurrido", // message
+          toastLength: Toast.LENGTH_LONG, // length
+          gravity: ToastGravity.TOP, // location
+          timeInSecForIosWeb: 2,
+          backgroundColor: Color.fromARGB(255, 6, 9, 94),
+          fontSize: 15.0,
+          // duration
+        );
       }
     }
     return user;
-  }
-
-  Color _getColorFromHex(String hexColor) {
-    hexColor = hexColor.replaceAll("#", "");
-    if (hexColor.length == 6) {
-      hexColor = "FF" + hexColor;
-    }
-    if (hexColor.length == 8) {
-      return Color(int.parse("0x$hexColor"));
-    }
-    return Color(0xFF42A5F5);
   }
 
   Future<String> signUp(String email, String password) async {
@@ -118,8 +130,16 @@ class _LoginScreenState extends State<LoginScreen> {
           'password': password,
         });
       });
-    } on FirebaseAuthException catch (e) {
-      print(e.code.toString());
+    } on FirebaseException catch (e) {
+      Fluttertoast.showToast(
+        msg: "Un error inexperado ha ocurrido", // message
+        toastLength: Toast.LENGTH_LONG, // length
+        gravity: ToastGravity.TOP, // location
+        timeInSecForIosWeb: 2,
+        backgroundColor: Color.fromARGB(255, 6, 9, 94),
+        fontSize: 15.0,
+        // duration
+      );
     }
     return "";
   }
