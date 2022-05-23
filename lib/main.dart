@@ -3,7 +3,8 @@ import 'dart:io';
 import 'dart:math';
 
 import 'package:connection_status_bar/connection_status_bar.dart';
-import 'package:fct_javiermartinez/profile_screen.dart';
+import 'package:fct_javiermartinez/pantalla_camareros.dart';
+import 'package:fct_javiermartinez/pantalla_cocineros.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
@@ -256,10 +257,18 @@ class _LoginScreenState extends State<LoginScreen> {
                                         password: _passwordController.text,
                                         context: context);
                                     if (user != null) {
-                                      Navigator.of(context).pushReplacement(
-                                          MaterialPageRoute(
-                                              builder: (context) =>
-                                                  ProfileScreen()));
+                                      if (_emailController.text ==
+                                          "waitress@gmail.com") {
+                                        Navigator.of(context).pushReplacement(
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    CamarerosScreen()));
+                                      } else {
+                                        Navigator.of(context).pushReplacement(
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    CocinerosScreen()));
+                                      }
                                     } else {
                                       Fluttertoast.showToast(
                                         msg:
