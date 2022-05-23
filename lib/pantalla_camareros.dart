@@ -52,7 +52,7 @@ class _CamarerosScreenState extends State<CamarerosScreen> {
                 SizedBox(
                   width: 25.0,
                 ),
-                Text("MESA ${index}",
+                Text("MESA ${index + 1}",
                     style: TextStyle(
                         color: _colorsRV[index % 2],
                         fontSize: 18.0,
