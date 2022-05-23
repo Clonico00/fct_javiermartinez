@@ -1,6 +1,7 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'package:flutter/material.dart';
+import 'package:fct_javiermartinez/pantalla_menu.dart';
 
 class CamarerosScreen extends StatefulWidget {
   const CamarerosScreen({Key? key}) : super(key: key);
@@ -43,6 +44,8 @@ class _CamarerosScreenState extends State<CamarerosScreen> {
       ),
       body: ListView.builder(
         itemCount: 10,
+        shrinkWrap: true,
+        scrollDirection: Axis.vertical,
         itemBuilder: (context, index) {
           return Container(
             height: 100,
@@ -61,11 +64,19 @@ class _CamarerosScreenState extends State<CamarerosScreen> {
                 SizedBox(
                   width: queryData.size.width - 150.0,
                 ),
-                Icon(
-                  Icons.arrow_forward_rounded,
-                  color: _colorsRV[index % 2],
-                  size: 30.0,
-                )
+                InkWell(
+                  onTap: () {
+                    Navigator.of(context).pushReplacement(
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    PantallaMenu()));
+                  }, // Handle your callback
+                  child: Icon(
+                    Icons.arrow_forward_rounded,
+                    color: _colorsRV[index % 2],
+                    size: 30.0,
+                  ),
+                ),
               ],
             ),
             decoration: BoxDecoration(
