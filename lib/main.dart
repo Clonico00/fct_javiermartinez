@@ -238,7 +238,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             height: 12.0,
                           ),
                           const SizedBox(
-                            height: 40.0,
+                            height: 70.0,
                           ),
                           Container(
                               width: double.infinity,
@@ -307,122 +307,122 @@ class _LoginScreenState extends State<LoginScreen> {
                           const SizedBox(
                             height: 25.0,
                           ),
-                          Container(
-                              width: double.infinity,
-                              child: RawMaterialButton(
-                                fillColor: Color.fromARGB(255, 255, 255, 255),
-                                elevation: 0.0,
-                                padding:
-                                    const EdgeInsets.symmetric(vertical: 20.0),
-                                shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(12.0)),
-                                onPressed: () async {
-                                  String pattern =
-                                      r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
-                                  RegExp regExp = new RegExp(pattern);
-                                  if (!_emailController.text.isEmpty ||
-                                      !_passwordController.text.isEmpty) {
-                                    if (_passwordController.text.length >= 6) {
-                                      if (regExp
-                                          .hasMatch(_emailController.text)) {
-                                        User? user =
-                                            await loginUsingEmailPassword(
-                                                email: _emailController.text,
-                                                password:
-                                                    _passwordController.text,
-                                                context: context);
-                                        if (user == null) {
-                                          await signUp(
-                                            _emailController.text.trim(),
-                                            _passwordController.text.trim(),
-                                          ).then((value) async {
-                                            user = FirebaseAuth
-                                                .instance.currentUser;
-                                            await FirebaseFirestore.instance
-                                                .collection("users")
-                                                .doc(user?.uid)
-                                                .set({
-                                              'uid': user?.uid,
-                                              'email': _emailController.text,
-                                              'password':
-                                                  _passwordController.text,
-                                            });
-                                          });
-                                          Fluttertoast.showToast(
-                                              msg:
-                                                  "Usuario creado correctamente", // message
-                                              toastLength:
-                                                  Toast.LENGTH_LONG, // length
-                                              gravity:
-                                                  ToastGravity.TOP, // location
-                                              timeInSecForIosWeb: 2,
-                                              backgroundColor: Color.fromARGB(
-                                                  255, 18, 22, 134),
-                                              fontSize: 15.0 // duration
-                                              );
-                                        } else {
-                                          Fluttertoast.showToast(
-                                              msg:
-                                                  "El email ya existe", // message
-                                              toastLength:
-                                                  Toast.LENGTH_LONG, // length
-                                              gravity:
-                                                  ToastGravity.TOP, // location
-                                              timeInSecForIosWeb: 2,
-                                              backgroundColor: Color.fromARGB(
-                                                  255, 18, 22, 134),
-                                              fontSize: 15.0 // duration
-                                              );
-                                        }
-                                      } else {
-                                        Fluttertoast.showToast(
-                                            msg:
-                                                "Este email y contraseña son incorrectos", // message
-                                            toastLength:
-                                                Toast.LENGTH_LONG, // length
-                                            gravity:
-                                                ToastGravity.TOP, // location
-                                            timeInSecForIosWeb: 2,
-                                            backgroundColor: Color.fromARGB(
-                                                255, 18, 22, 134),
-                                            fontSize: 15.0 // duration
-                                            );
-                                      }
-                                    } else {
-                                      Fluttertoast.showToast(
-                                          msg:
-                                              "La longitud minima de la contraseña es 6", // message
-                                          toastLength:
-                                              Toast.LENGTH_LONG, // length
-                                          gravity: ToastGravity.TOP, // location
-                                          timeInSecForIosWeb: 2,
-                                          backgroundColor:
-                                              Color.fromARGB(255, 18, 22, 134),
-                                          fontSize: 15.0 // duration
-                                          );
-                                    }
-                                  } else {
-                                    Fluttertoast.showToast(
-                                        msg:
-                                            "Por favor escriba un email y una contraseña", // message
-                                        toastLength:
-                                            Toast.LENGTH_LONG, // length
-                                        gravity: ToastGravity.TOP, // location
-                                        timeInSecForIosWeb: 2,
-                                        backgroundColor:
-                                            Color.fromARGB(255, 18, 22, 134),
-                                        fontSize: 15.0 // duration
-                                        );
-                                  }
-                                  ;
-                                },
-                                child: const Text("CREAR USUARIO",
-                                    style: TextStyle(
-                                        color: Color.fromARGB(255, 18, 22, 134),
-                                        fontSize: 18.0,
-                                        fontWeight: FontWeight.w900,
-                                        fontFamily: 'Comfortaa')),
-                              ))
+                          // Container(
+                          //     width: double.infinity,
+                          //     child: RawMaterialButton(
+                          //       fillColor: Color.fromARGB(255, 255, 255, 255),
+                          //       elevation: 0.0,
+                          //       padding:
+                          //           const EdgeInsets.symmetric(vertical: 20.0),
+                          //       shape: RoundedRectangleBorder(
+                          //           borderRadius: BorderRadius.circular(12.0)),
+                          //       onPressed: () async {
+                          //         String pattern =
+                          //             r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
+                          //         RegExp regExp = new RegExp(pattern);
+                          //         if (!_emailController.text.isEmpty ||
+                          //             !_passwordController.text.isEmpty) {
+                          //           if (_passwordController.text.length >= 6) {
+                          //             if (regExp
+                          //                 .hasMatch(_emailController.text)) {
+                          //               User? user =
+                          //                   await loginUsingEmailPassword(
+                          //                       email: _emailController.text,
+                          //                       password:
+                          //                           _passwordController.text,
+                          //                       context: context);
+                          //               if (user == null) {
+                          //                 await signUp(
+                          //                   _emailController.text.trim(),
+                          //                   _passwordController.text.trim(),
+                          //                 ).then((value) async {
+                          //                   user = FirebaseAuth
+                          //                       .instance.currentUser;
+                          //                   await FirebaseFirestore.instance
+                          //                       .collection("users")
+                          //                       .doc(user?.uid)
+                          //                       .set({
+                          //                     'uid': user?.uid,
+                          //                     'email': _emailController.text,
+                          //                     'password':
+                          //                         _passwordController.text,
+                          //                   });
+                          //                 });
+                          //                 Fluttertoast.showToast(
+                          //                     msg:
+                          //                         "Usuario creado correctamente", // message
+                          //                     toastLength:
+                          //                         Toast.LENGTH_LONG, // length
+                          //                     gravity:
+                          //                         ToastGravity.TOP, // location
+                          //                     timeInSecForIosWeb: 2,
+                          //                     backgroundColor: Color.fromARGB(
+                          //                         255, 18, 22, 134),
+                          //                     fontSize: 15.0 // duration
+                          //                     );
+                          //               } else {
+                          //                 Fluttertoast.showToast(
+                          //                     msg:
+                          //                         "El email ya existe", // message
+                          //                     toastLength:
+                          //                         Toast.LENGTH_LONG, // length
+                          //                     gravity:
+                          //                         ToastGravity.TOP, // location
+                          //                     timeInSecForIosWeb: 2,
+                          //                     backgroundColor: Color.fromARGB(
+                          //                         255, 18, 22, 134),
+                          //                     fontSize: 15.0 // duration
+                          //                     );
+                          //               }
+                          //             } else {
+                          //               Fluttertoast.showToast(
+                          //                   msg:
+                          //                       "Este email y contraseña son incorrectos", // message
+                          //                   toastLength:
+                          //                       Toast.LENGTH_LONG, // length
+                          //                   gravity:
+                          //                       ToastGravity.TOP, // location
+                          //                   timeInSecForIosWeb: 2,
+                          //                   backgroundColor: Color.fromARGB(
+                          //                       255, 18, 22, 134),
+                          //                   fontSize: 15.0 // duration
+                          //                   );
+                          //             }
+                          //           } else {
+                          //             Fluttertoast.showToast(
+                          //                 msg:
+                          //                     "La longitud minima de la contraseña es 6", // message
+                          //                 toastLength:
+                          //                     Toast.LENGTH_LONG, // length
+                          //                 gravity: ToastGravity.TOP, // location
+                          //                 timeInSecForIosWeb: 2,
+                          //                 backgroundColor:
+                          //                     Color.fromARGB(255, 18, 22, 134),
+                          //                 fontSize: 15.0 // duration
+                          //                 );
+                          //           }
+                          //         } else {
+                          //           Fluttertoast.showToast(
+                          //               msg:
+                          //                   "Por favor escriba un email y una contraseña", // message
+                          //               toastLength:
+                          //                   Toast.LENGTH_LONG, // length
+                          //               gravity: ToastGravity.TOP, // location
+                          //               timeInSecForIosWeb: 2,
+                          //               backgroundColor:
+                          //                   Color.fromARGB(255, 18, 22, 134),
+                          //               fontSize: 15.0 // duration
+                          //               );
+                          //         }
+                          //         ;
+                          //       },
+                          //       child: const Text("CREAR USUARIO",
+                          //           style: TextStyle(
+                          //               color: Color.fromARGB(255, 18, 22, 134),
+                          //               fontSize: 18.0,
+                          //               fontWeight: FontWeight.w900,
+                          //               fontFamily: 'Comfortaa')),
+                          //     ))
                         ],
                       ),
                     ))),
