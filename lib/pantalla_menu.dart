@@ -21,23 +21,29 @@ class _PantallaMenuState extends State<PantallaMenu> {
   ];
   List imagesList = [
     ('assets/images/BEBIDAS.png'),
-    ('assets/images/dieta.png'),
     ('assets/images/cafe.png'),
+    ('assets/images/dieta.png'),
     ('assets/images/postre.png'),
     ('assets/images/menu.png'),
+    ('assets/images/dulces.png'),
     ('assets/images/cuenta.png'),
+    ('assets/images/cocina.png'),
   ];
   List categoryList = [
     ('Bebidas'),
-    ('Comidas'),
     ('Cafes'),
+    ('Comidas'),
     ('Postres'),
     ('Menus'),
+    ('Dulces'),
     ('Cuenta'),
+    ('Cocina'),
   ];
 
   @override
   Widget build(BuildContext context) {
+    final todo = ModalRoute.of(context)!.settings.arguments as String;
+
     return Scaffold(
       appBar: AppBar(
           backgroundColor: Color.fromARGB(255, 255, 255, 255),
@@ -62,17 +68,11 @@ class _PantallaMenuState extends State<PantallaMenu> {
                 ),
               ),
               SizedBox(width: 10),
-              Text("volver",
-                  style: TextStyle(
-                      color: _colorsRV[1],
-                      fontSize: 15.0,
-                      fontWeight: FontWeight.w900,
-                      fontFamily: 'Comfortaa')),
               SizedBox(width: 30),
-              Text("Croissanteria Párraga",
+              Text("Croissanteria Párraga: Mesa " + todo.toString(),
                   style: TextStyle(
                       color: _colorsRV[1],
-                      fontSize: 20.0,
+                      fontSize: 17.0,
                       fontWeight: FontWeight.w900,
                       fontFamily: 'Comfortaa'))
             ],
@@ -101,6 +101,7 @@ class _PantallaMenuState extends State<PantallaMenu> {
                                   imagesList[position],
                                   height: 90,
                                   width: 90,
+                                  color: _colorsRV[1],
                                 ),
                               ),
                             ),

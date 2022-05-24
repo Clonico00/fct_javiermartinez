@@ -66,10 +66,12 @@ class _CamarerosScreenState extends State<CamarerosScreen> {
                 ),
                 InkWell(
                   onTap: () {
-                    Navigator.of(context).pushReplacement(
-                                            MaterialPageRoute(
-                                                builder: (context) =>
-                                                    PantallaMenu()));
+                    Navigator.of(context).pushReplacement(MaterialPageRoute(
+                      builder: (context) => PantallaMenu(),
+                      settings: RouteSettings(
+                        arguments: (index + 1).toString(),
+                      ),
+                    ));
                   }, // Handle your callback
                   child: Icon(
                     Icons.arrow_forward_rounded,
