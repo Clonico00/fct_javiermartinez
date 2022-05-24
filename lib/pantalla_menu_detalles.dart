@@ -1,5 +1,6 @@
 // ignore_for_file: unused_field
 
+import 'package:fct_javiermartinez/menu.dart';
 import 'package:fct_javiermartinez/pantalla_menu.dart';
 import 'package:flutter/material.dart';
 
@@ -21,7 +22,7 @@ class _PantallaMenuDetallesState extends State<PantallaMenuDetalles> {
   ];
   @override
   Widget build(BuildContext context) {
-    final todo = ModalRoute.of(context)!.settings.arguments as String;
+    final Menu menu = ModalRoute.of(context)!.settings.arguments as Menu;
 
     return Scaffold(
       appBar: AppBar(
@@ -40,7 +41,7 @@ class _PantallaMenuDetallesState extends State<PantallaMenuDetalles> {
                   Navigator.of(context).pushReplacement(MaterialPageRoute(
                     builder: (context) => PantallaMenu(),
                     settings: RouteSettings(
-                      arguments: todo.toString(),
+                      arguments: menu.numeroMesa,
                     ),
                   ));
                 }, // Handle your callback
@@ -51,10 +52,14 @@ class _PantallaMenuDetallesState extends State<PantallaMenuDetalles> {
                 ),
               ),
               SizedBox(width: 20),
-              Text("Croissanteria Párraga: Mesa " + todo.toString(),
+              Text(
+                  "Croissanteria Párraga: Mesa " +
+                      menu.numeroMesa +
+                      " " +
+                      menu.categoria,
                   style: TextStyle(
                       color: _colorsRV[1],
-                      fontSize: 19.0,
+                      fontSize: 15.0,
                       fontWeight: FontWeight.w900,
                       fontFamily: 'Comfortaa'))
             ],
