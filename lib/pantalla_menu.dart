@@ -81,83 +81,92 @@ class _PantallaMenuState extends State<PantallaMenu> {
                       fontFamily: 'Comfortaa'))
             ],
           )),
-      body: Padding(
-        padding: const EdgeInsets.all(10.0),
-        child: GridView.builder(
-          gridDelegate:
-              SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
-          itemBuilder: (context, position) {
-            return Padding(
-                padding: const EdgeInsets.all(20.0),
-                child: InkWell(
-                    onTap: () {
-                      if (categoryList[position] == 'Enviar a Cocina') {
-                        Fluttertoast.showToast(
-                          msg: "Comanda enviada a cocina", // message
-                          toastLength: Toast.LENGTH_LONG, // length
-                          gravity: ToastGravity.TOP, // location
-                          timeInSecForIosWeb: 2,
-                          backgroundColor: Color.fromARGB(255, 6, 9, 94),
-                          fontSize: 15.0,
-                          // duration
-                        );
-                      } else if (categoryList[position] == 'Cuenta') {
-                        Navigator.of(context).pushReplacement(MaterialPageRoute(
-                          builder: (context) => PantallaCuenta(),
-                          settings: RouteSettings(
-                            arguments: todo.toString(),
-                          ),
-                        ));
-                      } else {
-                        Menu menu = Menu(todo, categoryList[position]);
+      body: Container(
+        decoration: new BoxDecoration(
+            gradient: LinearGradient(colors: [
+          Color.fromARGB(255, 255, 255, 255),
+          Color.fromARGB(255, 18, 22, 134),
+        ], begin: Alignment.topCenter, end: Alignment(0.0, 1.0))),
+        child: Padding(
+          padding: const EdgeInsets.all(10.0),
+          child: GridView.builder(
+            gridDelegate:
+                SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
+            itemBuilder: (context, position) {
+              return Padding(
+                  padding: const EdgeInsets.all(20.0),
+                  child: InkWell(
+                      onTap: () {
+                        if (categoryList[position] == 'Enviar a Cocina') {
+                          Fluttertoast.showToast(
+                            msg: "Comanda enviada a cocina", // message
+                            toastLength: Toast.LENGTH_LONG, // length
+                            gravity: ToastGravity.TOP, // location
+                            timeInSecForIosWeb: 2,
+                            backgroundColor: Color.fromARGB(255, 6, 9, 94),
+                            fontSize: 15.0,
+                            // duration
+                          );
+                        } else if (categoryList[position] == 'Cuenta') {
+                          Navigator.of(context)
+                              .pushReplacement(MaterialPageRoute(
+                            builder: (context) => PantallaCuenta(),
+                            settings: RouteSettings(
+                              arguments: todo.toString(),
+                            ),
+                          ));
+                        } else {
+                          Menu menu = Menu(todo, categoryList[position]);
 
-                        Navigator.of(context).pushReplacement(MaterialPageRoute(
-                          builder: (context) => PantallaMenuDetalles(),
-                          settings: RouteSettings(
-                            arguments: menu,
-                          ),
-                        ));
-                      }
-                    },
-                    child: Center(
-                      child: Column(
-                        children: [
-                          Center(
-                            child: Card(
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(100.0)),
-                              elevation: 5,
-                              child: Padding(
-                                padding: const EdgeInsets.all(10.0),
-                                child: Image.asset(
-                                  imagesList[position],
-                                  height: 90,
-                                  width: 90,
-                                  color: _colorsRV[1],
+                          Navigator.of(context)
+                              .pushReplacement(MaterialPageRoute(
+                            builder: (context) => PantallaMenuDetalles(),
+                            settings: RouteSettings(
+                              arguments: menu,
+                            ),
+                          ));
+                        }
+                      },
+                      child: Center(
+                        child: Column(
+                          children: [
+                            Center(
+                              child: Card(
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(100.0)),
+                                elevation: 5,
+                                child: Padding(
+                                  padding: const EdgeInsets.all(10.0),
+                                  child: Image.asset(
+                                    imagesList[position],
+                                    height: 90,
+                                    width: 90,
+                                    color: _colorsRV[1],
+                                  ),
                                 ),
                               ),
                             ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.all(10.0),
-                            child: Container(
-                              alignment: Alignment.bottomCenter,
-                              child: Text(
-                                categoryList[position],
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                    color: _colorsRV[1],
-                                    fontSize: 15.0,
-                                    fontWeight: FontWeight.w500,
-                                    fontFamily: 'Comfortaa'),
+                            Padding(
+                              padding: const EdgeInsets.all(10.0),
+                              child: Container(
+                                alignment: Alignment.bottomCenter,
+                                child: Text(
+                                  categoryList[position],
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                      color: _colors[1],
+                                      fontSize: 15.0,
+                                      fontWeight: FontWeight.w900,
+                                      fontFamily: 'Comfortaa'),
+                                ),
                               ),
-                            ),
-                          )
-                        ],
-                      ),
-                    )));
-          },
-          itemCount: categoryList.length,
+                            )
+                          ],
+                        ),
+                      )));
+            },
+            itemCount: categoryList.length,
+          ),
         ),
       ),
     );
