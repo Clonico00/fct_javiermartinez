@@ -3,6 +3,8 @@
 import 'package:fct_javiermartinez/pantalla_menu.dart';
 import 'package:flutter/material.dart';
 import 'package:fct_javiermartinez/pantalla_camareros.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:intl/intl.dart';
 
 class PantallaCuenta extends StatefulWidget {
   const PantallaCuenta({Key? key}) : super(key: key);
@@ -24,7 +26,10 @@ class _PantallaCuentaState extends State<PantallaCuenta> {
   @override
   Widget build(BuildContext context) {
     final todo = ModalRoute.of(context)!.settings.arguments as String;
-
+    DateTime now = DateTime.now();
+    String formattedDate = DateFormat('dd-MM-yyyy  HH:mm').format(now);
+    MediaQueryData queryData;
+    queryData = MediaQuery.of(context);
     return Scaffold(
       appBar: AppBar(
           backgroundColor: Color.fromARGB(255, 255, 255, 255),
@@ -59,6 +64,109 @@ class _PantallaCuentaState extends State<PantallaCuenta> {
                       fontSize: 16,
                       fontWeight: FontWeight.w900,
                       fontFamily: 'Comfortaa'))
+            ],
+          )),
+      body: Container(
+          decoration: new BoxDecoration(
+              gradient: LinearGradient(colors: [
+            Color.fromARGB(255, 255, 255, 255),
+            Color.fromARGB(255, 18, 22, 134),
+          ], begin: Alignment.topCenter, end: Alignment(0.0, 1.0))),
+          child: ListView(
+            padding: EdgeInsets.all(10.0),
+            children: [
+              Card(
+                  shape: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(40),
+                      borderSide: BorderSide(color: _colorsRV[1], width: 1)),
+                  color: _colorsRV[1],
+                  child: ListTile(
+                      trailing: Text(formattedDate,
+                          style: TextStyle(
+                              color: _colors[1],
+                              fontSize: 16,
+                              fontWeight: FontWeight.w900,
+                              fontFamily: 'Comfortaa')))),
+              Padding(
+                padding: const EdgeInsets.only(top: 15.0),
+                child: Card(
+                    shape: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
+                        borderSide: BorderSide(color: _colors[1], width: 0)),
+                    child: ListTile(
+                        title: Text(
+                            'AQUI VAN  A IR LAS CANTIDADES DE LOS PRODUCTOS PEDIDOS'),
+                        trailing: Text(
+                            "AQUI VA IR EL PRECIO DE LOS PRODUCTOS PEDIDOS",
+                            style: TextStyle(
+                                color: _colorsRV[1],
+                                fontSize: 10,
+                                fontWeight: FontWeight.w900,
+                                fontFamily: 'Comfortaa')))),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(top: 75.0),
+                child: Card(
+                    shape: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(40),
+                        borderSide: BorderSide(color: _colorsRV[1], width: 1)),
+                    color: _colorsRV[1],
+                    child: ListTile(
+                        title: Text('I.V.A (11%) :',
+                            style: TextStyle(
+                                color: _colors[1],
+                                fontSize: 15,
+                                fontWeight: FontWeight.w900,
+                                fontFamily: 'Comfortaa')),
+                        trailing: Text("AQUI VA IR EL TOTAL DEL IVAL",
+                            style: TextStyle(
+                                color: _colors[1],
+                                fontSize: 10,
+                                fontWeight: FontWeight.w900,
+                                fontFamily: 'Comfortaa')))),
+              ),
+              Card(
+                  shape: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(40),
+                      borderSide: BorderSide(color: _colorsRV[1], width: 1)),
+                  color: _colorsRV[1],
+                  child: ListTile(
+                      title: Text('TOTAL :',
+                          style: TextStyle(
+                              color: _colors[1],
+                              fontSize: 15,
+                              fontWeight: FontWeight.w900,
+                              fontFamily: 'Comfortaa')),
+                      trailing: Text("AQUI VA IR EL TOTAL",
+                          style: TextStyle(
+                              color: _colors[1],
+                              fontSize: 10,
+                              fontWeight: FontWeight.w900,
+                              fontFamily: 'Comfortaa')))),
+              Padding(
+                  padding: const EdgeInsets.only(top: 30),
+                  child: Card(
+                      shape: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(40),
+                          borderSide:
+                              BorderSide(color: _colorsRV[1], width: 1)),
+                      child: Container(
+                        width: double.infinity,
+                        child: RawMaterialButton(
+                          fillColor: Color.fromARGB(255, 255, 255, 255),
+                          elevation: 0.0,
+                          padding: const EdgeInsets.symmetric(vertical: 20.0),
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(40.0)),
+                          onPressed: () async {},
+                          child: const Text("CONFIRMAR PEDIDO",
+                              style: TextStyle(
+                                  color: Color.fromARGB(255, 18, 22, 134),
+                                  fontSize: 18.0,
+                                  fontWeight: FontWeight.w900,
+                                  fontFamily: 'Comfortaa')),
+                        ),
+                      ))),
             ],
           )),
     );
