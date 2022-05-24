@@ -2,6 +2,10 @@
 
 import 'package:flutter/material.dart';
 import 'package:fct_javiermartinez/pantalla_camareros.dart';
+import 'package:fct_javiermartinez/pantalla_cuenta.dart';
+import 'package:fct_javiermartinez/pantalla_menu_detalles.dart';
+
+import 'package:fluttertoast/fluttertoast.dart';
 
 class PantallaMenu extends StatefulWidget {
   const PantallaMenu({Key? key}) : super(key: key);
@@ -22,7 +26,7 @@ class _PantallaMenuState extends State<PantallaMenu> {
   List imagesList = [
     ('assets/images/BEBIDAS.png'),
     ('assets/images/cafe.png'),
-    ('assets/images/dieta.png'),
+    ('assets/images/comida.png'),
     ('assets/images/postre.png'),
     ('assets/images/menu.png'),
     ('assets/images/dulces.png'),
@@ -37,7 +41,7 @@ class _PantallaMenuState extends State<PantallaMenu> {
     ('Menus'),
     ('Dulces'),
     ('Cuenta'),
-    ('Cocina'),
+    ('Enviar a Cocina'),
   ];
 
   @override
@@ -67,12 +71,11 @@ class _PantallaMenuState extends State<PantallaMenu> {
                   size: 30.0,
                 ),
               ),
-              SizedBox(width: 10),
-              SizedBox(width: 30),
+              SizedBox(width: 20),
               Text("Croissanteria Párraga: Mesa " + todo.toString(),
                   style: TextStyle(
                       color: _colorsRV[1],
-                      fontSize: 17.0,
+                      fontSize: 19.0,
                       fontWeight: FontWeight.w900,
                       fontFamily: 'Comfortaa'))
             ],
@@ -86,7 +89,31 @@ class _PantallaMenuState extends State<PantallaMenu> {
             return Padding(
                 padding: const EdgeInsets.all(20.0),
                 child: InkWell(
-                    onTap: () {},
+                    onTap: () {
+                      if (categoryList[position] == 'Enviar a Cocina') {
+                        Fluttertoast.showToast(
+                          msg: "Comanda enviada a cocina", // message
+                          toastLength: Toast.LENGTH_LONG, // length
+                          gravity: ToastGravity.TOP, // location
+                          timeInSecForIosWeb: 2,
+                          backgroundColor: Color.fromARGB(255, 6, 9, 94),
+                          fontSize: 15.0,
+                          // duration
+                        );
+                      } else if (categoryList[position] == 'Cuenta') {
+                        Navigator.of(context).pushReplacement(MaterialPageRoute(
+                          builder: (context) => PantallaCuenta(),settings: RouteSettings(
+                        arguments: todo.toString(),
+                      ),
+                        ));
+                      } else {
+                        Navigator.of(context).pushReplacement(MaterialPageRoute(
+                          builder: (context) => PantallaMenuDetalles(),settings: RouteSettings(
+                        arguments: todo.toString(),
+                      ),
+                        ));
+                      }
+                    },
                     child: Center(
                       child: Column(
                         children: [

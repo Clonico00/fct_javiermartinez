@@ -84,8 +84,7 @@ class _CamarerosScreenState extends State<CamarerosScreen> {
             decoration: BoxDecoration(
               color: _colors[index % 2],
               boxShadow: [
-                BoxShadow(
-                    color: _colors[index % 2], blurRadius: 2, spreadRadius: 5)
+                BoxShadow(color: _colors[index % 2], spreadRadius: 5)
               ],
               borderRadius: BorderRadius.only(
                 topLeft: Radius.circular(20),
