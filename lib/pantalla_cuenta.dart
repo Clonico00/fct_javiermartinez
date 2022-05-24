@@ -56,7 +56,7 @@ class _PantallaCuentaState extends State<PantallaCuenta> {
               Text("Croissanteria Párraga: Mesa " + todo.toString() + " Cuenta",
                   style: TextStyle(
                       color: _colorsRV[1],
-                      fontSize: 16.5,
+                      fontSize: 16,
                       fontWeight: FontWeight.w900,
                       fontFamily: 'Comfortaa'))
             ],
