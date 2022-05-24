@@ -19,13 +19,21 @@ class _PantallaMenuState extends State<PantallaMenu> {
     Color.fromARGB(255, 255, 255, 255),
     Color.fromARGB(255, 6, 9, 94),
   ];
-  List menuList = [
-    _MenuItem('assets/images/BEBIDAS.png', 'BEBIDAS'),
-    _MenuItem('assets/images/dieta.png', 'COMIDAS'),
-    _MenuItem('assets/images/cafe.png', 'CAFES'),
-    _MenuItem('assets/images/postre.png', 'POSTRES'),
-    _MenuItem('assets/images/menu.png', 'MENUS'),
-    _MenuItem('assets/images/cuenta.png', 'CUENTA'),
+  List imagesList = [
+    ('assets/images/BEBIDAS.png'),
+    ('assets/images/dieta.png'),
+    ('assets/images/cafe.png'),
+    ('assets/images/postre.png'),
+    ('assets/images/menu.png'),
+    ('assets/images/cuenta.png'),
+  ];
+  List categoryList = [
+    ('Bebidas'),
+    ('Comidas'),
+    ('Cafes'),
+    ('Postres'),
+    ('Menus'),
+    ('Cuenta'),
   ];
 
   @override
@@ -90,9 +98,9 @@ class _PantallaMenuState extends State<PantallaMenu> {
                               child: Padding(
                                 padding: const EdgeInsets.all(10.0),
                                 child: Image.asset(
-                                  menuList[position].s,
-                                  height: 75,
-                                  width: 75,
+                                  imagesList[position],
+                                  height: 90,
+                                  width: 90,
                                 ),
                               ),
                             ),
@@ -102,9 +110,13 @@ class _PantallaMenuState extends State<PantallaMenu> {
                             child: Container(
                               alignment: Alignment.bottomCenter,
                               child: Text(
-                                menuList[position].title,
+                                categoryList[position],
                                 textAlign: TextAlign.center,
-                                style: TextStyle(),
+                                style: TextStyle(
+                                    color: _colorsRV[1],
+                                    fontSize: 15.0,
+                                    fontWeight: FontWeight.w500,
+                                    fontFamily: 'Comfortaa'),
                               ),
                             ),
                           )
@@ -112,16 +124,9 @@ class _PantallaMenuState extends State<PantallaMenu> {
                       ),
                     )));
           },
-          itemCount: menuList.length,
+          itemCount: categoryList.length,
         ),
       ),
     );
   }
-}
-
-class _MenuItem {
-  final String s;
-  final String title;
-
-  _MenuItem(this.s, this.title);
 }
