@@ -233,11 +233,9 @@ class _LoginScreenState extends State<LoginScreen> {
                                 prefixIcon: Icon(Icons.lock,
                                     color: Color.fromARGB(255, 255, 255, 255))),
                           ),
+
                           const SizedBox(
-                            height: 12.0,
-                          ),
-                          const SizedBox(
-                            height: 70.0,
+                            height: 90.0,
                           ),
                           Container(
                               width: double.infinity,
