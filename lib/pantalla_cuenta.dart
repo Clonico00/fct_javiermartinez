@@ -178,9 +178,9 @@ class _PantallaCuentaState extends State<PantallaCuenta> {
                   padding: const EdgeInsets.only(top: 30),
                   child: Card(
                       shape: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(40),
+                          borderRadius: BorderRadius.circular(10),
                           borderSide:
-                              BorderSide(color: _colorsRV[1], width: 1)),
+                              BorderSide(color: _colorsRV[1], width: 0)),
                       child: Container(
                         width: double.infinity,
                         child: RawMaterialButton(
@@ -188,7 +188,7 @@ class _PantallaCuentaState extends State<PantallaCuenta> {
                           elevation: 0.0,
                           padding: const EdgeInsets.symmetric(vertical: 20.0),
                           shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(40.0)),
+                              borderRadius: BorderRadius.circular(10.0)),
                           onPressed: () async {},
                           child: const Text("CONFIRMAR PEDIDO",
                               style: TextStyle(
