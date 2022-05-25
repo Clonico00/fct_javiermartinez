@@ -28,6 +28,7 @@ class _CamarerosScreenState extends State<CamarerosScreen> {
     queryData = MediaQuery.of(context);
     return Scaffold(
       appBar: AppBar(
+          automaticallyImplyLeading: false,
           backgroundColor: Color.fromARGB(255, 255, 255, 255),
           toolbarHeight: 50,
           elevation: 2,
@@ -37,77 +38,82 @@ class _CamarerosScreenState extends State<CamarerosScreen> {
                   bottomRight: Radius.circular(10),
                   bottomLeft: Radius.circular(10))),
           title: Row(
+            mainAxisSize: MainAxisSize.max,
             children: [
-              InkWell(
-                onTap: () {
-                  // set up the buttons
-                  Widget cancelButton = TextButton(
-                    child: Text("No",
-                        style: TextStyle(
-                            color: _colors[0],
-                            fontSize: 15.0,
-                            fontWeight: FontWeight.w400,
-                            fontFamily: 'Comfortaa')),
-                    onPressed: () {
-                      Navigator.of(context).pop();
-                    },
-                  );
-                  Widget continueButton = TextButton(
-                    child: Text("Si",
-                        style: TextStyle(
-                            color: _colors[0],
-                            fontSize: 15.0,
-                            fontWeight: FontWeight.w400,
-                            fontFamily: 'Comfortaa')),
-                    onPressed: () {
-                      Navigator.of(context).pushReplacement(MaterialPageRoute(
-                        builder: (context) => HomePage(),
-                      ));
-                    },
-                  );
+              ClipRRect(
+                child: InkWell(
+                  onTap: () {
+                    // set up the buttons
+                    Widget cancelButton = TextButton(
+                      child: Text("No",
+                          style: TextStyle(
+                              color: _colors[0],
+                              fontSize: 15.0,
+                              fontWeight: FontWeight.w400,
+                              fontFamily: 'Comfortaa')),
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      },
+                    );
+                    Widget continueButton = TextButton(
+                      child: Text("Si",
+                          style: TextStyle(
+                              color: _colors[0],
+                              fontSize: 15.0,
+                              fontWeight: FontWeight.w400,
+                              fontFamily: 'Comfortaa')),
+                      onPressed: () {
+                        Navigator.of(context).pushReplacement(MaterialPageRoute(
+                          builder: (context) => HomePage(),
+                        ));
+                      },
+                    );
 
-                  // set up the AlertDialog
-                  AlertDialog alert = AlertDialog(
-                    backgroundColor: _colorsRV[0],
-                    shape: RoundedRectangleBorder(
-                        borderRadius: new BorderRadius.circular(30)),
-                    title: Text("Salir",
-                        style: TextStyle(
-                            color: _colors[0],
-                            fontWeight: FontWeight.w800,
-                            fontFamily: 'Comfortaa')),
-                    content: Text(
-                        "¿Seguro que quieres salir al menu principal?\nLa sesion se cerrara",
-                        style: TextStyle(
-                            color: _colors[0],
-                            fontSize: 16.0,
-                            fontWeight: FontWeight.w600,
-                            fontFamily: 'Comfortaa')),
-                    actions: [
-                      cancelButton,
-                      continueButton,
-                    ],
-                  );
+                    // set up the AlertDialog
+                    AlertDialog alert = AlertDialog(
+                      backgroundColor: _colorsRV[0],
+                      shape: RoundedRectangleBorder(
+                          borderRadius: new BorderRadius.circular(30)),
+                      title: Text("Salir",
+                          style: TextStyle(
+                              color: _colors[0],
+                              fontWeight: FontWeight.w800,
+                              fontFamily: 'Comfortaa')),
+                      content: Text(
+                          "¿Seguro que quieres salir al menu principal?\nLa sesion se cerrara",
+                          style: TextStyle(
+                              color: _colors[0],
+                              fontSize: 16.0,
+                              fontWeight: FontWeight.w600,
+                              fontFamily: 'Comfortaa')),
+                      actions: [
+                        cancelButton,
+                        continueButton,
+                      ],
+                    );
 
-                  // show the dialog
-                  showDialog(
-                    context: context,
-                    builder: (BuildContext context) {
-                      return alert;
-                    },
-                  );
-                }, // Handle your callback
-                child: Icon(
-                  Icons.arrow_back_rounded,
-                  color: Color.fromARGB(255, 6, 9, 94),
-                  size: 30.0,
+                    // show the dialog
+                    showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return alert;
+                      },
+                    );
+                  }, // Handle your callback
+                  child: Container(
+                    child: const Icon(
+                      Icons.arrow_back_rounded,
+                      color: Color.fromARGB(255, 6, 9, 94),
+                      size: 30.0,
+                    ),
+                  ),
                 ),
               ),
               SizedBox(width: 20),
               Text("Croissanteria Párraga: Mesas",
                   style: TextStyle(
                       color: _colorsRV[1],
-                      fontSize: 20,
+                      fontSize: 18,
                       fontWeight: FontWeight.w900,
                       fontFamily: 'Comfortaa'))
             ],

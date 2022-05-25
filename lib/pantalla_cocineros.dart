@@ -22,6 +22,7 @@ class _CocinerosScreenState extends State<CocinerosScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+          automaticallyImplyLeading: false,
           backgroundColor: Color.fromARGB(255, 255, 255, 255),
           toolbarHeight: 50,
           elevation: 2,
@@ -85,17 +86,20 @@ class _CocinerosScreenState extends State<CocinerosScreen> {
 
                   // show the dialog
                   showDialog(
+                    useSafeArea: true,
                     context: context,
                     builder: (BuildContext context) {
                       return alert;
                     },
                   );
-                }, // Handle your callback
-                child: Icon(
-                  Icons.arrow_back_rounded,
-                  color: Color.fromARGB(255, 6, 9, 94),
-                  size: 30.0,
-                ),
+                },
+                child: Container(
+                  child: const Icon(
+                    Icons.arrow_back_rounded,
+                    color: Color.fromARGB(255, 6, 9, 94),
+                    size: 30.0,
+                  ),
+                ), // Handle your callback
               ),
               SizedBox(width: 20),
               Text("Croissanteria Párraga: Comandas",

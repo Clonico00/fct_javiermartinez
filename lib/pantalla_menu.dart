@@ -51,6 +51,7 @@ class _PantallaMenuState extends State<PantallaMenu> {
     final todo = ModalRoute.of(context)!.settings.arguments as String;
     return Scaffold(
       appBar: AppBar(
+          automaticallyImplyLeading: false,
           backgroundColor: Color.fromARGB(255, 255, 255, 255),
           toolbarHeight: 50,
           elevation: 2,

@@ -28,6 +28,8 @@ class _PantallaMenuDetallesState extends State<PantallaMenuDetalles> {
     queryData = MediaQuery.of(context);
     return Scaffold(
       appBar: AppBar(
+                  automaticallyImplyLeading: false,
+
           backgroundColor: Color.fromARGB(255, 255, 255, 255),
           toolbarHeight: 50,
           elevation: 2,
