@@ -90,19 +90,50 @@ class _PantallaCuentaState extends State<PantallaCuenta> {
               Padding(
                 padding: const EdgeInsets.only(top: 15.0),
                 child: Card(
-                    shape: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10),
-                        borderSide: BorderSide(color: _colors[1], width: 0)),
-                    child: ListTile(
-                        title: Text(
-                            'AQUI VAN  A IR LAS CANTIDADES DE LOS PRODUCTOS PEDIDOS'),
-                        trailing: Text(
-                            "AQUI VA IR EL PRECIO DE LOS PRODUCTOS PEDIDOS",
-                            style: TextStyle(
-                                color: _colorsRV[1],
-                                fontSize: 10,
-                                fontWeight: FontWeight.w900,
-                                fontFamily: 'Comfortaa')))),
+                  shape: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10),
+                      borderSide: BorderSide(color: _colors[1], width: 0)),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const SizedBox(
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Text('5x Cocacola\n\n3x Fantas',
+                                  textAlign: TextAlign.left,
+                                  style: TextStyle(
+                                      color: Color.fromARGB(255, 18, 22, 134),
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.w900,
+                                      fontFamily: 'Comfortaa')),
+                            ),
+                          ),
+                        ],
+                      ),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.end,
+                        children: [
+                          const SizedBox(
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Text("3,95\$\n\n3,25\$",
+                                  textAlign: TextAlign.right,
+                                  style: TextStyle(
+                                      color: Color.fromARGB(255, 18, 22, 134),
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.w900,
+                                      fontFamily: 'Comfortaa')),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
               ),
               Padding(
                 padding: const EdgeInsets.only(top: 75.0),
