@@ -356,7 +356,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                             fontWeight: FontWeight.w800,
                                             fontFamily: 'Comfortaa')),
                                     content: Text(
-                                        "¿Seguro que quieres acceder sin conexion?\nAccederas directamente a la seccion de Camareros pero las comandas no se enviaran hasta que tengas conexion",
+                                        "¿Seguro que quieres acceder en modo sin conexion?\nAccederas directamente a la seccion de Camareros pero las comandas no se enviaran hasta que tengas conexion",
                                         style: TextStyle(
                                             color: Color.fromARGB(
                                                 255, 18, 22, 134),
