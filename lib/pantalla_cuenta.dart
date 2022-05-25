@@ -28,8 +28,7 @@ class _PantallaCuentaState extends State<PantallaCuenta> {
     final todo = ModalRoute.of(context)!.settings.arguments as String;
     DateTime now = DateTime.now();
     String formattedDate = DateFormat('dd-MM-yyyy  HH:mm').format(now);
-    MediaQueryData queryData;
-    queryData = MediaQuery.of(context);
+    
     return Scaffold(
       appBar: AppBar(
           backgroundColor: Color.fromARGB(255, 255, 255, 255),

@@ -1,4 +1,6 @@
+import 'package:fct_javiermartinez/main.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class CocinerosScreen extends StatefulWidget {
   const CocinerosScreen({Key? key}) : super(key: key);
@@ -8,10 +10,238 @@ class CocinerosScreen extends StatefulWidget {
 }
 
 class _CocinerosScreenState extends State<CocinerosScreen> {
+  List<Color> _colors = [
+    Color.fromARGB(255, 6, 9, 94),
+    Color.fromARGB(255, 255, 255, 255),
+  ];
+  List<Color> _colorsRV = [
+    Color.fromARGB(255, 255, 255, 255),
+    Color.fromARGB(255, 6, 9, 94),
+  ];
   @override
   Widget build(BuildContext context) {
-    return Container(
-      color: Colors.amber,
+    return Scaffold(
+      appBar: AppBar(
+          backgroundColor: Color.fromARGB(255, 255, 255, 255),
+          toolbarHeight: 50,
+          elevation: 2,
+          shadowColor: Color.fromARGB(255, 255, 255, 255),
+          shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.only(
+                  bottomRight: Radius.circular(10),
+                  bottomLeft: Radius.circular(10))),
+          title: Row(
+            children: [
+              InkWell(
+                onTap: () {
+                  // set up the buttons
+                  Widget cancelButton = TextButton(
+                    child: Text("No",
+                        style: TextStyle(
+                            color: _colors[0],
+                            fontSize: 15.0,
+                            fontWeight: FontWeight.w400,
+                            fontFamily: 'Comfortaa')),
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                  );
+                  Widget continueButton = TextButton(
+                    child: Text("Si",
+                        style: TextStyle(
+                            color: _colors[0],
+                            fontSize: 15.0,
+                            fontWeight: FontWeight.w400,
+                            fontFamily: 'Comfortaa')),
+                    onPressed: () {
+                      Navigator.of(context).pushReplacement(MaterialPageRoute(
+                        builder: (context) => HomePage(),
+                      ));
+                    },
+                  );
+
+                  // set up the AlertDialog
+                  AlertDialog alert = AlertDialog(
+                    backgroundColor: _colorsRV[0],
+                    shape: RoundedRectangleBorder(
+                        borderRadius: new BorderRadius.circular(30)),
+                    title: Text("Salir",
+                        style: TextStyle(
+                            color: _colors[0],
+                            fontWeight: FontWeight.w800,
+                            fontFamily: 'Comfortaa')),
+                    content: Text(
+                        "¿Seguro que quieres salir al menu principal?\nLa sesion se cerrara",
+                        style: TextStyle(
+                            color: _colors[0],
+                            fontSize: 16.0,
+                            fontWeight: FontWeight.w600,
+                            fontFamily: 'Comfortaa')),
+                    actions: [
+                      cancelButton,
+                      continueButton,
+                    ],
+                  );
+
+                  // show the dialog
+                  showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return alert;
+                    },
+                  );
+                }, // Handle your callback
+                child: Icon(
+                  Icons.arrow_back_rounded,
+                  color: Color.fromARGB(255, 6, 9, 94),
+                  size: 30.0,
+                ),
+              ),
+              SizedBox(width: 20),
+              Text("Croissanteria Párraga: Comandas",
+                  style: TextStyle(
+                      color: _colorsRV[1],
+                      fontSize: 18,
+                      fontWeight: FontWeight.w900,
+                      fontFamily: 'Comfortaa'))
+            ],
+          )),
+      body: Container(
+        decoration: new BoxDecoration(
+            gradient: LinearGradient(colors: [
+          Color.fromARGB(255, 255, 255, 255),
+          Color.fromARGB(255, 18, 22, 134),
+        ], begin: Alignment.topCenter, end: Alignment(0.0, 1.0))),
+        child: ListTileTheme(
+          contentPadding: EdgeInsets.all(25),
+          child: ListView.builder(
+            itemCount: 10,
+            shrinkWrap: true,
+            scrollDirection: Axis.vertical,
+            itemBuilder: (context, index) {
+              return Card(
+                color: _colorsRV[index % 2],
+                shape: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10),
+                    borderSide:
+                        BorderSide(color: _colorsRV[index % 2], width: 1)),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        SizedBox(
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Text('MESA 1',
+                                textAlign: TextAlign.left,
+                                style: TextStyle(
+                                    color: _colors[index % 2],
+                                    fontSize: 15,
+                                    fontWeight: FontWeight.w900,
+                                    fontFamily: 'Comfortaa')),
+                          ),
+                        ),
+                        SizedBox(
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Text('5x Cocacola\n\n3x Fantas',
+                                textAlign: TextAlign.left,
+                                style: TextStyle(
+                                    color: _colors[index % 2],
+                                    fontSize: 15,
+                                    fontWeight: FontWeight.w900,
+                                    fontFamily: 'Comfortaa')),
+                          ),
+                        ),
+                      ],
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          SizedBox(
+                            height: 60,
+                          ),
+                          InkWell(
+                            onTap: () {
+                              // set up the buttons
+                              Widget cancelButton = TextButton(
+                                child: Text("No",
+                                    style: TextStyle(
+                                        color: _colors[index % 2],
+                                        fontSize: 15.0,
+                                        fontWeight: FontWeight.w400,
+                                        fontFamily: 'Comfortaa')),
+                                onPressed: () {
+                                  Navigator.of(context).pop();
+                                },
+                              );
+                              Widget continueButton = TextButton(
+                                child: Text("Si",
+                                    style: TextStyle(
+                                        color: _colors[index % 2],
+                                        fontSize: 15.0,
+                                        fontWeight: FontWeight.w400,
+                                        fontFamily: 'Comfortaa')),
+                                onPressed: () {
+                                  Navigator.of(context).pop();
+                                },
+                              );
+
+                              // set up the AlertDialog
+                              AlertDialog alert = AlertDialog(
+                                backgroundColor: _colorsRV[index % 2],
+                                shape: RoundedRectangleBorder(
+                                    borderRadius:
+                                        new BorderRadius.circular(30)),
+                                title: Text("Eliminar Comanda",
+                                    style: TextStyle(
+                                        color: _colors[index % 2],
+                                        fontWeight: FontWeight.w800,
+                                        fontFamily: 'Comfortaa')),
+                                content: Text(
+                                    "¿Seguro que quieres eliminar esta comanda",
+                                    style: TextStyle(
+                                        color: _colors[index % 2],
+                                        fontSize: 16.0,
+                                        fontWeight: FontWeight.w600,
+                                        fontFamily: 'Comfortaa')),
+                                actions: [
+                                  cancelButton,
+                                  continueButton,
+                                ],
+                              );
+
+                              // show the dialog
+                              showDialog(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return alert;
+                                },
+                              );
+                            }, // Handle your callback
+                            child: Image.asset(
+                              'assets/images/basura.png',
+                              height: 20,
+                              width: 20,
+                              color: _colors[index % 2],
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              );
+            },
+          ),
+        ),
+      ),
     );
   }
 }
