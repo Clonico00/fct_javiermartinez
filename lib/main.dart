@@ -11,8 +11,11 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 void main() {
+  //check_if_already_login();
+
   runApp(const MyApp());
 }
 
@@ -46,7 +49,6 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   //iniatialze firebase app
-
   Future<FirebaseApp> _initializeFirebase() async {
     FirebaseApp firebaseApp = await Firebase.initializeApp();
 
@@ -78,7 +80,15 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+  late SharedPreferences login;
+  late bool newuser;
   //login
+  @override
+  void initState() {
+    super.initState();
+    check_if_already_login();
+  }
+
   static Future<User?> loginUsingEmailPassword(
       {required String email,
       required String password,
@@ -264,11 +274,15 @@ class _LoginScreenState extends State<LoginScreen> {
                                     if (user != null) {
                                       if (_emailController.text ==
                                           "waitress@gmail.com") {
+                                        login.setBool('login', false);
+                                        login.setString('user', 'waitress');
                                         Navigator.of(context).pushReplacement(
                                             MaterialPageRoute(
                                                 builder: (context) =>
                                                     CamarerosScreen()));
                                       } else {
+                                        login.setBool('login', false);
+                                        login.setString('user', 'cook');
                                         Navigator.of(context).pushReplacement(
                                             MaterialPageRoute(
                                                 builder: (context) =>
@@ -379,6 +393,21 @@ class _LoginScreenState extends State<LoginScreen> {
                     ))),
           );
         }));
+  }
+
+  void check_if_already_login() async {
+    login = await SharedPreferences.getInstance();
+    newuser = (login.getBool('login') ?? true);
+    String user = (login.getString('user').toString());
+    if (newuser == false) {
+      if (user == 'waitress') {
+        Navigator.of(context).pushReplacement(
+            MaterialPageRoute(builder: (context) => CamarerosScreen()));
+      } else {
+        Navigator.of(context).pushReplacement(
+            MaterialPageRoute(builder: (context) => CocinerosScreen()));
+      }
+    }
   }
 
   void showSnackBar(BuildContext context, String error) {

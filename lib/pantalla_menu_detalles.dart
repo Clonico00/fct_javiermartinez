@@ -28,8 +28,7 @@ class _PantallaMenuDetallesState extends State<PantallaMenuDetalles> {
     queryData = MediaQuery.of(context);
     return Scaffold(
       appBar: AppBar(
-                  automaticallyImplyLeading: false,
-
+          automaticallyImplyLeading: false,
           backgroundColor: Color.fromARGB(255, 255, 255, 255),
           toolbarHeight: 50,
           elevation: 2,
@@ -103,15 +102,7 @@ class _PantallaMenuDetallesState extends State<PantallaMenuDetalles> {
                     children: [
                       InkWell(
                         onTap: () {
-                          Fluttertoast.showToast(
-                            msg: "Comanda añadida", // message
-                            toastLength: Toast.LENGTH_LONG, // length
-                            gravity: ToastGravity.TOP, // location
-                            timeInSecForIosWeb: 2,
-                            backgroundColor: Color.fromARGB(255, 6, 9, 94),
-                            fontSize: 15.0,
-                            // duration
-                          );
+                          showSnackBar(context, "Comanda añadida");
                         }, // Handle your callback
                         child: Image.asset(
                           'assets/images/mas.png',
@@ -126,15 +117,7 @@ class _PantallaMenuDetallesState extends State<PantallaMenuDetalles> {
                       ),
                       InkWell(
                         onTap: () {
-                          Fluttertoast.showToast(
-                            msg: "Comida quitada", // message
-                            toastLength: Toast.LENGTH_LONG, // length
-                            gravity: ToastGravity.TOP, // location
-                            timeInSecForIosWeb: 2,
-                            backgroundColor: Color.fromARGB(255, 6, 9, 94),
-                            fontSize: 15.0,
-                            // duration
-                          );
+                          showSnackBar(context, "Comanda quitada");
                         }, // Handle your callback
                         child: Image.asset(
                           'assets/images/menos.png',
@@ -152,5 +135,30 @@ class _PantallaMenuDetallesState extends State<PantallaMenuDetalles> {
         ),
       ),
     );
+  }
+
+  void showSnackBar(BuildContext context, String error) {
+    final snackBar = SnackBar(
+      backgroundColor: Color.fromARGB(255, 252, 252, 252),
+      padding: EdgeInsets.all(5.0),
+      behavior: SnackBarBehavior.floating,
+      elevation: 2.0,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(24),
+      ),
+      content: Text(error,
+          style: TextStyle(
+              color: Color.fromARGB(255, 18, 22, 134),
+              fontSize: 12.0,
+              fontWeight: FontWeight.w900,
+              fontFamily: 'Comfortaa')),
+      action: SnackBarAction(
+        label: 'Ok',
+        onPressed: () {
+          // Some code to undo the change.
+        },
+      ),
+    );
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
   }
 }

@@ -42,6 +42,7 @@ dependencies:
   firebase_database: ^9.0.14
   connection_status_bar: ^1.1.6
   rflutter_alert: ^2.0.4
+  shared_preferences: ^2.0.15
 
 
 dev_dependencies:

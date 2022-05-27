@@ -1,6 +1,7 @@
 import 'package:fct_javiermartinez/main.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class CocinerosScreen extends StatefulWidget {
   const CocinerosScreen({Key? key}) : super(key: key);
@@ -10,6 +11,17 @@ class CocinerosScreen extends StatefulWidget {
 }
 
 class _CocinerosScreenState extends State<CocinerosScreen> {
+  late SharedPreferences login;
+  @override
+  void initState() {
+    super.initState();
+    initial();
+  }
+
+  void initial() async {
+    login = await SharedPreferences.getInstance();
+  }
+
   List<Color> _colors = [
     Color.fromARGB(255, 6, 9, 94),
     Color.fromARGB(255, 255, 255, 255),
@@ -55,6 +67,8 @@ class _CocinerosScreenState extends State<CocinerosScreen> {
                             fontWeight: FontWeight.w400,
                             fontFamily: 'Comfortaa')),
                     onPressed: () {
+                      login.setBool('login', true);
+
                       Navigator.of(context).pushReplacement(MaterialPageRoute(
                         builder: (context) => HomePage(),
                       ));

@@ -4,6 +4,7 @@ import 'package:fct_javiermartinez/main.dart';
 import 'package:flutter/material.dart';
 import 'package:fct_javiermartinez/pantalla_menu.dart';
 import 'package:fct_javiermartinez/menu.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class CamarerosScreen extends StatefulWidget {
   const CamarerosScreen({Key? key}) : super(key: key);
@@ -13,6 +14,17 @@ class CamarerosScreen extends StatefulWidget {
 }
 
 class _CamarerosScreenState extends State<CamarerosScreen> {
+  late SharedPreferences login;
+  @override
+  void initState() {
+    super.initState();
+    initial();
+  }
+
+  void initial() async {
+    login = await SharedPreferences.getInstance();
+  }
+
   List<Color> _colors = [
     Color.fromARGB(255, 6, 9, 94),
     Color.fromARGB(255, 255, 255, 255),
@@ -63,6 +75,7 @@ class _CamarerosScreenState extends State<CamarerosScreen> {
                               fontWeight: FontWeight.w400,
                               fontFamily: 'Comfortaa')),
                       onPressed: () {
+                        login.setBool('login', true);
                         Navigator.of(context).pushReplacement(MaterialPageRoute(
                           builder: (context) => HomePage(),
                         ));
