@@ -372,7 +372,6 @@ class _LoginScreenState extends State<LoginScreen> {
                                       continueButton,
                                     ],
                                   );
-
                                   // show the dialog
                                   showDialog(
                                     context: context,

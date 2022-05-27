@@ -102,7 +102,7 @@ class _PantallaMenuDetallesState extends State<PantallaMenuDetalles> {
                     children: [
                       InkWell(
                         onTap: () {
-                          showSnackBar(context, "Comanda añadida");
+                          showSnackBar(context, "Comanda añadida", index);
                         }, // Handle your callback
                         child: Image.asset(
                           'assets/images/mas.png',
@@ -117,7 +117,7 @@ class _PantallaMenuDetallesState extends State<PantallaMenuDetalles> {
                       ),
                       InkWell(
                         onTap: () {
-                          showSnackBar(context, "Comanda quitada");
+                          showSnackBar(context, "Comanda quitada", index);
                         }, // Handle your callback
                         child: Image.asset(
                           'assets/images/menos.png',
@@ -137,9 +137,9 @@ class _PantallaMenuDetallesState extends State<PantallaMenuDetalles> {
     );
   }
 
-  void showSnackBar(BuildContext context, String error) {
+  void showSnackBar(BuildContext context, String error, int index) {
     final snackBar = SnackBar(
-      backgroundColor: Color.fromARGB(255, 252, 252, 252),
+      backgroundColor: _colorsRV[index % 2],
       padding: EdgeInsets.all(5.0),
       behavior: SnackBarBehavior.floating,
       elevation: 2.0,
@@ -148,7 +148,7 @@ class _PantallaMenuDetallesState extends State<PantallaMenuDetalles> {
       ),
       content: Text(error,
           style: TextStyle(
-              color: Color.fromARGB(255, 18, 22, 134),
+              color: _colors[index % 2],
               fontSize: 12.0,
               fontWeight: FontWeight.w900,
               fontFamily: 'Comfortaa')),
