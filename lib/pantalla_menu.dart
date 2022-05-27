@@ -99,15 +99,28 @@ class _PantallaMenuState extends State<PantallaMenu> {
                   child: InkWell(
                       onTap: () {
                         if (categoryList[position] == 'Enviar a Cocina') {
-                          Fluttertoast.showToast(
-                            msg: "Comanda enviada a cocina", // message
-                            toastLength: Toast.LENGTH_LONG, // length
-                            gravity: ToastGravity.TOP, // location
-                            timeInSecForIosWeb: 2,
-                            backgroundColor: Color.fromARGB(255, 6, 9, 94),
-                            fontSize: 15.0,
-                            // duration
+                          final snackBar = SnackBar(
+                            backgroundColor: Color.fromARGB(255, 252, 252, 252),
+                            padding: EdgeInsets.all(5.0),
+                            behavior: SnackBarBehavior.floating,
+                            elevation: 2.0,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(24),
+                            ),
+                            content: Text("Comanda enviada a cocina",
+                                style: TextStyle(
+                                    color: Color.fromARGB(255, 18, 22, 134),
+                                    fontSize: 12.0,
+                                    fontWeight: FontWeight.w900,
+                                    fontFamily: 'Comfortaa')),
+                            action: SnackBarAction(
+                              label: 'Ok',
+                              onPressed: () {
+                                // Some code to undo the change.
+                              },
+                            ),
                           );
+                          ScaffoldMessenger.of(context).showSnackBar(snackBar);
                         } else if (categoryList[position] == 'Cuenta') {
                           Navigator.of(context)
                               .pushReplacement(MaterialPageRoute(

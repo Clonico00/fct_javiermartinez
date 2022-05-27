@@ -98,15 +98,32 @@ class _LoginScreenState extends State<LoginScreen> {
         print("No user found for that email");
       }
     } on SocketException catch (_) {
-      Fluttertoast.showToast(
-        msg: "Revise su conexion a internet", // message
-        toastLength: Toast.LENGTH_LONG, // length
-        gravity: ToastGravity.TOP, // location
-        timeInSecForIosWeb: 2,
-        backgroundColor: Color.fromARGB(255, 6, 9, 94),
-        fontSize: 15.0,
-        // duration
+      final snackBar = SnackBar(
+        backgroundColor: Color.fromARGB(255, 252, 252, 252),
+        margin: EdgeInsets.only(
+            bottom: MediaQuery.of(context).size.height - 100,
+            right: 20,
+            left: 20),
+        padding: EdgeInsets.all(5.0),
+        behavior: SnackBarBehavior.floating,
+        elevation: 2.0,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(24),
+        ),
+        content: Text("Revise su conexion a internet",
+            style: TextStyle(
+                color: Color.fromARGB(255, 18, 22, 134),
+                fontSize: 12.0,
+                fontWeight: FontWeight.w900,
+                fontFamily: 'Comfortaa')),
+        action: SnackBarAction(
+          label: 'Ok',
+          onPressed: () {
+            // Some code to undo the change.
+          },
+        ),
       );
+      ScaffoldMessenger.of(context).showSnackBar(snackBar);
     }
     return user;
   }
@@ -131,15 +148,7 @@ class _LoginScreenState extends State<LoginScreen> {
         });
       }
     } on SocketException catch (e) {
-      Fluttertoast.showToast(
-        msg: "Revise su conexion a internet", // message
-        toastLength: Toast.LENGTH_LONG, // length
-        gravity: ToastGravity.TOP, // location
-        timeInSecForIosWeb: 2,
-        backgroundColor: Color.fromARGB(255, 6, 9, 94),
-        fontSize: 15.0,
-        // duration
-      );
+      showSnackBar(context, "Revise su conexion a internet");
     }
   }
 
@@ -234,7 +243,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                     color: Color.fromARGB(255, 255, 255, 255))),
                           ),
                           const SizedBox(
-                            height: 90.0,
+                            height: 80.0,
                           ),
                           Container(
                               width: double.infinity,
@@ -266,31 +275,12 @@ class _LoginScreenState extends State<LoginScreen> {
                                                     CocinerosScreen()));
                                       }
                                     } else {
-                                      Fluttertoast.showToast(
-                                        msg:
-                                            "Email y contraseña incorrectos", // message
-                                        toastLength:
-                                            Toast.LENGTH_LONG, // length
-                                        gravity: ToastGravity.TOP, // location
-                                        timeInSecForIosWeb: 2,
-                                        backgroundColor:
-                                            Color.fromARGB(255, 6, 9, 94),
-                                        fontSize: 15.0,
-                                        // duration
-                                      );
+                                      showSnackBar(context,
+                                          "Email y contraseña incorrectos");
                                     }
                                   } else {
-                                    Fluttertoast.showToast(
-                                      msg:
-                                          "Por favor escribe un email y una contraseña", // message
-                                      toastLength: Toast.LENGTH_LONG, // length
-                                      gravity: ToastGravity.TOP, // location
-                                      timeInSecForIosWeb: 2,
-                                      backgroundColor:
-                                          Color.fromARGB(255, 6, 9, 94),
-                                      fontSize: 15.0,
-                                      // duration
-                                    );
+                                    showSnackBar(context,
+                                        "Por favor escribe un email y una contraseña");
                                   }
                                 },
                                 child: const Text("ACCEDER",
@@ -389,5 +379,34 @@ class _LoginScreenState extends State<LoginScreen> {
                     ))),
           );
         }));
+  }
+
+  void showSnackBar(BuildContext context, String error) {
+    final snackBar = SnackBar(
+      backgroundColor: Color.fromARGB(255, 252, 252, 252),
+      margin: EdgeInsets.only(
+          bottom: MediaQuery.of(context).size.height - 100,
+          right: 20,
+          left: 20),
+      padding: EdgeInsets.all(5.0),
+      behavior: SnackBarBehavior.floating,
+      elevation: 2.0,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(24),
+      ),
+      content: Text(error,
+          style: TextStyle(
+              color: Color.fromARGB(255, 18, 22, 134),
+              fontSize: 12.0,
+              fontWeight: FontWeight.w900,
+              fontFamily: 'Comfortaa')),
+      action: SnackBarAction(
+        label: 'Ok',
+        onPressed: () {
+          // Some code to undo the change.
+        },
+      ),
+    );
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
   }
 }
