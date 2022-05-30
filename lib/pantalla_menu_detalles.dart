@@ -2,6 +2,7 @@
 
 import 'package:fct_javiermartinez/menu.dart';
 import 'package:fct_javiermartinez/pantalla_menu.dart';
+import 'package:fct_javiermartinez/insert_data.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
@@ -102,6 +103,8 @@ class _PantallaMenuDetallesState extends State<PantallaMenuDetalles> {
                     children: [
                       InkWell(
                         onTap: () {
+                          //si queremos añadir mas datos llamamos a este metodo
+                          //addUser();
                           showSnackBar(context, "Comanda añadida", index);
                         }, // Handle your callback
                         child: Image.asset(
