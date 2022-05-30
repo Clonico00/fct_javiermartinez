@@ -73,6 +73,14 @@ flutter:
   uses-material-design: true
   assets: 
     - assets/images/icons/
+    - assets/images/comidas/
+    - assets/images/dulces/
+    - assets/images/bebidas/
+    - assets/images/cafes/
+    - assets/images/menus/
+    - assets/images/postres/
+
+
     
   fonts:
     - family: Comfortaa

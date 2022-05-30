@@ -1,10 +1,13 @@
 // ignore_for_file: unused_field
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:fct_javiermartinez/menu.dart';
 import 'package:fct_javiermartinez/pantalla_menu.dart';
 import 'package:fct_javiermartinez/insert_data.dart';
+import 'package:fct_javiermartinez/read_data.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'dart:convert';
 
 class PantallaMenuDetalles extends StatefulWidget {
   const PantallaMenuDetalles({Key? key}) : super(key: key);
@@ -22,11 +25,43 @@ class _PantallaMenuDetallesState extends State<PantallaMenuDetalles> {
     Color.fromARGB(255, 255, 255, 255),
     Color.fromARGB(255, 6, 9, 94),
   ];
+  dynamic data;
+
+  @override
+  void initState() {
+    super.initState();
+    //getDatas();
+    //getDocumentData();
+  }
+
+  // CollectionReference _collectionRef =
+  //     FirebaseFirestore.instance.collection('comidas');
+
+  // Future<void> getDatas() async {
+  //   // Get docs from collection reference
+  //   QuerySnapshot querySnapshot = await _collectionRef.get();
+
+  //   // Get data from docs and convert map to List
+  //   final allData = querySnapshot.docs.map((doc) => doc.data()).toList();
+  //   print(allData.toSet());
+  // }
+
+  //
+  // _docData
+  //     .forEach((element) => print(element.toString().replaceAll("\{", "")))
+  //     ;
+  // for (var item in _docData) {
+  //   //x = item.toString().replaceAll("\{", "");
+  //   Comidas c =
+  //       Comidas.fromJson(jsonDecode(item.toString().replaceAll("\{", "\{ ")));
+  //   print(c);
+  // }
+  //print(x.toString());
+  //}
+
   @override
   Widget build(BuildContext context) {
     final Menu menu = ModalRoute.of(context)!.settings.arguments as Menu;
-    MediaQueryData queryData;
-    queryData = MediaQuery.of(context);
     return Scaffold(
       appBar: AppBar(
           automaticallyImplyLeading: false,
@@ -76,63 +111,87 @@ class _PantallaMenuDetallesState extends State<PantallaMenuDetalles> {
         ], begin: Alignment.topCenter, end: Alignment(0.0, 1.0))),
         child: ListTileTheme(
           contentPadding: EdgeInsets.all(25),
-          child: ListView.builder(
-            itemCount: 10,
-            shrinkWrap: true,
-            scrollDirection: Axis.vertical,
-            itemBuilder: (context, index) {
-              return Card(
-                color: _colorsRV[index % 2],
-                shape: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(40),
-                    borderSide:
-                        BorderSide(color: _colorsRV[index % 2], width: 1)),
-                child: ListTile(
-                  leading: Image.asset(
-                    'assets/images/cp.jpg',
-                    height: 75,
-                    width: 75,
-                  ),
-                  title: Text("COMIDAS RICAS",
-                      style: TextStyle(
-                          color: _colors[index % 2],
-                          fontSize: 13.0,
-                          fontWeight: FontWeight.w900,
-                          fontFamily: 'Comfortaa')),
-                  trailing: Column(
-                    children: [
-                      InkWell(
-                        onTap: () {
-                          //si queremos añadir mas datos llamamos a este metodo
-                          //addUser();
-                          showSnackBar(context, "Comanda añadida", index);
-                        }, // Handle your callback
-                        child: Image.asset(
-                          'assets/images/icons/mas.png',
-                          height: 20,
-                          width: 20,
-                          color: _colors[index % 2],
+          child: StreamBuilder(
+            stream:
+                FirebaseFirestore.instance.collection("comidas").snapshots(),
+            builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
+              if (snapshot.hasData) {
+                return ListView.builder(
+                  itemCount: snapshot.data!.docs.length,
+                  shrinkWrap: true,
+                  scrollDirection: Axis.vertical,
+                  itemBuilder: (context, index) {
+                    // if (snapshot.data?.docs[index]['categoria'] ==
+                    //     menu.categoria) {
+                    return Card(
+                      color: _colorsRV[index % 2],
+                      shape: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(40),
+                          borderSide: BorderSide(
+                              color: _colorsRV[index % 2], width: 1)),
+                      child: ListTile(
+                        leading: SizedBox(
+                          height: 75,
+                          width: 75,
+                          child: Image.asset(
+                            snapshot.data?.docs[index]['imagen'],
+                            height: 75,
+                            width: 75,
+                          ),
+                        ),
+                        title: Text(
+                            (snapshot.data?.docs[index]['nombre'])
+                                .toString()
+                                .toUpperCase(),
+                            style: TextStyle(
+                                color: _colors[index % 2],
+                                fontSize: 13.0,
+                                fontWeight: FontWeight.w900,
+                                fontFamily: 'Comfortaa')),
+                        trailing: Column(
+                          children: [
+                            InkWell(
+                              onTap: () {
+                                //si queremos añadir mas datos llamamos a este metodo
+                                //addUser();
+                                //read();
+
+                                showSnackBar(context, "Comanda añadida", index);
+                              }, // Handle your callback
+                              child: Image.asset(
+                                'assets/images/icons/mas.png',
+                                height: 20,
+                                width: 20,
+                                color: _colors[index % 2],
+                              ),
+                            ),
+                            SizedBox(
+                              width: 30.0,
+                              height: 15.0,
+                            ),
+                            InkWell(
+                              onTap: () {
+                                showSnackBar(context, "Comanda quitada", index);
+                              }, // Handle your callback
+                              child: Image.asset(
+                                'assets/images/icons/menos.png',
+                                height: 20,
+                                width: 20,
+                                color: _colors[index % 2],
+                              ),
+                            ),
+                          ],
                         ),
                       ),
-                      SizedBox(
-                        width: 30.0,
-                        height: 15.0,
-                      ),
-                      InkWell(
-                        onTap: () {
-                          showSnackBar(context, "Comanda quitada", index);
-                        }, // Handle your callback
-                        child: Image.asset(
-                          'assets/images/icons/menos.png',
-                          height: 20,
-                          width: 20,
-                          color: _colors[index % 2],
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              );
+                    );
+                    // } else {
+                    //   return Container();
+                    // }
+                  },
+                );
+              } else {
+                return Container();
+              }
             },
           ),
         ),
