@@ -26,14 +26,14 @@ class _PantallaMenuState extends State<PantallaMenu> {
     Color.fromARGB(255, 6, 9, 94),
   ];
   List imagesList = [
-    ('assets/images/BEBIDAS.png'),
-    ('assets/images/cafe.png'),
-    ('assets/images/comida.png'),
-    ('assets/images/postre.png'),
-    ('assets/images/menu.png'),
-    ('assets/images/dulces.png'),
-    ('assets/images/cuenta.png'),
-    ('assets/images/cocina.png'),
+    ('assets/images/icons/BEBIDAS.png'),
+    ('assets/images/icons/cafe.png'),
+    ('assets/images/icons/comida.png'),
+    ('assets/images/icons/postre.png'),
+    ('assets/images/icons/menu.png'),
+    ('assets/images/icons/dulces.png'),
+    ('assets/images/icons/cuenta.png'),
+    ('assets/images/icons/cocina.png'),
   ];
   List categoryList = [
     ('Bebidas'),

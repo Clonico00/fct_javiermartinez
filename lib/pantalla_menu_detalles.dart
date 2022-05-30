@@ -105,7 +105,7 @@ class _PantallaMenuDetallesState extends State<PantallaMenuDetalles> {
                           showSnackBar(context, "Comanda añadida", index);
                         }, // Handle your callback
                         child: Image.asset(
-                          'assets/images/mas.png',
+                          'assets/images/icons/mas.png',
                           height: 20,
                           width: 20,
                           color: _colors[index % 2],
@@ -120,7 +120,7 @@ class _PantallaMenuDetallesState extends State<PantallaMenuDetalles> {
                           showSnackBar(context, "Comanda quitada", index);
                         }, // Handle your callback
                         child: Image.asset(
-                          'assets/images/menos.png',
+                          'assets/images/icons/menos.png',
                           height: 20,
                           width: 20,
                           color: _colors[index % 2],

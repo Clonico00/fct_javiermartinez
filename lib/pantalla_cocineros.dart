@@ -244,7 +244,7 @@ class _CocinerosScreenState extends State<CocinerosScreen> {
                               );
                             }, // Handle your callback
                             child: Image.asset(
-                              'assets/images/basura.png',
+                              'assets/images/icons/basura.png',
                               height: 20,
                               width: 20,
                               color: _colors[index % 2],
