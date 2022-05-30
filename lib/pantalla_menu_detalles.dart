@@ -112,81 +112,83 @@ class _PantallaMenuDetallesState extends State<PantallaMenuDetalles> {
         child: ListTileTheme(
           contentPadding: EdgeInsets.all(25),
           child: StreamBuilder(
-            stream:
-                FirebaseFirestore.instance.collection("comidas").snapshots(),
+            stream: FirebaseFirestore.instance
+                .collection("comidas")
+                .where("categoria", isEqualTo: menu.categoria.toLowerCase())
+                .snapshots(),
             builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
               if (snapshot.hasData) {
                 return ListView.builder(
                   itemCount: snapshot.data!.docs.length,
-                  shrinkWrap: true,
+                  shrinkWrap: false,
                   scrollDirection: Axis.vertical,
                   itemBuilder: (context, index) {
-                    // if (snapshot.data?.docs[index]['categoria'] ==
-                    //     menu.categoria) {
-                    return Card(
-                      color: _colorsRV[index % 2],
-                      shape: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(40),
-                          borderSide: BorderSide(
-                              color: _colorsRV[index % 2], width: 1)),
-                      child: ListTile(
-                        leading: SizedBox(
-                          height: 75,
-                          width: 75,
-                          child: Image.asset(
+                    if (snapshot.data?.docs[index]['categoria']
+                            .toString()
+                            .toUpperCase() ==
+                        menu.categoria.toString().toUpperCase()) {
+                      return Card(
+                        color: _colorsRV[index % 2],
+                        shape: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(40),
+                            borderSide: BorderSide(
+                                color: _colorsRV[index % 2], width: 1)),
+                        child: ListTile(
+                          leading: Image.asset(
                             snapshot.data?.docs[index]['imagen'],
-                            height: 75,
-                            width: 75,
+                            height: 100,
+                            width: 100,
+                          ),
+                          title: Text(
+                              (snapshot.data?.docs[index]['nombre'])
+                                  .toString()
+                                  .toUpperCase(),
+                              style: TextStyle(
+                                  color: _colors[index % 2],
+                                  fontSize: 13.0,
+                                  fontWeight: FontWeight.w900,
+                                  fontFamily: 'Comfortaa')),
+                          trailing: Column(
+                            children: [
+                              InkWell(
+                                onTap: () {
+                                  //si queremos añadir mas datos llamamos a este metodo
+                                  //addUser();
+                                  //read();
+
+                                  showSnackBar(
+                                      context, "Comanda añadida", index);
+                                }, // Handle your callback
+                                child: Image.asset(
+                                  'assets/images/icons/mas.png',
+                                  height: 20,
+                                  width: 20,
+                                  color: _colors[index % 2],
+                                ),
+                              ),
+                              SizedBox(
+                                width: 30.0,
+                                height: 15.0,
+                              ),
+                              InkWell(
+                                onTap: () {
+                                  showSnackBar(
+                                      context, "Comanda quitada", index);
+                                }, // Handle your callback
+                                child: Image.asset(
+                                  'assets/images/icons/menos.png',
+                                  height: 20,
+                                  width: 20,
+                                  color: _colors[index % 2],
+                                ),
+                              ),
+                            ],
                           ),
                         ),
-                        title: Text(
-                            (snapshot.data?.docs[index]['nombre'])
-                                .toString()
-                                .toUpperCase(),
-                            style: TextStyle(
-                                color: _colors[index % 2],
-                                fontSize: 13.0,
-                                fontWeight: FontWeight.w900,
-                                fontFamily: 'Comfortaa')),
-                        trailing: Column(
-                          children: [
-                            InkWell(
-                              onTap: () {
-                                //si queremos añadir mas datos llamamos a este metodo
-                                //addUser();
-                                //read();
-
-                                showSnackBar(context, "Comanda añadida", index);
-                              }, // Handle your callback
-                              child: Image.asset(
-                                'assets/images/icons/mas.png',
-                                height: 20,
-                                width: 20,
-                                color: _colors[index % 2],
-                              ),
-                            ),
-                            SizedBox(
-                              width: 30.0,
-                              height: 15.0,
-                            ),
-                            InkWell(
-                              onTap: () {
-                                showSnackBar(context, "Comanda quitada", index);
-                              }, // Handle your callback
-                              child: Image.asset(
-                                'assets/images/icons/menos.png',
-                                height: 20,
-                                width: 20,
-                                color: _colors[index % 2],
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    );
-                    // } else {
-                    //   return Container();
-                    // }
+                      );
+                    } else {
+                      return Container();
+                    }
                   },
                 );
               } else {
