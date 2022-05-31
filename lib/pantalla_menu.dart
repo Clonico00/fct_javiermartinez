@@ -48,7 +48,6 @@ class _PantallaMenuState extends State<PantallaMenu> {
   Widget build(BuildContext context) {
     final menu = ModalRoute.of(context)!.settings.arguments as Menu;
 
-
     return Scaffold(
       appBar: AppBar(
           automaticallyImplyLeading: false,
@@ -122,7 +121,6 @@ class _PantallaMenuState extends State<PantallaMenu> {
                           );
                           ScaffoldMessenger.of(context).showSnackBar(snackBar);
                         } else if (categoryList[position] == 'Cuenta') {
-                          
                           Navigator.of(context)
                               .pushReplacement(MaterialPageRoute(
                             builder: (context) => PantallaCuenta(),

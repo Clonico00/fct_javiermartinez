@@ -143,11 +143,16 @@ class _PantallaMenuDetallesState extends State<PantallaMenuDetalles> {
                                       context, "No hay mas stock", index);
                                 } else {
                                   comida1.stock -= 1;
-                                  unidades = unidades + 1;
                                   listacomidas.forEach(
                                       (element) => print(element.toString()));
                                   updateComida(document, comida1.stock);
-                                  menu.num = unidades.toString();
+                                  menu.num =
+                                      (int.parse(menu.num) + 1).toString();
+                                  menu.food =
+                                      snapshot.data?.docs[index]['nombre'];
+                                  menu.prices = (snapshot.data?.docs[index]
+                                          ['precio'])
+                                      .toString();
                                   showSnackBar(
                                       context, "Comanda añadida", index);
                                 }

@@ -30,7 +30,7 @@ class _PantallaCuentaState extends State<PantallaCuenta> {
     final menu = ModalRoute.of(context)!.settings.arguments as Menu;
     DateTime now = DateTime.now();
     String formattedDate = DateFormat('dd-MM-yyyy  HH:mm').format(now);
-
+    double total = 0.0;
     return Scaffold(
       appBar: AppBar(
           automaticallyImplyLeading: false,
@@ -105,7 +105,7 @@ class _PantallaCuentaState extends State<PantallaCuenta> {
                           SizedBox(
                             child: Padding(
                               padding: const EdgeInsets.all(8.0),
-                              child: Text('5x Cocacola\n\n3x Fantas',
+                              child: Text(menu.num + 'x ' + menu.food,
                                   textAlign: TextAlign.left,
                                   style: TextStyle(
                                       color: Color.fromARGB(255, 18, 22, 134),
@@ -119,10 +119,15 @@ class _PantallaCuentaState extends State<PantallaCuenta> {
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.end,
                         children: [
-                          const SizedBox(
+                          SizedBox(
                             child: Padding(
                               padding: const EdgeInsets.all(8.0),
-                              child: Text("3,95\$\n\n3,25\$",
+                              child: Text(
+                                  (double.parse(menu.num) *
+                                              (double.parse(menu.prices)))
+                                          .toStringAsFixed(2)
+                                          .toString() +
+                                      "\€",
                                   textAlign: TextAlign.right,
                                   style: TextStyle(
                                       color: Color.fromARGB(255, 18, 22, 134),
@@ -138,25 +143,7 @@ class _PantallaCuentaState extends State<PantallaCuenta> {
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.only(top: 75.0),
-                child: Card(
-                    shape: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(40),
-                        borderSide: BorderSide(color: _colorsRV[1], width: 1)),
-                    color: _colorsRV[1],
-                    child: ListTile(
-                        title: Text('I.V.A (11%) :',
-                            style: TextStyle(
-                                color: _colors[1],
-                                fontSize: 15,
-                                fontWeight: FontWeight.w900,
-                                fontFamily: 'Comfortaa')),
-                        trailing: Text("AQUI VA IR EL TOTAL DEL IVAL",
-                            style: TextStyle(
-                                color: _colors[1],
-                                fontSize: 10,
-                                fontWeight: FontWeight.w900,
-                                fontFamily: 'Comfortaa')))),
+                padding: const EdgeInsets.only(top: 275.0),
               ),
               Card(
                   shape: OutlineInputBorder(
@@ -170,10 +157,14 @@ class _PantallaCuentaState extends State<PantallaCuenta> {
                               fontSize: 15,
                               fontWeight: FontWeight.w900,
                               fontFamily: 'Comfortaa')),
-                      trailing: Text("AQUI VA IR EL TOTAL",
+                      trailing: Text(
+                          (calculartotal(total, menu.num, menu.prices))
+                                  .toStringAsFixed(2)
+                                  .toString() +
+                              "\€",
                           style: TextStyle(
                               color: _colors[1],
-                              fontSize: 10,
+                              fontSize: 16,
                               fontWeight: FontWeight.w900,
                               fontFamily: 'Comfortaa')))),
               Padding(
@@ -204,4 +195,9 @@ class _PantallaCuentaState extends State<PantallaCuenta> {
           )),
     );
   }
+}
+
+double calculartotal(double total, String numero, String prices) {
+  double ola = total + (double.parse(numero) * double.parse(prices));
+  return ola;
 }
