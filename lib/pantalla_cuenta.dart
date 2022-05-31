@@ -105,7 +105,7 @@ class _PantallaCuentaState extends State<PantallaCuenta> {
                           SizedBox(
                             child: Padding(
                               padding: const EdgeInsets.all(8.0),
-                              child: Text(menu.num + 'x ' + menu.food,
+                              child: Text(menu.food.replaceFirst("\n", ""),
                                   textAlign: TextAlign.left,
                                   style: TextStyle(
                                       color: Color.fromARGB(255, 18, 22, 134),
@@ -123,11 +123,11 @@ class _PantallaCuentaState extends State<PantallaCuenta> {
                             child: Padding(
                               padding: const EdgeInsets.all(8.0),
                               child: Text(
-                                  (double.parse(menu.num) *
-                                              (double.parse(menu.prices)))
-                                          .toStringAsFixed(2)
-                                          .toString() +
-                                      "\€",
+                                  // (double.parse(menu.num) *
+                                  //             (double.parse(menu.prices)))
+                                  //         .toStringAsFixed(2)
+                                  //         .toString() +
+                                  menu.prices.replaceFirst("\n", "") ,
                                   textAlign: TextAlign.right,
                                   style: TextStyle(
                                       color: Color.fromARGB(255, 18, 22, 134),
@@ -143,7 +143,7 @@ class _PantallaCuentaState extends State<PantallaCuenta> {
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.only(top: 275.0),
+                padding: const EdgeInsets.only(top: 75.0),
               ),
               Card(
                   shape: OutlineInputBorder(
@@ -158,10 +158,10 @@ class _PantallaCuentaState extends State<PantallaCuenta> {
                               fontWeight: FontWeight.w900,
                               fontFamily: 'Comfortaa')),
                       trailing: Text(
-                          (calculartotal(total, menu.num, menu.prices))
-                                  .toStringAsFixed(2)
-                                  .toString() +
-                              "\€",
+                          // (calculartotal(total, menu.num, menu.prices))
+                          //         .toStringAsFixed(2)
+                          //         .toString() +
+                          "\€",
                           style: TextStyle(
                               color: _colors[1],
                               fontSize: 16,

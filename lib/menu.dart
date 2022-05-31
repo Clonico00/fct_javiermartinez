@@ -1,7 +1,7 @@
 class Menu {
-  String numeroMesa ="";
-  String categoria="";
+  String numeroMesa = "";
+  String categoria = "";
   String food = "";
   String prices = "";
-  String num = "";
+  String num = "0";
 }
