@@ -4,11 +4,12 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:fct_javiermartinez/comidas_model.dart';
 import 'package:fct_javiermartinez/insert_data.dart';
 import 'package:fct_javiermartinez/menu.dart';
+import 'package:fct_javiermartinez/pantalla_cuenta.dart';
 import 'package:fct_javiermartinez/pantalla_menu.dart';
 import 'package:flutter/material.dart';
 
 class PantallaMenuDetalles extends StatefulWidget {
-  const PantallaMenuDetalles({Key? key}) : super(key: key);
+  PantallaMenuDetalles({Key? key}) : super(key: key);
 
   @override
   State<PantallaMenuDetalles> createState() => _PantallaMenuDetallesState();
@@ -32,31 +33,6 @@ class _PantallaMenuDetallesState extends State<PantallaMenuDetalles> {
     //getDocumentData();
   }
 
-  // CollectionReference _collectionRef =
-  //     FirebaseFirestore.instance.collection('comidas');
-
-  // Future<void> getDatas() async {
-  //   // Get docs from collection reference
-  //   QuerySnapshot querySnapshot = await _collectionRef.get();
-
-  //   // Get data from docs and convert map to List
-  //   final allData = querySnapshot.docs.map((doc) => doc.data()).toList();
-  //   print(allData.toSet());
-  // }
-
-  //
-  // _docData
-  //     .forEach((element) => print(element.toString().replaceAll("\{", "")))
-  //     ;
-  // for (var item in _docData) {
-  //   //x = item.toString().replaceAll("\{", "");
-  //   Comidas c =
-  //       Comidas.fromJson(jsonDecode(item.toString().replaceAll("\{", "\{ ")));
-  //   print(c);
-  // }
-  //print(x.toString());
-  //}
-
   @override
   Widget build(BuildContext context) {
     final Menu menu = ModalRoute.of(context)!.settings.arguments as Menu;
@@ -77,9 +53,7 @@ class _PantallaMenuDetallesState extends State<PantallaMenuDetalles> {
                 onTap: () {
                   Navigator.of(context).pushReplacement(MaterialPageRoute(
                     builder: (context) => PantallaMenu(),
-                    settings: RouteSettings(
-                      arguments: menu.numeroMesa,
-                    ),
+                    settings: RouteSettings(arguments: menu),
                   ));
                 }, // Handle your callback
                 child: Icon(
@@ -173,6 +147,7 @@ class _PantallaMenuDetallesState extends State<PantallaMenuDetalles> {
                                   listacomidas.forEach(
                                       (element) => print(element.toString()));
                                   updateComida(document, comida1.stock);
+                                  menu.num = unidades.toString();
                                   showSnackBar(
                                       context, "Comanda añadida", index);
                                 }

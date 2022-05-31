@@ -1,6 +1,8 @@
 // ignore_for_file: unused_field, unused_import
 
+import 'package:fct_javiermartinez/menu.dart';
 import 'package:fct_javiermartinez/pantalla_menu.dart';
+import 'package:fct_javiermartinez/pantalla_menu_detalles.dart';
 import 'package:flutter/material.dart';
 import 'package:fct_javiermartinez/pantalla_camareros.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -25,14 +27,13 @@ class _PantallaCuentaState extends State<PantallaCuenta> {
 
   @override
   Widget build(BuildContext context) {
-    final todo = ModalRoute.of(context)!.settings.arguments as String;
+    final menu = ModalRoute.of(context)!.settings.arguments as Menu;
     DateTime now = DateTime.now();
     String formattedDate = DateFormat('dd-MM-yyyy  HH:mm').format(now);
-    
+
     return Scaffold(
       appBar: AppBar(
-                  automaticallyImplyLeading: false,
-
+          automaticallyImplyLeading: false,
           backgroundColor: Color.fromARGB(255, 255, 255, 255),
           toolbarHeight: 50,
           elevation: 2,
@@ -48,7 +49,7 @@ class _PantallaCuentaState extends State<PantallaCuenta> {
                   Navigator.of(context).pushReplacement(MaterialPageRoute(
                     builder: (context) => PantallaMenu(),
                     settings: RouteSettings(
-                      arguments: todo.toString(),
+                      arguments: menu,
                     ),
                   ));
                 }, // Handle your callback
@@ -59,7 +60,7 @@ class _PantallaCuentaState extends State<PantallaCuenta> {
                 ),
               ),
               SizedBox(width: 20),
-              Text("Croissanteria Párraga: Mesa " + todo.toString() + " Cuenta",
+              Text("Croissanteria Párraga: Mesa " + menu.numeroMesa + " Cuenta",
                   style: TextStyle(
                       color: _colorsRV[1],
                       fontSize: 16,
@@ -101,7 +102,7 @@ class _PantallaCuentaState extends State<PantallaCuenta> {
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          const SizedBox(
+                          SizedBox(
                             child: Padding(
                               padding: const EdgeInsets.all(8.0),
                               child: Text('5x Cocacola\n\n3x Fantas',

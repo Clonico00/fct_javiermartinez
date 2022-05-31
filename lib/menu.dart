@@ -1,6 +1,7 @@
 class Menu {
-  final String numeroMesa;
-  final String categoria;
-
-  const Menu(this.numeroMesa, this.categoria);
+  String numeroMesa ="";
+  String categoria="";
+  String food = "";
+  String prices = "";
+  String num = "";
 }

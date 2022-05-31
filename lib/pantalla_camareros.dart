@@ -1,6 +1,7 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'package:fct_javiermartinez/main.dart';
+import 'package:fct_javiermartinez/menu.dart';
 import 'package:flutter/material.dart';
 import 'package:fct_javiermartinez/pantalla_menu.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -37,6 +38,7 @@ class _CamarerosScreenState extends State<CamarerosScreen> {
   Widget build(BuildContext context) {
     MediaQueryData queryData;
     queryData = MediaQuery.of(context);
+    var menu = Menu();
     return Scaffold(
       appBar: AppBar(
           automaticallyImplyLeading: false,
@@ -154,10 +156,11 @@ class _CamarerosScreenState extends State<CamarerosScreen> {
                 ),
                 InkWell(
                   onTap: () {
+                    menu.numeroMesa = (index + 1).toString();
                     Navigator.of(context).pushReplacement(MaterialPageRoute(
                       builder: (context) => PantallaMenu(),
                       settings: RouteSettings(
-                        arguments: (index + 1).toString(),
+                        arguments: menu,
                       ),
                     ));
                   }, // Handle your callback

@@ -7,7 +7,6 @@ import 'package:fct_javiermartinez/pantalla_camareros.dart';
 import 'package:fct_javiermartinez/pantalla_cuenta.dart';
 import 'package:fct_javiermartinez/pantalla_menu_detalles.dart';
 
-
 class PantallaMenu extends StatefulWidget {
   const PantallaMenu({Key? key}) : super(key: key);
 
@@ -47,7 +46,9 @@ class _PantallaMenuState extends State<PantallaMenu> {
 
   @override
   Widget build(BuildContext context) {
-    final todo = ModalRoute.of(context)!.settings.arguments as String;
+    final menu = ModalRoute.of(context)!.settings.arguments as Menu;
+
+
     return Scaffold(
       appBar: AppBar(
           automaticallyImplyLeading: false,
@@ -73,7 +74,7 @@ class _PantallaMenuState extends State<PantallaMenu> {
                 ),
               ),
               SizedBox(width: 20),
-              Text("Croissanteria Párraga: Mesa " + todo.toString(),
+              Text("Croissanteria Párraga: Mesa " + menu.numeroMesa,
                   style: TextStyle(
                       color: _colorsRV[1],
                       fontSize: 19.0,
@@ -121,16 +122,16 @@ class _PantallaMenuState extends State<PantallaMenu> {
                           );
                           ScaffoldMessenger.of(context).showSnackBar(snackBar);
                         } else if (categoryList[position] == 'Cuenta') {
+                          
                           Navigator.of(context)
                               .pushReplacement(MaterialPageRoute(
                             builder: (context) => PantallaCuenta(),
                             settings: RouteSettings(
-                              arguments: todo.toString(),
+                              arguments: menu,
                             ),
                           ));
                         } else {
-                          Menu menu = Menu(todo, categoryList[position]);
-
+                          menu.categoria = categoryList[position];
                           Navigator.of(context)
                               .pushReplacement(MaterialPageRoute(
                             builder: (context) => PantallaMenuDetalles(),
