@@ -122,12 +122,7 @@ class _PantallaCuentaState extends State<PantallaCuenta> {
                           SizedBox(
                             child: Padding(
                               padding: const EdgeInsets.all(8.0),
-                              child: Text(
-                                  // (double.parse(menu.num) *
-                                  //             (double.parse(menu.prices)))
-                                  //         .toStringAsFixed(2)
-                                  //         .toString() +
-                                  menu.prices.replaceFirst("\n", "") ,
+                              child: Text(menu.prices.replaceFirst("\n", ""),
                                   textAlign: TextAlign.right,
                                   style: TextStyle(
                                       color: Color.fromARGB(255, 18, 22, 134),
@@ -161,7 +156,7 @@ class _PantallaCuentaState extends State<PantallaCuenta> {
                           // (calculartotal(total, menu.num, menu.prices))
                           //         .toStringAsFixed(2)
                           //         .toString() +
-                          "\€",
+                          menu.total.toString() + "\€",
                           style: TextStyle(
                               color: _colors[1],
                               fontSize: 16,

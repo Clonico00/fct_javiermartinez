@@ -156,6 +156,9 @@ class _PantallaMenuDetallesState extends State<PantallaMenuDetalles> {
                                       (snapshot.data?.docs[index]['precio'])
                                           .toString() +
                                       "\€";
+                                  menu.total = menu.total +
+                                      snapshot.data?.docs[index]['precio'];
+                                  print(menu.total);
                                   print(menu.food);
                                   showSnackBar(
                                       context, "Comanda añadida", index);
