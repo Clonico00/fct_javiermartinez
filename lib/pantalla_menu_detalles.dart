@@ -117,6 +117,7 @@ class _PantallaMenuDetallesState extends State<PantallaMenuDetalles> {
             builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
               if (snapshot.hasData) {
                 List<Comidas> listacomidas = [];
+                int unidades = 0;
                 for (int i = 0; i < snapshot.data!.docs.length; i++) {
                   Comidas comida = Comidas(
                       snapshot.data?.docs[i]['categoria'],
@@ -163,11 +164,18 @@ class _PantallaMenuDetallesState extends State<PantallaMenuDetalles> {
                                 //si queremos añadir mas datos llamamos a este metodo
                                 //addUser();
                                 Comidas comida1 = listacomidas[index];
-                                comida1.stock -= 1;
-                                listacomidas.forEach(
-                                    (element) => print(element.toString()));
-                                updateComida(document, comida1.stock);
-                                showSnackBar(context, "Comanda añadida", index);
+                                if (comida1.stock <= 0) {
+                                  showSnackBar(
+                                      context, "No hay mas stock", index);
+                                } else {
+                                  comida1.stock -= 1;
+                                  unidades = unidades + 1;
+                                  listacomidas.forEach(
+                                      (element) => print(element.toString()));
+                                  updateComida(document, comida1.stock);
+                                  showSnackBar(
+                                      context, "Comanda añadida", index);
+                                }
                               }, // Handle your callback
                               child: Image.asset(
                                 'assets/images/icons/mas.png',
@@ -183,6 +191,8 @@ class _PantallaMenuDetallesState extends State<PantallaMenuDetalles> {
                             InkWell(
                               onTap: () {
                                 Comidas comida1 = listacomidas[index];
+                                unidades = unidades + -1;
+
                                 comida1.stock += 1;
                                 listacomidas.forEach(
                                     (element) => print(element.toString()));
