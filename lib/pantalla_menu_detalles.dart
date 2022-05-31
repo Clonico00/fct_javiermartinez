@@ -1,13 +1,11 @@
 // ignore_for_file: unused_field
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:fct_javiermartinez/comidas_model.dart';
+import 'package:fct_javiermartinez/insert_data.dart';
 import 'package:fct_javiermartinez/menu.dart';
 import 'package:fct_javiermartinez/pantalla_menu.dart';
-import 'package:fct_javiermartinez/insert_data.dart';
-import 'package:fct_javiermartinez/read_data.dart';
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
-import 'dart:convert';
 
 class PantallaMenuDetalles extends StatefulWidget {
   const PantallaMenuDetalles({Key? key}) : super(key: key);
@@ -118,77 +116,91 @@ class _PantallaMenuDetallesState extends State<PantallaMenuDetalles> {
                 .snapshots(),
             builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
               if (snapshot.hasData) {
+                List<Comidas> listacomidas = [];
+                for (int i = 0; i < snapshot.data!.docs.length; i++) {
+                  Comidas comida = Comidas(
+                      snapshot.data?.docs[i]['categoria'],
+                      snapshot.data?.docs[i]['_id'],
+                      snapshot.data?.docs[i]['imagen'],
+                      snapshot.data?.docs[i]['nombre'],
+                      snapshot.data?.docs[i]['stock'],
+                      snapshot.data?.docs[i]['precio']);
+                  listacomidas.add(comida);
+                }
                 return ListView.builder(
                   itemCount: snapshot.data!.docs.length,
                   shrinkWrap: false,
                   scrollDirection: Axis.vertical,
                   itemBuilder: (context, index) {
-                    if (snapshot.data?.docs[index]['categoria']
-                            .toString()
-                            .toUpperCase() ==
-                        menu.categoria.toString().toUpperCase()) {
-                      return Card(
-                        color: _colorsRV[index % 2],
-                        shape: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(40),
-                            borderSide: BorderSide(
-                                color: _colorsRV[index % 2], width: 1)),
-                        child: ListTile(
-                          leading: Image.asset(
-                            snapshot.data?.docs[index]['imagen'],
-                            height: 100,
-                            width: 100,
-                          ),
-                          title: Text(
-                              (snapshot.data?.docs[index]['nombre'])
-                                  .toString()
-                                  .toUpperCase(),
-                              style: TextStyle(
-                                  color: _colors[index % 2],
-                                  fontSize: 13.0,
-                                  fontWeight: FontWeight.w900,
-                                  fontFamily: 'Comfortaa')),
-                          trailing: Column(
-                            children: [
-                              InkWell(
-                                onTap: () {
-                                  //si queremos añadir mas datos llamamos a este metodo
-                                  //addUser();
-                                  //read();
+                    String document =
+                        (snapshot.data?.docs[index].id).toString();
 
-                                  showSnackBar(
-                                      context, "Comanda añadida", index);
-                                }, // Handle your callback
-                                child: Image.asset(
-                                  'assets/images/icons/mas.png',
-                                  height: 20,
-                                  width: 20,
-                                  color: _colors[index % 2],
-                                ),
-                              ),
-                              SizedBox(
-                                width: 30.0,
-                                height: 15.0,
-                              ),
-                              InkWell(
-                                onTap: () {
-                                  showSnackBar(
-                                      context, "Comanda quitada", index);
-                                }, // Handle your callback
-                                child: Image.asset(
-                                  'assets/images/icons/menos.png',
-                                  height: 20,
-                                  width: 20,
-                                  color: _colors[index % 2],
-                                ),
-                              ),
-                            ],
-                          ),
+                    return Card(
+                      color: _colorsRV[index % 2],
+                      shape: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(40),
+                          borderSide: BorderSide(
+                              color: _colorsRV[index % 2], width: 1)),
+                      child: ListTile(
+                        leading: Image.asset(
+                          snapshot.data?.docs[index]['imagen'],
+                          height: 100,
+                          width: 100,
                         ),
-                      );
-                    } else {
-                      return Container();
-                    }
+                        title: Text(
+                            (snapshot.data?.docs[index]['nombre'])
+                                .toString()
+                                .toUpperCase(),
+                            style: TextStyle(
+                                color: _colors[index % 2],
+                                fontSize: 13.0,
+                                fontWeight: FontWeight.w900,
+                                fontFamily: 'Comfortaa')),
+                        trailing: Column(
+                          children: [
+                            InkWell(
+                              onTap: () {
+                                //si queremos añadir mas datos llamamos a este metodo
+                                //addUser();
+                                Comidas comida1 = listacomidas[index];
+                                comida1.stock -= 1;
+                                listacomidas.forEach(
+                                    (element) => print(element.toString()));
+                                updateComida(document, comida1.stock);
+                                showSnackBar(context, "Comanda añadida", index);
+                              }, // Handle your callback
+                              child: Image.asset(
+                                'assets/images/icons/mas.png',
+                                height: 20,
+                                width: 20,
+                                color: _colors[index % 2],
+                              ),
+                            ),
+                            SizedBox(
+                              width: 30.0,
+                              height: 15.0,
+                            ),
+                            InkWell(
+                              onTap: () {
+                                Comidas comida1 = listacomidas[index];
+                                comida1.stock += 1;
+                                listacomidas.forEach(
+                                    (element) => print(element.toString()));
+                                updateComida(document, comida1.stock);
+
+                                showSnackBar(context, "Comanda quitada", index);
+                              }, // Handle your callback
+                              child: Image.asset(
+                                'assets/images/icons/menos.png',
+                                height: 20,
+                                width: 20,
+                                color: _colors[index % 2],
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    );
                   },
                 );
               } else {
@@ -199,6 +211,17 @@ class _PantallaMenuDetallesState extends State<PantallaMenuDetalles> {
         ),
       ),
     );
+  }
+
+  Future<void> updateComida(String document, int stock) {
+    CollectionReference comidas =
+        FirebaseFirestore.instance.collection('comidas');
+
+    return comidas
+        .doc(document)
+        .update({'stock': stock})
+        .then((value) => print("Comida Updated"))
+        .catchError((error) => print("Failed to update comida: $error"));
   }
 
   void showSnackBar(BuildContext context, String error, int index) {

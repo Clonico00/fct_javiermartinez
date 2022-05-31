@@ -7,7 +7,6 @@ import 'package:fct_javiermartinez/pantalla_camareros.dart';
 import 'package:fct_javiermartinez/pantalla_cuenta.dart';
 import 'package:fct_javiermartinez/pantalla_menu_detalles.dart';
 
-import 'package:fluttertoast/fluttertoast.dart';
 
 class PantallaMenu extends StatefulWidget {
   const PantallaMenu({Key? key}) : super(key: key);

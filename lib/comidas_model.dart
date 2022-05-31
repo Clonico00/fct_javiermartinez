@@ -1,7 +1,5 @@
-import 'dart:ffi';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/material.dart';
 
 FirebaseFirestore firestore = FirebaseFirestore.instance;
 
@@ -27,6 +25,8 @@ class Comidas {
   }
   @override
   String toString() {
-    return '{ ${this.nombre}, ${this.categoria}, ${this.imagen}, ${this._id}, ${this.precio}, ${this.stock} }';
+    return ' ${this.nombre}, ${this.categoria}, ${this.imagen}, ${this._id}, ${this.precio}, ${this.stock} ';
   }
+
+
 }
