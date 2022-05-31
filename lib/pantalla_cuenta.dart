@@ -156,7 +156,7 @@ class _PantallaCuentaState extends State<PantallaCuenta> {
                           // (calculartotal(total, menu.num, menu.prices))
                           //         .toStringAsFixed(2)
                           //         .toString() +
-                          menu.total.toString() + "\€",
+                          menu.total.toStringAsFixed(2).toString() + "\€",
                           style: TextStyle(
                               color: _colors[1],
                               fontSize: 16,

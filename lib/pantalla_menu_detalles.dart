@@ -147,17 +147,20 @@ class _PantallaMenuDetallesState extends State<PantallaMenuDetalles> {
                                   updateComida(document, comida1.stock);
                                   menu.num =
                                       (int.parse(menu.num) + 1).toString();
-                                  menu.food = menu.food +
-                                      "\n" +
+                                  menu.food = "\n" +
                                       "1x " +
-                                      snapshot.data?.docs[index]['nombre'];
-                                  menu.prices = menu.prices +
+                                      snapshot.data?.docs[index]['nombre'] +
                                       "\n" +
+                                      menu.food;
+                                  menu.prices = "\n" +
                                       (snapshot.data?.docs[index]['precio'])
                                           .toString() +
-                                      "\€";
-                                  menu.total = menu.total +
-                                      snapshot.data?.docs[index]['precio'];
+                                      " \€" +
+                                      "\n" +
+                                      menu.prices;
+                                  menu.total = snapshot.data?.docs[index]
+                                          ['precio'] +
+                                      menu.total;
                                   print(menu.total);
                                   print(menu.food);
                                   showSnackBar(
@@ -178,14 +181,30 @@ class _PantallaMenuDetallesState extends State<PantallaMenuDetalles> {
                             InkWell(
                               onTap: () {
                                 Comidas comida1 = listacomidas[index];
-                                unidades = unidades + -1;
 
-                                comida1.stock += 1;
-                                listacomidas.forEach(
-                                    (element) => print(element.toString()));
-                                updateComida(document, comida1.stock);
-
-                                showSnackBar(context, "Comanda quitada", index);
+                                if (menu.food.contains(comida1.nombre)) {
+                                  unidades = unidades + -1;
+                                  comida1.stock += 1;
+                                  updateComida(document, comida1.stock);
+                                  menu.food = menu.food
+                                      .replaceFirst('1x ' + comida1.nombre, "")
+                                      .replaceAll("\n \n", "");
+                                  menu.prices = menu.prices
+                                      .replaceFirst(
+                                          (snapshot.data?.docs[index]['precio'])
+                                                  .toString() +
+                                              ' \€',
+                                          "")
+                                      .replaceAll("\n \n", "");
+                                  menu.total = menu.total - comida1.precio;
+                                  showSnackBar(
+                                      context, "Comanda quitada", index);
+                                } else {
+                                  showSnackBar(
+                                      context,
+                                      "No se ha añadido ninguno todavia",
+                                      index);
+                                }
                               }, // Handle your callback
                               child: Image.asset(
                                 'assets/images/icons/menos.png',
