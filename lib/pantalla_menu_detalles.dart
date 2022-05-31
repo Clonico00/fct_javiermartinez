@@ -186,17 +186,25 @@ class _PantallaMenuDetallesState extends State<PantallaMenuDetalles> {
                                   unidades = unidades + -1;
                                   comida1.stock += 1;
                                   updateComida(document, comida1.stock);
-                                  menu.food = menu.food
-                                      .replaceFirst('1x ' + comida1.nombre, "")
-                                      .replaceAll("\n \n", "");
+                                  menu.food = menu.food.replaceFirst(
+                                      "\n" +
+                                          "1x " +
+                                          snapshot.data?.docs[index]['nombre'] +
+                                          "\n",
+                                      "");
                                   menu.prices = menu.prices
                                       .replaceFirst(
-                                          (snapshot.data?.docs[index]['precio'])
+                                          "\n" +
+                                              (snapshot.data?.docs[index]
+                                                      ['precio'])
                                                   .toString() +
-                                              ' \€',
+                                              " \€" +
+                                              "\n",
                                           "")
                                       .replaceAll("\n \n", "");
                                   menu.total = menu.total - comida1.precio;
+
+                                  print(menu.food);
                                   showSnackBar(
                                       context, "Comanda quitada", index);
                                 } else {

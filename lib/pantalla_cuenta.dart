@@ -106,6 +106,7 @@ class _PantallaCuentaState extends State<PantallaCuenta> {
                             child: Padding(
                               padding: const EdgeInsets.all(8.0),
                               child: Text(menu.food.replaceFirst("\n", ""),
+                                  //.replaceAll(new RegExp("[\n\]"), ''),
                                   textAlign: TextAlign.left,
                                   style: TextStyle(
                                       color: Color.fromARGB(255, 18, 22, 134),
@@ -177,7 +178,68 @@ class _PantallaCuentaState extends State<PantallaCuenta> {
                           padding: const EdgeInsets.symmetric(vertical: 20.0),
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(10.0)),
-                          onPressed: () async {},
+                          onPressed: () async {
+                            Widget cancelButton = TextButton(
+                              child: Text("No",
+                                  style: TextStyle(
+                                      color: _colors[0],
+                                      fontSize: 15.0,
+                                      fontWeight: FontWeight.w400,
+                                      fontFamily: 'Comfortaa')),
+                              onPressed: () {
+                                Navigator.of(context).pop();
+                              },
+                            );
+                            Widget continueButton = TextButton(
+                              child: Text("Si",
+                                  style: TextStyle(
+                                      color: _colors[0],
+                                      fontSize: 15.0,
+                                      fontWeight: FontWeight.w400,
+                                      fontFamily: 'Comfortaa')),
+                              onPressed: () {
+                                menu.food = "";
+                                menu.prices = "";
+                                menu.total = 0.0;
+                                Navigator.of(context)
+                                    .pushReplacement(MaterialPageRoute(
+                                  builder: (context) => PantallaMenu(),
+                                  settings: RouteSettings(
+                                    arguments: menu,
+                                  ),
+                                ));
+                              },
+                            );
+
+                            // set up the AlertDialog
+                            AlertDialog alert = AlertDialog(
+                              backgroundColor: _colorsRV[0],
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: new BorderRadius.circular(30)),
+                              title: Text("Confirmar",
+                                  style: TextStyle(
+                                      color: _colors[0],
+                                      fontWeight: FontWeight.w800,
+                                      fontFamily: 'Comfortaa')),
+                              content: Text(
+                                  "¿Seguro que quieres confirmar el pedido?\nLos datos de la cuenta se borraran",
+                                  style: TextStyle(
+                                      color: _colors[0],
+                                      fontSize: 16.0,
+                                      fontWeight: FontWeight.w600,
+                                      fontFamily: 'Comfortaa')),
+                              actions: [
+                                cancelButton,
+                                continueButton,
+                              ],
+                            );
+                            showDialog(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return alert;
+                              },
+                            );
+                          },
                           child: const Text("CONFIRMAR PEDIDO",
                               style: TextStyle(
                                   color: Color.fromARGB(255, 18, 22, 134),
