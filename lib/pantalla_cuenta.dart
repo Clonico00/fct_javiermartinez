@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:fct_javiermartinez/pantalla_camareros.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class PantallaCuenta extends StatefulWidget {
   const PantallaCuenta({Key? key}) : super(key: key);
@@ -31,6 +32,7 @@ class _PantallaCuentaState extends State<PantallaCuenta> {
     DateTime now = DateTime.now();
     String formattedDate = DateFormat('dd-MM-yyyy  HH:mm').format(now);
     double total = 0.0;
+
     return Scaffold(
       appBar: AppBar(
           automaticallyImplyLeading: false,
@@ -45,7 +47,7 @@ class _PantallaCuentaState extends State<PantallaCuenta> {
           title: Row(
             children: [
               InkWell(
-                onTap: () {
+                onTap: () async {
                   Navigator.of(context).pushReplacement(MaterialPageRoute(
                     builder: (context) => PantallaMenu(),
                     settings: RouteSettings(

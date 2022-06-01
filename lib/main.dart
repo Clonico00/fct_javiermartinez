@@ -394,7 +394,7 @@ class _LoginScreenState extends State<LoginScreen> {
         }));
   }
 
-  void check_if_already_login() async {
+  void check_if_already_login() async { 
     login = await SharedPreferences.getInstance();
     newuser = (login.getBool('login') ?? true);
     String user = (login.getString('user').toString());

@@ -101,7 +101,7 @@ class _PantallaMenuDetallesState extends State<PantallaMenuDetalles> {
                       snapshot.data?.docs[i]['stock'],
                       snapshot.data?.docs[i]['precio']);
                   listacomidas.add(comida);
-                }
+                } 
                 return ListView.builder(
                   itemCount: snapshot.data!.docs.length,
                   shrinkWrap: false,

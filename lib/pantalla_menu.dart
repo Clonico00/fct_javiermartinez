@@ -1,5 +1,6 @@
 // ignore_for_file: unused_field
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:fct_javiermartinez/menu.dart';
 
@@ -98,6 +99,7 @@ class _PantallaMenuState extends State<PantallaMenu> {
                   child: InkWell(
                       onTap: () {
                         if (categoryList[position] == 'Enviar a Cocina') {
+                          addComanda(menu);
                           final snackBar = SnackBar(
                             backgroundColor: Color.fromARGB(255, 252, 252, 252),
                             padding: EdgeInsets.all(5.0),
@@ -182,5 +184,19 @@ class _PantallaMenuState extends State<PantallaMenu> {
         ),
       ),
     );
+  }
+
+  Future<void> addComanda(Menu menu) {
+    FirebaseFirestore firestore = FirebaseFirestore.instance;
+//creamos la instancia de la collecion que queramos añadir elementos identificada por su id
+    CollectionReference comidas = firestore.collection('comandas');
+    return comidas
+        //los datos han sido añadidos uno a uno a traves del siguiente metodo, cambiando unicamente los valores
+        .add({
+          'numeromesa': menu.numeroMesa,
+          'food': menu.food,
+        })
+        .then((value) => print("Comanda añadida"))
+        .catchError((error) => print("Failed to add user: $error"));
   }
 }

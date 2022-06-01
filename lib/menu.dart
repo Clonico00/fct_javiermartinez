@@ -5,4 +5,5 @@ class Menu {
   String prices = "";
   String num = "0";
   double total = 0.0;
+
 }
