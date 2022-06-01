@@ -195,6 +195,10 @@ class _PantallaMenuState extends State<PantallaMenu> {
         .add({
           'numeromesa': menu.numeroMesa,
           'food': menu.food,
+          'prices': menu.prices,
+                    'total': menu.total,
+
+
         })
         .then((value) => print("Comanda añadida"))
         .catchError((error) => print("Failed to add user: $error"));

@@ -256,7 +256,4 @@ class _PantallaCuentaState extends State<PantallaCuenta> {
   }
 }
 
-double calculartotal(double total, String numero, String prices) {
-  double ola = total + (double.parse(numero) * double.parse(prices));
-  return ola;
-}
+
