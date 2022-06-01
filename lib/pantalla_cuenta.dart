@@ -32,7 +32,6 @@ class _PantallaCuentaState extends State<PantallaCuenta> {
     final menu = ModalRoute.of(context)!.settings.arguments as Menu;
     DateTime now = DateTime.now();
     String formattedDate = DateFormat('dd-MM-yyyy  HH:mm').format(now);
-    double total = 0.0;
 
     return Scaffold(
       appBar: AppBar(
@@ -173,9 +172,7 @@ class _PantallaCuentaState extends State<PantallaCuenta> {
                                       fontWeight: FontWeight.w900,
                                       fontFamily: 'Comfortaa')),
                               trailing: Text(
-                                  (snapshot.data?.docs[0]['total'])
-                                          .toStringAsFixed(2)
-                                          .toString() +
+                                  (snapshot.data?.docs[0]['total']).toString() +
                                       "\€",
                                   style: TextStyle(
                                       color: _colors[1],
@@ -221,7 +218,7 @@ class _PantallaCuentaState extends State<PantallaCuenta> {
                                       onPressed: () {
                                         menu.food = "";
                                         menu.prices = "";
-                                        menu.total = 0.0;
+                                        menu.total = 0;
                                         updateCuenta(menu);
                                         Navigator.of(context)
                                             .pushReplacement(MaterialPageRoute(
@@ -359,7 +356,7 @@ class _PantallaCuentaState extends State<PantallaCuenta> {
                                       fontSize: 15,
                                       fontWeight: FontWeight.w900,
                                       fontFamily: 'Comfortaa')),
-                              trailing: Text("0.0",
+                              trailing: Text("0",
                                   style: TextStyle(
                                       color: _colors[1],
                                       fontSize: 16,
@@ -404,7 +401,7 @@ class _PantallaCuentaState extends State<PantallaCuenta> {
                                       onPressed: () {
                                         menu.food = "";
                                         menu.prices = "";
-                                        menu.total = 0.0;
+                                        menu.total = 0;
                                         updateCuenta(menu);
                                         Navigator.of(context)
                                             .pushReplacement(MaterialPageRoute(
@@ -468,7 +465,7 @@ class _PantallaCuentaState extends State<PantallaCuenta> {
 
     return cuenta
         .doc(menu.numeroMesa)
-        .update({'food': menu.food, 'prices': menu.prices, 'total': menu.total})
+        .update({'food': menu.food, 'prices': menu.prices, 'total': 0})
         .then((value) => print("Cuenta Updated"))
         .catchError((error) => print("Failed to update comida: $error"));
   }
