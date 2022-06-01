@@ -133,7 +133,7 @@ class _CamarerosScreenState extends State<CamarerosScreen> {
             ],
           )),
       body: ListView.builder(
-        itemCount: 10,
+        itemCount: 7,
         shrinkWrap: true,
         scrollDirection: Axis.vertical,
         itemBuilder: (context, index) {

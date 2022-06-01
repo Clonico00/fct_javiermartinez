@@ -83,192 +83,381 @@ class _PantallaCuentaState extends State<PantallaCuenta> {
                   .where("numeromesa", isEqualTo: menu.numeroMesa)
                   .snapshots(),
               builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
-                return ListView(
-                  padding: EdgeInsets.all(10.0),
-                  children: [
-                    Card(
-                        shape: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(40),
-                            borderSide:
-                                BorderSide(color: _colorsRV[1], width: 1)),
-                        color: _colorsRV[1],
-                        child: ListTile(
-                            trailing: Text(formattedDate,
-                                style: TextStyle(
-                                    color: _colors[1],
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.w900,
-                                    fontFamily: 'Comfortaa')))),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 15.0),
-                      child: Card(
-                        shape: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10),
-                            borderSide:
-                                BorderSide(color: _colors[1], width: 0)),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                SizedBox(
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Text(
-                                        snapshot.data?.docs[0]['food']
-                                            .replaceFirst("\n", ""),
-                                        //.replaceAll(new RegExp("[\n\]"), ''),
-                                        textAlign: TextAlign.left,
-                                        style: TextStyle(
-                                            color: Color.fromARGB(
-                                                255, 18, 22, 134),
-                                            fontSize: 15,
-                                            fontWeight: FontWeight.w900,
-                                            fontFamily: 'Comfortaa')),
+                if ((snapshot.data?.docs[0]['food']) != null) {
+                  return ListView(
+                    padding: EdgeInsets.all(10.0),
+                    children: [
+                      Card(
+                          shape: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(40),
+                              borderSide:
+                                  BorderSide(color: _colorsRV[1], width: 1)),
+                          color: _colorsRV[1],
+                          child: ListTile(
+                              trailing: Text(formattedDate,
+                                  style: TextStyle(
+                                      color: _colors[1],
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w900,
+                                      fontFamily: 'Comfortaa')))),
+                      Padding(
+                        padding: const EdgeInsets.only(top: 15.0),
+                        child: Card(
+                          shape: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10),
+                              borderSide:
+                                  BorderSide(color: _colors[1], width: 0)),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  SizedBox(
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Text(
+                                          snapshot.data?.docs[0]['food']
+                                              .replaceFirst("\n", ""),
+                                          //.replaceAll(new RegExp("[\n\]"), ''),
+                                          textAlign: TextAlign.left,
+                                          style: TextStyle(
+                                              color: Color.fromARGB(
+                                                  255, 18, 22, 134),
+                                              fontSize: 15,
+                                              fontWeight: FontWeight.w900,
+                                              fontFamily: 'Comfortaa')),
+                                    ),
                                   ),
-                                ),
-                              ],
-                            ),
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.end,
-                              children: [
-                                SizedBox(
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Text(
-                                        snapshot.data?.docs[0]['prices']
-                                            .replaceFirst("\n", ""),
-                                        textAlign: TextAlign.right,
-                                        style: TextStyle(
-                                            color: Color.fromARGB(
-                                                255, 18, 22, 134),
-                                            fontSize: 15,
-                                            fontWeight: FontWeight.w900,
-                                            fontFamily: 'Comfortaa')),
+                                ],
+                              ),
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.end,
+                                children: [
+                                  SizedBox(
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Text(
+                                          snapshot.data?.docs[0]['prices']
+                                              .replaceFirst("\n", ""),
+                                          textAlign: TextAlign.right,
+                                          style: TextStyle(
+                                              color: Color.fromARGB(
+                                                  255, 18, 22, 134),
+                                              fontSize: 15,
+                                              fontWeight: FontWeight.w900,
+                                              fontFamily: 'Comfortaa')),
+                                    ),
                                   ),
-                                ),
-                              ],
-                            ),
-                          ],
+                                ],
+                              ),
+                            ],
+                          ),
                         ),
                       ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 75.0),
-                    ),
-                    Card(
-                        shape: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(40),
-                            borderSide:
-                                BorderSide(color: _colorsRV[1], width: 1)),
-                        color: _colorsRV[1],
-                        child: ListTile(
-                            title: Text('TOTAL :',
-                                style: TextStyle(
-                                    color: _colors[1],
-                                    fontSize: 15,
-                                    fontWeight: FontWeight.w900,
-                                    fontFamily: 'Comfortaa')),
-                            trailing: Text(
-                                (snapshot.data?.docs[0]['total']).toString() +
-                                    "\€",
-                                style: TextStyle(
-                                    color: _colors[1],
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.w900,
-                                    fontFamily: 'Comfortaa')))),
-                    Padding(
-                        padding: const EdgeInsets.only(top: 30),
-                        child: Card(
-                            shape: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(10),
-                                borderSide:
-                                    BorderSide(color: _colorsRV[1], width: 0)),
-                            child: Container(
-                              width: double.infinity,
-                              child: RawMaterialButton(
-                                fillColor: Color.fromARGB(255, 255, 255, 255),
-                                elevation: 0.0,
-                                padding:
-                                    const EdgeInsets.symmetric(vertical: 20.0),
-                                shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(10.0)),
-                                onPressed: () async {
-                                  Widget cancelButton = TextButton(
-                                    child: Text("No",
-                                        style: TextStyle(
-                                            color: _colors[0],
-                                            fontSize: 15.0,
-                                            fontWeight: FontWeight.w400,
-                                            fontFamily: 'Comfortaa')),
-                                    onPressed: () {
-                                      Navigator.of(context).pop();
-                                    },
-                                  );
-                                  Widget continueButton = TextButton(
-                                    child: Text("Si",
-                                        style: TextStyle(
-                                            color: _colors[0],
-                                            fontSize: 15.0,
-                                            fontWeight: FontWeight.w400,
-                                            fontFamily: 'Comfortaa')),
-                                    onPressed: () {
-                                      menu.food = "";
-                                      menu.prices = "";
-                                      menu.total = 0.0;
-                                      updateCuenta(menu);
-                                      Navigator.of(context)
-                                          .pushReplacement(MaterialPageRoute(
-                                        builder: (context) => PantallaMenu(),
-                                        settings: RouteSettings(
-                                          arguments: menu,
-                                        ),
-                                      ));
-                                    },
-                                  );
+                      Padding(
+                        padding: const EdgeInsets.only(top: 75.0),
+                      ),
+                      Card(
+                          shape: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(40),
+                              borderSide:
+                                  BorderSide(color: _colorsRV[1], width: 1)),
+                          color: _colorsRV[1],
+                          child: ListTile(
+                              title: Text('TOTAL :',
+                                  style: TextStyle(
+                                      color: _colors[1],
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.w900,
+                                      fontFamily: 'Comfortaa')),
+                              trailing: Text(
+                                  (snapshot.data?.docs[0]['total'])
+                                          .toStringAsFixed(2)
+                                          .toString() +
+                                      "\€",
+                                  style: TextStyle(
+                                      color: _colors[1],
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w900,
+                                      fontFamily: 'Comfortaa')))),
+                      Padding(
+                          padding: const EdgeInsets.only(top: 30),
+                          child: Card(
+                              shape: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                  borderSide: BorderSide(
+                                      color: _colorsRV[1], width: 0)),
+                              child: Container(
+                                width: double.infinity,
+                                child: RawMaterialButton(
+                                  fillColor: Color.fromARGB(255, 255, 255, 255),
+                                  elevation: 0.0,
+                                  padding: const EdgeInsets.symmetric(
+                                      vertical: 20.0),
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius:
+                                          BorderRadius.circular(10.0)),
+                                  onPressed: () async {
+                                    Widget cancelButton = TextButton(
+                                      child: Text("No",
+                                          style: TextStyle(
+                                              color: _colors[0],
+                                              fontSize: 15.0,
+                                              fontWeight: FontWeight.w400,
+                                              fontFamily: 'Comfortaa')),
+                                      onPressed: () {
+                                        Navigator.of(context).pop();
+                                      },
+                                    );
+                                    Widget continueButton = TextButton(
+                                      child: Text("Si",
+                                          style: TextStyle(
+                                              color: _colors[0],
+                                              fontSize: 15.0,
+                                              fontWeight: FontWeight.w400,
+                                              fontFamily: 'Comfortaa')),
+                                      onPressed: () {
+                                        menu.food = "";
+                                        menu.prices = "";
+                                        menu.total = 0.0;
+                                        updateCuenta(menu);
+                                        Navigator.of(context)
+                                            .pushReplacement(MaterialPageRoute(
+                                          builder: (context) => PantallaMenu(),
+                                          settings: RouteSettings(
+                                            arguments: menu,
+                                          ),
+                                        ));
+                                      },
+                                    );
 
-                                  // set up the AlertDialog
-                                  AlertDialog alert = AlertDialog(
-                                    backgroundColor: _colorsRV[0],
-                                    shape: RoundedRectangleBorder(
-                                        borderRadius:
-                                            new BorderRadius.circular(30)),
-                                    title: Text("Confirmar",
-                                        style: TextStyle(
-                                            color: _colors[0],
-                                            fontWeight: FontWeight.w800,
-                                            fontFamily: 'Comfortaa')),
-                                    content: Text(
-                                        "¿Seguro que quieres confirmar el pedido?\nLos datos de la cuenta se borraran",
-                                        style: TextStyle(
-                                            color: _colors[0],
-                                            fontSize: 16.0,
-                                            fontWeight: FontWeight.w600,
-                                            fontFamily: 'Comfortaa')),
-                                    actions: [
-                                      cancelButton,
-                                      continueButton,
-                                    ],
-                                  );
-                                  showDialog(
-                                    context: context,
-                                    builder: (BuildContext context) {
-                                      return alert;
-                                    },
-                                  );
-                                },
-                                child: const Text("CONFIRMAR PEDIDO",
-                                    style: TextStyle(
-                                        color: Color.fromARGB(255, 18, 22, 134),
-                                        fontSize: 18.0,
-                                        fontWeight: FontWeight.w900,
-                                        fontFamily: 'Comfortaa')),
+                                    // set up the AlertDialog
+                                    AlertDialog alert = AlertDialog(
+                                      backgroundColor: _colorsRV[0],
+                                      shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              new BorderRadius.circular(30)),
+                                      title: Text("Confirmar",
+                                          style: TextStyle(
+                                              color: _colors[0],
+                                              fontWeight: FontWeight.w800,
+                                              fontFamily: 'Comfortaa')),
+                                      content: Text(
+                                          "¿Seguro que quieres confirmar el pedido?\nLos datos de la cuenta se borraran",
+                                          style: TextStyle(
+                                              color: _colors[0],
+                                              fontSize: 16.0,
+                                              fontWeight: FontWeight.w600,
+                                              fontFamily: 'Comfortaa')),
+                                      actions: [
+                                        cancelButton,
+                                        continueButton,
+                                      ],
+                                    );
+                                    showDialog(
+                                      context: context,
+                                      builder: (BuildContext context) {
+                                        return alert;
+                                      },
+                                    );
+                                  },
+                                  child: const Text("CONFIRMAR PEDIDO",
+                                      style: TextStyle(
+                                          color:
+                                              Color.fromARGB(255, 18, 22, 134),
+                                          fontSize: 18.0,
+                                          fontWeight: FontWeight.w900,
+                                          fontFamily: 'Comfortaa')),
+                                ),
+                              ))),
+                    ],
+                  );
+                } else {
+                  return ListView(
+                    padding: EdgeInsets.all(10.0),
+                    children: [
+                      Card(
+                          shape: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(40),
+                              borderSide:
+                                  BorderSide(color: _colorsRV[1], width: 1)),
+                          color: _colorsRV[1],
+                          child: ListTile(
+                              trailing: Text(formattedDate,
+                                  style: TextStyle(
+                                      color: _colors[1],
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w900,
+                                      fontFamily: 'Comfortaa')))),
+                      Padding(
+                        padding: const EdgeInsets.only(top: 15.0),
+                        child: Card(
+                          shape: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10),
+                              borderSide:
+                                  BorderSide(color: _colors[1], width: 0)),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  SizedBox(
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Text("",
+                                          //.replaceAll(new RegExp("[\n\]"), ''),
+                                          textAlign: TextAlign.left,
+                                          style: TextStyle(
+                                              color: Color.fromARGB(
+                                                  255, 18, 22, 134),
+                                              fontSize: 15,
+                                              fontWeight: FontWeight.w900,
+                                              fontFamily: 'Comfortaa')),
+                                    ),
+                                  ),
+                                ],
                               ),
-                            ))),
-                  ],
-                );
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.end,
+                                children: [
+                                  SizedBox(
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Text("",
+                                          textAlign: TextAlign.right,
+                                          style: TextStyle(
+                                              color: Color.fromARGB(
+                                                  255, 18, 22, 134),
+                                              fontSize: 15,
+                                              fontWeight: FontWeight.w900,
+                                              fontFamily: 'Comfortaa')),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(top: 75.0),
+                      ),
+                      Card(
+                          shape: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(40),
+                              borderSide:
+                                  BorderSide(color: _colorsRV[1], width: 1)),
+                          color: _colorsRV[1],
+                          child: ListTile(
+                              title: Text('TOTAL :',
+                                  style: TextStyle(
+                                      color: _colors[1],
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.w900,
+                                      fontFamily: 'Comfortaa')),
+                              trailing: Text("0.0",
+                                  style: TextStyle(
+                                      color: _colors[1],
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w900,
+                                      fontFamily: 'Comfortaa')))),
+                      Padding(
+                          padding: const EdgeInsets.only(top: 30),
+                          child: Card(
+                              shape: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                  borderSide: BorderSide(
+                                      color: _colorsRV[1], width: 0)),
+                              child: Container(
+                                width: double.infinity,
+                                child: RawMaterialButton(
+                                  fillColor: Color.fromARGB(255, 255, 255, 255),
+                                  elevation: 0.0,
+                                  padding: const EdgeInsets.symmetric(
+                                      vertical: 20.0),
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius:
+                                          BorderRadius.circular(10.0)),
+                                  onPressed: () async {
+                                    Widget cancelButton = TextButton(
+                                      child: Text("No",
+                                          style: TextStyle(
+                                              color: _colors[0],
+                                              fontSize: 15.0,
+                                              fontWeight: FontWeight.w400,
+                                              fontFamily: 'Comfortaa')),
+                                      onPressed: () {
+                                        Navigator.of(context).pop();
+                                      },
+                                    );
+                                    Widget continueButton = TextButton(
+                                      child: Text("Si",
+                                          style: TextStyle(
+                                              color: _colors[0],
+                                              fontSize: 15.0,
+                                              fontWeight: FontWeight.w400,
+                                              fontFamily: 'Comfortaa')),
+                                      onPressed: () {
+                                        menu.food = "";
+                                        menu.prices = "";
+                                        menu.total = 0.0;
+                                        updateCuenta(menu);
+                                        Navigator.of(context)
+                                            .pushReplacement(MaterialPageRoute(
+                                          builder: (context) => PantallaMenu(),
+                                          settings: RouteSettings(
+                                            arguments: menu,
+                                          ),
+                                        ));
+                                      },
+                                    );
+
+                                    // set up the AlertDialog
+                                    AlertDialog alert = AlertDialog(
+                                      backgroundColor: _colorsRV[0],
+                                      shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              new BorderRadius.circular(30)),
+                                      title: Text("Confirmar",
+                                          style: TextStyle(
+                                              color: _colors[0],
+                                              fontWeight: FontWeight.w800,
+                                              fontFamily: 'Comfortaa')),
+                                      content: Text(
+                                          "¿Seguro que quieres confirmar el pedido?\nLos datos de la cuenta se borraran",
+                                          style: TextStyle(
+                                              color: _colors[0],
+                                              fontSize: 16.0,
+                                              fontWeight: FontWeight.w600,
+                                              fontFamily: 'Comfortaa')),
+                                      actions: [
+                                        cancelButton,
+                                        continueButton,
+                                      ],
+                                    );
+                                    showDialog(
+                                      context: context,
+                                      builder: (BuildContext context) {
+                                        return alert;
+                                      },
+                                    );
+                                  },
+                                  child: const Text("CONFIRMAR PEDIDO",
+                                      style: TextStyle(
+                                          color:
+                                              Color.fromARGB(255, 18, 22, 134),
+                                          fontSize: 18.0,
+                                          fontWeight: FontWeight.w900,
+                                          fontFamily: 'Comfortaa')),
+                                ),
+                              ))),
+                    ],
+                  );
+                }
               })),
     );
   }
