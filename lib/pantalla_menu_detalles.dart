@@ -101,7 +101,7 @@ class _PantallaMenuDetallesState extends State<PantallaMenuDetalles> {
                       snapshot.data?.docs[i]['stock'],
                       snapshot.data?.docs[i]['precio']);
                   listacomidas.add(comida);
-                } 
+                }
                 return ListView.builder(
                   itemCount: snapshot.data!.docs.length,
                   shrinkWrap: false,
@@ -163,6 +163,7 @@ class _PantallaMenuDetallesState extends State<PantallaMenuDetalles> {
                                       menu.total;
                                   print(menu.total);
                                   print(menu.food);
+                                  updateCuenta(menu);
                                   showSnackBar(
                                       context, "Comanda añadida", index);
                                 }
@@ -203,7 +204,7 @@ class _PantallaMenuDetallesState extends State<PantallaMenuDetalles> {
                                           "")
                                       .replaceAll("\n \n", "");
                                   menu.total = menu.total - comida1.precio;
-
+                                  updateCuenta(menu);
                                   print(menu.food);
                                   showSnackBar(
                                       context, "Comanda quitada", index);
@@ -245,6 +246,17 @@ class _PantallaMenuDetallesState extends State<PantallaMenuDetalles> {
         .doc(document)
         .update({'stock': stock})
         .then((value) => print("Comida Updated"))
+        .catchError((error) => print("Failed to update comida: $error"));
+  }
+
+  Future<void> updateCuenta(Menu menu) {
+    CollectionReference cuenta =
+        FirebaseFirestore.instance.collection('cuenta');
+
+    return cuenta
+        .doc(menu.numeroMesa)
+        .update({'food': menu.food, 'prices': menu.prices, 'total': menu.total})
+        .then((value) => print("Cuenta Updated"))
         .catchError((error) => print("Failed to update comida: $error"));
   }
 
