@@ -6,3 +6,4 @@ class Menu {
   String num = "0";
   double total = 0;
 }
+ 

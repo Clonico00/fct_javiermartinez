@@ -163,6 +163,8 @@ class _PantallaMenuDetallesState extends State<PantallaMenuDetalles> {
                                       menu.total;
                                   print(menu.total);
                                   print(menu.food);
+                                  menu.total = double.parse(
+                                      (menu.total).toStringAsFixed(2));
                                   updateCuenta(menu);
                                   showSnackBar(
                                       context, "Comanda añadida", index);
