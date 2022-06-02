@@ -99,29 +99,34 @@ class _PantallaMenuState extends State<PantallaMenu> {
                   child: InkWell(
                       onTap: () {
                         if (categoryList[position] == 'Enviar a Cocina') {
-                          addComanda(menu);
-                          final snackBar = SnackBar(
-                            backgroundColor: Color.fromARGB(255, 252, 252, 252),
-                            padding: EdgeInsets.all(5.0),
-                            behavior: SnackBarBehavior.floating,
-                            elevation: 2.0,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(24),
-                            ),
-                            content: Text("Comanda enviada a cocina",
-                                style: TextStyle(
-                                    color: Color.fromARGB(255, 18, 22, 134),
-                                    fontSize: 12.0,
-                                    fontWeight: FontWeight.w900,
-                                    fontFamily: 'Comfortaa')),
-                            action: SnackBarAction(
-                              label: 'Ok',
-                              onPressed: () {
-                                // Some code to undo the change.
-                              },
-                            ),
-                          );
-                          ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                          if (menu.food != "") {
+                            addComanda(menu);
+                          } else {
+                            final snackBar = SnackBar(
+                              backgroundColor:
+                                  Color.fromARGB(255, 252, 252, 252),
+                              padding: EdgeInsets.all(5.0),
+                              behavior: SnackBarBehavior.floating,
+                              elevation: 2.0,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(24),
+                              ),
+                              content: Text("Añada una comanda por favor",
+                                  style: TextStyle(
+                                      color: Color.fromARGB(255, 18, 22, 134),
+                                      fontSize: 12.0,
+                                      fontWeight: FontWeight.w900,
+                                      fontFamily: 'Comfortaa')),
+                              action: SnackBarAction(
+                                label: 'Ok',
+                                onPressed: () {
+                                  // Some code to undo the change.
+                                },
+                              ),
+                            );
+                            ScaffoldMessenger.of(context)
+                                .showSnackBar(snackBar);
+                          }
                         } else if (categoryList[position] == 'Cuenta') {
                           Navigator.of(context)
                               .pushReplacement(MaterialPageRoute(
@@ -196,9 +201,7 @@ class _PantallaMenuState extends State<PantallaMenu> {
           'numeromesa': menu.numeroMesa,
           'food': menu.food,
           'prices': menu.prices,
-                    'total': menu.total,
-
-
+          'total': menu.total,
         })
         .then((value) => print("Comanda añadida"))
         .catchError((error) => print("Failed to add user: $error"));
