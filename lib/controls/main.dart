@@ -14,7 +14,6 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 void main() {
-  //check_if_already_login();
 
   runApp(const MyApp());
 }
@@ -30,16 +29,7 @@ class MyApp extends StatelessWidget {
   }
 }
 
-/* 
-  Step 1 : create the main layout of the app (only the UI)
-  Step 2 : Login to my firebase account
-  Step 3 : Create a new firebase proyect
-  Step 4 : Add firebase depenedeicies for flutter
-  Step 5 : Init the firebase app
-  Step 6 : Create the login function
-  Step 7 : create a user and test the app
-  IMPORTANTE:NO OLVIDAR IMPLMENTAR PREFERENCIAS
-*/
+
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
 
