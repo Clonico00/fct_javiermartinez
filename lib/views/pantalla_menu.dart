@@ -2,10 +2,10 @@
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:fct_javiermartinez/menu.dart';
+import 'package:fct_javiermartinez/models/menu_model.dart';
 
-import 'package:fct_javiermartinez/pantalla_camareros.dart';
-import 'package:fct_javiermartinez/pantalla_cuenta.dart';
+import 'package:fct_javiermartinez/views/pantalla_camareros.dart';
+import 'package:fct_javiermartinez/views/pantalla_cuenta.dart';
 import 'package:fct_javiermartinez/pantalla_menu_detalles.dart';
 
 class PantallaMenu extends StatefulWidget {

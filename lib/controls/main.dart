@@ -3,8 +3,8 @@ import 'dart:io';
 import 'dart:math';
 
 import 'package:connection_status_bar/connection_status_bar.dart';
-import 'package:fct_javiermartinez/pantalla_camareros.dart';
-import 'package:fct_javiermartinez/pantalla_cocineros.dart';
+import 'package:fct_javiermartinez/views/pantalla_camareros.dart';
+import 'package:fct_javiermartinez/views/pantalla_cocineros.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
