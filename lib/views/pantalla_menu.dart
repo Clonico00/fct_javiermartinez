@@ -6,7 +6,7 @@ import 'package:fct_javiermartinez/models/menu_model.dart';
 
 import 'package:fct_javiermartinez/views/pantalla_camareros.dart';
 import 'package:fct_javiermartinez/views/pantalla_cuenta.dart';
-import 'package:fct_javiermartinez/pantalla_menu_detalles.dart';
+import 'package:fct_javiermartinez/views/pantalla_menu_detalles.dart';
 
 class PantallaMenu extends StatefulWidget {
   const PantallaMenu({Key? key}) : super(key: key);
@@ -101,6 +101,30 @@ class _PantallaMenuState extends State<PantallaMenu> {
                         if (categoryList[position] == 'Enviar a Cocina') {
                           if (menu.food != "") {
                             addComanda(menu);
+                            final snackBar = SnackBar(
+                              backgroundColor:
+                                  Color.fromARGB(255, 252, 252, 252),
+                              padding: EdgeInsets.all(5.0),
+                              behavior: SnackBarBehavior.floating,
+                              elevation: 2.0,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(24),
+                              ),
+                              content: Text("Comanda enviada a cocina",
+                                  style: TextStyle(
+                                      color: Color.fromARGB(255, 18, 22, 134),
+                                      fontSize: 12.0,
+                                      fontWeight: FontWeight.w900,
+                                      fontFamily: 'Comfortaa')),
+                              action: SnackBarAction(
+                                label: 'Ok',
+                                onPressed: () {
+                                  // Some code to undo the change.
+                                },
+                              ),
+                            );
+                            ScaffoldMessenger.of(context)
+                                .showSnackBar(snackBar);
                           } else {
                             final snackBar = SnackBar(
                               backgroundColor:

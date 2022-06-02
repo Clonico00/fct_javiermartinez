@@ -1,9 +1,9 @@
 // ignore_for_file: prefer_const_constructors
 
-import 'package:fct_javiermartinez/main.dart';
-import 'package:fct_javiermartinez/menu.dart';
+import 'package:fct_javiermartinez/controls/main.dart';
+import 'package:fct_javiermartinez/models/menu_model.dart';
 import 'package:flutter/material.dart';
-import 'package:fct_javiermartinez/pantalla_menu.dart';
+import 'package:fct_javiermartinez/views/pantalla_menu.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class CamarerosScreen extends StatefulWidget {

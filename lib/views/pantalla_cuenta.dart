@@ -1,11 +1,11 @@
 // ignore_for_file: unused_field, unused_import
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:fct_javiermartinez/menu.dart';
-import 'package:fct_javiermartinez/pantalla_menu.dart';
-import 'package:fct_javiermartinez/pantalla_menu_detalles.dart';
+import 'package:fct_javiermartinez/models/menu_model.dart';
+import 'package:fct_javiermartinez/views/pantalla_menu.dart';
+import 'package:fct_javiermartinez/views/pantalla_menu_detalles.dart';
 import 'package:flutter/material.dart';
-import 'package:fct_javiermartinez/pantalla_camareros.dart';
+import 'package:fct_javiermartinez/views/pantalla_camareros.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';

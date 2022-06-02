@@ -1,7 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:fct_javiermartinez/comidas_model.dart';
-import 'package:fct_javiermartinez/main.dart';
-import 'package:fct_javiermartinez/menu.dart';
+import 'package:fct_javiermartinez/controls/main.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -144,8 +142,7 @@ class _CocinerosScreenState extends State<CocinerosScreen> {
                     shrinkWrap: false,
                     scrollDirection: Axis.vertical,
                     itemBuilder: (context, index) {
-                      String document =
-                          (snapshot.data?.docs[index].id).toString();
+                      
                       return Card(
                         color: _colorsRV[index % 2],
                         shape: OutlineInputBorder(

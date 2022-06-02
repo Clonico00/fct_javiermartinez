@@ -2,10 +2,8 @@
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:fct_javiermartinez/models/comidas_model.dart';
-import 'package:fct_javiermartinez/controls/insert_data.dart';
 import 'package:fct_javiermartinez/models/menu_model.dart';
-import 'package:fct_javiermartinez/views/pantalla_cuenta.dart';
-import 'package:fct_javiermartinez/pantalla_menu.dart';
+import 'package:fct_javiermartinez/views/pantalla_menu.dart';
 import 'package:flutter/material.dart';
 
 class PantallaMenuDetalles extends StatefulWidget {
