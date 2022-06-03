@@ -34,6 +34,7 @@ class _PantallaMenuDetallesState extends State<PantallaMenuDetalles> {
   @override
   Widget build(BuildContext context) {
     final Menu menu = ModalRoute.of(context)!.settings.arguments as Menu;
+    TextEditingController comentario = TextEditingController();
     return Scaffold(
       appBar: AppBar(
           automaticallyImplyLeading: false,
@@ -115,20 +116,125 @@ class _PantallaMenuDetallesState extends State<PantallaMenuDetalles> {
                           borderSide: BorderSide(
                               color: _colorsRV[index % 2], width: 1)),
                       child: ListTile(
+                        onLongPress: () {
+// set up the buttons
+                          Widget cancelButton = TextButton(
+                            child: Text("Cancelar",
+                                style: TextStyle(
+                                    color: _colors[0],
+                                    fontSize: 15.0,
+                                    fontWeight: FontWeight.w400,
+                                    fontFamily: 'Comfortaa')),
+                            onPressed: () {
+                              comentario.text = "";
+                              Navigator.of(context).pop();
+                            },
+                          );
+                          Widget continueButton = TextButton(
+                            child: Text("Guardar",
+                                style: TextStyle(
+                                    color: _colors[0],
+                                    fontSize: 15.0,
+                                    fontWeight: FontWeight.w400,
+                                    fontFamily: 'Comfortaa')),
+                            onPressed: () {
+                              if (comentario.text != "") {
+                                Comidas comida1 = listacomidas[index];
+                                if (comida1.stock <= 0) {
+                                  showSnackBar(
+                                      context, "No hay mas stock", index);
+                                } else {
+                                  comida1.stock -= 1;
+
+                                  updateComida(document, comida1.stock);
+                                  menu.num =
+                                      (int.parse(menu.num) + 1).toString();
+                                  menu.food = "\n" +
+                                      "1x " +
+                                      snapshot.data?.docs[index]['nombre'] +
+                                      "\n" +
+                                      "( " +
+                                      comentario.text +
+                                      " )" +
+                                      menu.food;
+                                  menu.prices = "\n" +
+                                      (snapshot.data?.docs[index]['precio'])
+                                          .toString() +
+                                      " \€" +
+                                      "\n" +
+                                      menu.prices;
+                                  menu.total = snapshot.data?.docs[index]
+                                          ['precio'] +
+                                      menu.total;
+                                  print(menu.total);
+                                  print(menu.food);
+                                  menu.total = double.parse(
+                                      (menu.total).toStringAsFixed(2));
+                                  updateCuenta(menu);
+                                  showSnackBar(
+                                      context, "Comanda añadida", index);
+                                }
+                                Navigator.of(context).pop();
+                              }
+                            },
+                          );
+
+                          // set up the AlertDialog
+                          AlertDialog alert = AlertDialog(
+                            backgroundColor: _colorsRV[0],
+                            shape: RoundedRectangleBorder(
+                                borderRadius: new BorderRadius.circular(30)),
+                            title: Text(
+                                "Añadir comentario- " +
+                                    (snapshot.data?.docs[index]['nombre'])
+                                        .toString(),
+                                style: TextStyle(
+                                    color: _colors[0],
+                                    fontWeight: FontWeight.w800,
+                                    fontFamily: 'Comfortaa')),
+                            content: new Row(
+                              children: <Widget>[
+                                new Expanded(
+                                  child: new TextField(
+                                    controller: comentario,
+                                    autofocus: true,
+                                    decoration: new InputDecoration(
+                                        hintText: 'Ej: Sin tomate'),
+                                  ),
+                                )
+                              ],
+                            ),
+                            actions: [
+                              cancelButton,
+                              continueButton,
+                            ],
+                          );
+
+                          // show the dialog
+                          showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return alert;
+                            },
+                          );
+                        },
                         leading: Image.asset(
                           snapshot.data?.docs[index]['imagen'],
                           height: 100,
                           width: 100,
                         ),
-                        title: Text(
-                            (snapshot.data?.docs[index]['nombre'])
-                                .toString()
-                                .toUpperCase(),
-                            style: TextStyle(
-                                color: _colors[index % 2],
-                                fontSize: 13.0,
-                                fontWeight: FontWeight.w900,
-                                fontFamily: 'Comfortaa')),
+                        title: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Text(
+                              (snapshot.data?.docs[index]['nombre'])
+                                  .toString()
+                                  .toUpperCase(),
+                              style: TextStyle(
+                                  color: _colors[index % 2],
+                                  fontSize: 13.0,
+                                  fontWeight: FontWeight.w900,
+                                  fontFamily: 'Comfortaa')),
+                        ),
                         trailing: Column(
                           children: [
                             InkWell(
@@ -149,6 +255,7 @@ class _PantallaMenuDetallesState extends State<PantallaMenuDetalles> {
                                       "1x " +
                                       snapshot.data?.docs[index]['nombre'] +
                                       "\n" +
+                                      comentario.text +
                                       menu.food;
                                   menu.prices = "\n" +
                                       (snapshot.data?.docs[index]['precio'])
