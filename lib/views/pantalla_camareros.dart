@@ -37,8 +37,6 @@ class _CamarerosScreenState extends State<CamarerosScreen> {
 
   @override
   Widget build(BuildContext context) {
-    MediaQueryData queryData;
-    queryData = MediaQuery.of(context);
     var menu = Menu();
     return Scaffold(
       appBar: AppBar(
