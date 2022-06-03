@@ -123,7 +123,6 @@ class _PantallaCuentaState extends State<PantallaCuenta> {
                                       child: Text(
                                           snapshot.data?.docs[0]['food']
                                               .replaceFirst("\n", ""),
-                                          //.replaceAll(new RegExp("[\n\]"), ''),
                                           textAlign: TextAlign.left,
                                           style: TextStyle(
                                               color: Color.fromARGB(
