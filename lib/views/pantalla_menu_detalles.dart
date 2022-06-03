@@ -290,7 +290,38 @@ class _PantallaMenuDetallesState extends State<PantallaMenuDetalles> {
                               onTap: () {
                                 Comidas comida1 = listacomidas[index];
 
-                                if (menu.food.contains(comida1.nombre)) {
+                                if (menu.food.contains(comida1.nombre) &&
+                                    menu.food.contains(comentario.text)) {
+                                  unidades = unidades + -1;
+                                  comida1.stock += 1;
+                                  updateComida(document, comida1.stock);
+                                  menu.food = menu.food.replaceFirst(
+                                      "\n" +
+                                          "1x " +
+                                          snapshot.data?.docs[index]['nombre'] +
+                                          "\n" +
+                                          "( " +
+                                          comentario.text +
+                                          " )",
+                                      "");
+                                  menu.prices = menu.prices
+                                      .replaceFirst(
+                                          "\n" +
+                                              (snapshot.data?.docs[index]
+                                                      ['precio'])
+                                                  .toString() +
+                                              " \€" +
+                                              "\n",
+                                          "")
+                                      .replaceAll("\n \n", "");
+                                  menu.total = menu.total - comida1.precio;
+                                  updateCuenta(menu);
+                                  print(menu.food);
+                                  showSnackBar(
+                                      context, "Comanda quitada", index);
+                                } else if (menu.food.contains(comida1.nombre) &&
+                                    menu.food.contains(comentario.text) ==
+                                        false) {
                                   unidades = unidades + -1;
                                   comida1.stock += 1;
                                   updateComida(document, comida1.stock);
