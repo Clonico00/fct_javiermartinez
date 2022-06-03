@@ -65,6 +65,7 @@ class _CamarerosScreenState extends State<CamarerosScreen> {
                               fontFamily: 'Comfortaa')),
                       onPressed: () {
                         Navigator.of(context).pop();
+                        
                       },
                     );
                     Widget continueButton = TextButton(

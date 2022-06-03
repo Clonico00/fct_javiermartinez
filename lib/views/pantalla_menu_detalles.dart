@@ -171,6 +171,8 @@ class _PantallaMenuDetallesState extends State<PantallaMenuDetalles> {
                                   menu.total = double.parse(
                                       (menu.total).toStringAsFixed(2));
                                   updateCuenta(menu);
+                                  comentario.text = "";
+                                  menu.food.replaceFirst(comentario.text, "");
                                   showSnackBar(
                                       context, "Comanda añadida", index);
                                 }
@@ -271,6 +273,7 @@ class _PantallaMenuDetallesState extends State<PantallaMenuDetalles> {
                                   menu.total = double.parse(
                                       (menu.total).toStringAsFixed(2));
                                   updateCuenta(menu);
+
                                   showSnackBar(
                                       context, "Comanda añadida", index);
                                 }
@@ -323,6 +326,7 @@ class _PantallaMenuDetallesState extends State<PantallaMenuDetalles> {
                                   print(menu.food);
                                   showSnackBar(
                                       context, "Comanda quitada", index);
+                                  comentario.text = "";
                                 } else if (menu.food.contains(comida1.nombre)) {
                                   print("holaaaaa 2" + comentario.text);
 
