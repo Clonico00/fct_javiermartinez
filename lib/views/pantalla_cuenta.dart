@@ -93,7 +93,11 @@ class _PantallaCuentaState extends State<PantallaCuenta> {
                                   BorderSide(color: _colorsRV[1], width: 1)),
                           color: _colorsRV[1],
                           child: ListTile(
-                              trailing: Text(formattedDate,
+                              trailing: Text(
+                                  menu.lugar.toUpperCase() +
+                                      " :" +
+                                      "                         " +
+                                      formattedDate,
                                   style: TextStyle(
                                       color: _colors[1],
                                       fontSize: 16,

@@ -1,5 +1,6 @@
 // ignore_for_file: prefer_const_constructors
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:fct_javiermartinez/controls/main.dart';
 import 'package:fct_javiermartinez/models/menu_model.dart';
 import 'package:flutter/material.dart';
@@ -132,59 +133,80 @@ class _CamarerosScreenState extends State<CamarerosScreen> {
                       fontFamily: 'Comfortaa'))
             ],
           )),
-      body: ListView.builder(
-        itemCount: 7,
-        shrinkWrap: true,
-        scrollDirection: Axis.vertical,
-        itemBuilder: (context, index) {
-          return Container(
-            height: 100,
-            alignment: Alignment.center,
-            child: Row(
-              children: [
-                SizedBox(
-                  width: 25.0,
-                ),
-                Text("MESA ${index + 1}",
-                    style: TextStyle(
-                        color: _colorsRV[index % 2],
-                        fontSize: 18.0,
-                        fontWeight: FontWeight.w900,
-                        fontFamily: 'Comfortaa')),
-                SizedBox(
-                  width: queryData.size.width - 150.0,
-                ),
-                InkWell(
-                  onTap: () {
-                    menu.numeroMesa = (index + 1).toString();
-                    Navigator.of(context).pushReplacement(MaterialPageRoute(
-                      builder: (context) => PantallaMenu(),
-                      settings: RouteSettings(
-                        arguments: menu,
+      body: StreamBuilder(
+          stream: FirebaseFirestore.instance
+              .collection("cuenta")
+              .orderBy("lugar", descending: false)
+              .snapshots(),
+          builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
+            if (snapshot.hasData) {
+              return ListView.builder(
+                itemCount: snapshot.data!.docs.length,
+                shrinkWrap: true,
+                scrollDirection: Axis.vertical,
+                itemBuilder: (context, index) {
+                  return Container(
+                    height: 100,
+                    alignment: Alignment.center,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(left: 30),
+                          child: Text(
+                              "MESA " +
+                                  snapshot.data?.docs[index]['numeromesa'] +
+                                  " - " +
+                                  snapshot.data?.docs[index]['lugar'],
+                              style: TextStyle(
+                                  color: _colorsRV[index % 2],
+                                  fontSize: 18.0,
+                                  fontWeight: FontWeight.w900,
+                                  fontFamily: 'Comfortaa')),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(right: 20),
+                          child: InkWell(
+                            onTap: () {
+                              menu.lugar = (snapshot.data?.docs[index]['lugar'])
+                                  .toString();
+                              menu.numeroMesa = (snapshot.data?.docs[index]
+                                      ['numeromesa'])
+                                  .toString();
+                              Navigator.of(context)
+                                  .pushReplacement(MaterialPageRoute(
+                                builder: (context) => PantallaMenu(),
+                                settings: RouteSettings(
+                                  arguments: menu,
+                                ),
+                              ));
+                            }, // Handle your callback
+                            child: Icon(
+                              Icons.arrow_forward_rounded,
+                              color: _colorsRV[index % 2],
+                              size: 30.0,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                    decoration: BoxDecoration(
+                      color: _colors[index % 2],
+                      boxShadow: [
+                        BoxShadow(color: _colors[index % 2], spreadRadius: 5)
+                      ],
+                      borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(20),
+                        topRight: Radius.circular(20),
                       ),
-                    ));
-                  }, // Handle your callback
-                  child: Icon(
-                    Icons.arrow_forward_rounded,
-                    color: _colorsRV[index % 2],
-                    size: 30.0,
-                  ),
-                ),
-              ],
-            ),
-            decoration: BoxDecoration(
-              color: _colors[index % 2],
-              boxShadow: [
-                BoxShadow(color: _colors[index % 2], spreadRadius: 5)
-              ],
-              borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(20),
-                topRight: Radius.circular(20),
-              ),
-            ),
-          );
-        },
-      ),
+                    ),
+                  );
+                },
+              );
+            } else {
+              return Container();
+            }
+          }),
     );
   }
 }
