@@ -291,7 +291,9 @@ class _PantallaMenuDetallesState extends State<PantallaMenuDetalles> {
                                 Comidas comida1 = listacomidas[index];
 
                                 if (menu.food.contains(comida1.nombre) &&
-                                    menu.food.contains(comentario.text)) {
+                                    menu.food.contains(comentario.text) &&
+                                    comentario.text != "") {
+                                  print("holaaaaa" + comentario.text);
                                   unidades = unidades + -1;
                                   comida1.stock += 1;
                                   updateComida(document, comida1.stock);
@@ -314,14 +316,16 @@ class _PantallaMenuDetallesState extends State<PantallaMenuDetalles> {
                                               "\n",
                                           "")
                                       .replaceAll("\n \n", "");
-                                  menu.total = menu.total - comida1.precio;
+                                  menu.total = (menu.total - comida1.precio);
+                                  menu.total = double.parse(
+                                      (menu.total).toStringAsFixed(2));
                                   updateCuenta(menu);
                                   print(menu.food);
                                   showSnackBar(
                                       context, "Comanda quitada", index);
-                                } else if (menu.food.contains(comida1.nombre) &&
-                                    menu.food.contains(comentario.text) ==
-                                        false) {
+                                } else if (menu.food.contains(comida1.nombre)) {
+                                  print("holaaaaa 2" + comentario.text);
+
                                   unidades = unidades + -1;
                                   comida1.stock += 1;
                                   updateComida(document, comida1.stock);
@@ -342,6 +346,8 @@ class _PantallaMenuDetallesState extends State<PantallaMenuDetalles> {
                                           "")
                                       .replaceAll("\n \n", "");
                                   menu.total = menu.total - comida1.precio;
+                                  menu.total = double.parse(
+                                      (menu.total).toStringAsFixed(2));
                                   updateCuenta(menu);
                                   print(menu.food);
                                   showSnackBar(
