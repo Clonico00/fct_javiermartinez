@@ -5,6 +5,7 @@ import 'package:fct_javiermartinez/models/comidas_model.dart';
 import 'package:fct_javiermartinez/models/menu_model.dart';
 import 'package:fct_javiermartinez/views/pantalla_menu.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class PantallaMenuDetalles extends StatefulWidget {
   PantallaMenuDetalles({Key? key}) : super(key: key);
@@ -198,6 +199,9 @@ class _PantallaMenuDetallesState extends State<PantallaMenuDetalles> {
                               children: <Widget>[
                                 new Expanded(
                                   child: new TextField(
+                                    inputFormatters: [
+                                      LengthLimitingTextInputFormatter(30),
+                                    ],
                                     controller: comentario,
                                     autofocus: true,
                                     decoration: new InputDecoration(
