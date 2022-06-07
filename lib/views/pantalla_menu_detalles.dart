@@ -95,7 +95,6 @@ class _PantallaMenuDetallesState extends State<PantallaMenuDetalles> {
               if (snapshot.hasData) {
                 //guadramos en una lista del tipo comidas los resultados de la consulta
                 List<Comidas> listacomidas = [];
-                int unidades = 0;
                 for (int i = 0; i < snapshot.data!.docs.length; i++) {
                   Comidas comida = Comidas(
                       snapshot.data?.docs[i]['categoria'],
