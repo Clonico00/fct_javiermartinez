@@ -125,7 +125,6 @@ class _LoginScreenState extends State<LoginScreen> {
         action: SnackBarAction(
           label: 'Ok',
           onPressed: () {
-            // Some code to undo the change.
           },
         ),
       );
