@@ -48,6 +48,8 @@ class _PantallaMenuDetallesState extends State<PantallaMenuDetalles> {
                   bottomRight: Radius.circular(10),
                   bottomLeft: Radius.circular(10))),
           title: Row(
+            mainAxisSize: MainAxisSize.min,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               InkWell(
                 onTap: () {
@@ -63,16 +65,18 @@ class _PantallaMenuDetallesState extends State<PantallaMenuDetalles> {
                 ),
               ),
               SizedBox(width: 20),
-              Text(
-                  "Croissanteria Párraga: Mesa " +
-                      menu.numeroMesa +
-                      " " +
-                      menu.categoria,
-                  style: TextStyle(
-                      color: _colorsRV[1],
-                      fontSize: 15.0,
-                      fontWeight: FontWeight.w900,
-                      fontFamily: 'Comfortaa'))
+              ClipRRect(
+                child: Text(
+                    "Croissanteria Párraga: Mesa " +
+                        menu.numeroMesa +
+                        " " +
+                        menu.categoria,
+                    style: TextStyle(
+                        color: _colorsRV[1],
+                        fontSize: 13.0,
+                        fontWeight: FontWeight.w900,
+                        fontFamily: 'Comfortaa')),
+              )
             ],
           )),
       body: Container(
@@ -289,7 +293,7 @@ class _PantallaMenuDetallesState extends State<PantallaMenuDetalles> {
                                   showSnackBar(
                                       context, "Comanda añadida", index);
                                 }
-                              }, 
+                              },
                               child: Image.asset(
                                 'assets/images/icons/mas.png',
                                 height: 20,
@@ -303,7 +307,7 @@ class _PantallaMenuDetallesState extends State<PantallaMenuDetalles> {
                             ),
                             InkWell(
                               onTap: () {
-                                //si el usuario quiere borrar el plato de la comanda, guardamos la comida seleccionada en nuevo objeto de la clase Comidas 
+                                //si el usuario quiere borrar el plato de la comanda, guardamos la comida seleccionada en nuevo objeto de la clase Comidas
                                 Comidas comida1 = listacomidas[index];
                                 //comprobamos que al menos haya un plato del que se quiere borrar en nuestro objeto menu, de no ser asi le decimos al usuario que antes de borrar primero
                                 // debe añadir uno
@@ -311,7 +315,7 @@ class _PantallaMenuDetallesState extends State<PantallaMenuDetalles> {
                                 if (menu.food.contains(comida1.nombre) &&
                                     menu.food.contains(comentario.text) &&
                                     comentario.text != "") {
-                                      //aumentamos en uno el stock de la comida y lo actualizamos tambien en la base de datos
+                                  //aumentamos en uno el stock de la comida y lo actualizamos tambien en la base de datos
                                   comida1.stock += 1;
                                   updateComida(document, comida1.stock);
                                   //buscamos en nuestro objeto menu la comida y la quitamos y lo mismo con el precio
@@ -334,11 +338,11 @@ class _PantallaMenuDetallesState extends State<PantallaMenuDetalles> {
                                               "\n",
                                           "")
                                       .replaceAll("\n \n", "");
-                                      //para el total restamos el precio del alimento al total de la cuenta
+                                  //para el total restamos el precio del alimento al total de la cuenta
                                   menu.total = (menu.total - comida1.precio);
                                   menu.total = double.parse(
                                       (menu.total).toStringAsFixed(2));
-                                      //actualizamos la cuenta
+                                  //actualizamos la cuenta
                                   updateCuenta(menu);
                                   showSnackBar(
                                       context, "Comanda quitada", index);
@@ -397,6 +401,7 @@ class _PantallaMenuDetallesState extends State<PantallaMenuDetalles> {
       ),
     );
   }
+
   //con este metodo actualizamos los datos de la cuenta en la base de datos
   Future<void> updateComida(String document, int stock) {
     CollectionReference comidas =

@@ -15,7 +15,7 @@ class _CocinerosScreenState extends State<CocinerosScreen> {
   @override
   void initState() {
     super.initState();
-        //iniciamos la pantalla y recogemos las preferencias
+    //iniciamos la pantalla y recogemos las preferencias
 
     initial();
   }
@@ -47,12 +47,14 @@ class _CocinerosScreenState extends State<CocinerosScreen> {
                   bottomRight: Radius.circular(10),
                   bottomLeft: Radius.circular(10))),
           title: Row(
+            mainAxisSize: MainAxisSize.min,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               InkWell(
                 onTap: () {
-                   // el siguiente alertdialog servira para cerrar la sesion de camareros y volver a la seccion de
-                    // login, tambien en el objeto creado anteriormente de Shared Preferences ponemos true para asi inidcar que se ha cerrado la sesion
-                   Widget cancelButton = TextButton(
+                  // el siguiente alertdialog servira para cerrar la sesion de camareros y volver a la seccion de
+                  // login, tambien en el objeto creado anteriormente de Shared Preferences ponemos true para asi inidcar que se ha cerrado la sesion
+                  Widget cancelButton = TextButton(
                     child: Text("No",
                         style: TextStyle(
                             color: _colors[0],
@@ -120,12 +122,14 @@ class _CocinerosScreenState extends State<CocinerosScreen> {
                 ), // Handle your callback
               ),
               SizedBox(width: 20),
-              Text("Croissanteria Párraga: Comandas",
-                  style: TextStyle(
-                      color: _colorsRV[1],
-                      fontSize: 18,
-                      fontWeight: FontWeight.w900,
-                      fontFamily: 'Comfortaa'))
+              ClipRRect(
+                child: Text("Croissanteria Párraga: Comandas",
+                    style: TextStyle(
+                        color: _colorsRV[1],
+                        fontSize: 16,
+                        fontWeight: FontWeight.w900,
+                        fontFamily: 'Comfortaa')),
+              )
             ],
           )),
       body: Container(
@@ -134,17 +138,17 @@ class _CocinerosScreenState extends State<CocinerosScreen> {
           Color.fromARGB(255, 255, 255, 255),
           Color.fromARGB(255, 18, 22, 134),
         ], begin: Alignment.topCenter, end: Alignment(0.0, 1.0))),
-           //con el widget Stream Builder creamos la instancia de nuestra base de datos de Firebase, indicando de que coleccion
-          // leeremos los datos
-     
+        //con el widget Stream Builder creamos la instancia de nuestra base de datos de Firebase, indicando de que coleccion
+        // leeremos los datos
+
         child: StreamBuilder(
             stream:
                 FirebaseFirestore.instance.collection("comandas").snapshots(),
             builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
-                          //comprobamos que nuestra consulta tiene datos, de lo contrario se mostrara vacio
+              //comprobamos que nuestra consulta tiene datos, de lo contrario se mostrara vacio
 
               if (snapshot.hasData) {
-                              //nos creamos un ListView para asi definir nuestra longitud de items, que sera el numero de documentos en Firebase
+                //nos creamos un ListView para asi definir nuestra longitud de items, que sera el numero de documentos en Firebase
 
                 return ListTileTheme(
                   contentPadding: EdgeInsets.all(25),
@@ -154,8 +158,8 @@ class _CocinerosScreenState extends State<CocinerosScreen> {
                     scrollDirection: Axis.vertical,
                     itemBuilder: (context, index) {
                       //aqui para ir recorriendo todos los documentos de la consulta usamos el index del ListView.builder
-                  // que sera igual al numero de documentos
-                   
+                      // que sera igual al numero de documentos
+
                       return Card(
                         color: _colorsRV[index % 2],
                         shape: OutlineInputBorder(
@@ -174,7 +178,7 @@ class _CocinerosScreenState extends State<CocinerosScreen> {
                                     padding: const EdgeInsets.all(8.0),
                                     child: Text(
                                         'MESA ' +
-                                          //aqui mostramos la informacion de nuestra coleccion comandas, mostrando el parametro que nos interese
+                                            //aqui mostramos la informacion de nuestra coleccion comandas, mostrando el parametro que nos interese
 
                                             snapshot.data?.docs[index]
                                                 ['numeromesa'],

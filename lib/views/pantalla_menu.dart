@@ -64,6 +64,8 @@ class _PantallaMenuState extends State<PantallaMenu> {
                   bottomRight: Radius.circular(10),
                   bottomLeft: Radius.circular(10))),
           title: Row(
+            mainAxisSize: MainAxisSize.min,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               InkWell(
                 onTap: () {
@@ -80,7 +82,7 @@ class _PantallaMenuState extends State<PantallaMenu> {
               Text("Croissanteria Párraga: Mesa " + menu.numeroMesa,
                   style: TextStyle(
                       color: _colorsRV[1],
-                      fontSize: 19.0,
+                      fontSize: 16.0,
                       fontWeight: FontWeight.w900,
                       fontFamily: 'Comfortaa'))
             ],
@@ -179,6 +181,8 @@ class _PantallaMenuState extends State<PantallaMenu> {
                       },
                       child: Center(
                         child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Center(
                               child: Card(
@@ -200,14 +204,16 @@ class _PantallaMenuState extends State<PantallaMenu> {
                               padding: const EdgeInsets.all(10.0),
                               child: Container(
                                 alignment: Alignment.bottomCenter,
-                                child: Text(
-                                  categoryList[position],
-                                  textAlign: TextAlign.center,
-                                  style: TextStyle(
-                                      color: _colors[1],
-                                      fontSize: 15.0,
-                                      fontWeight: FontWeight.w900,
-                                      fontFamily: 'Comfortaa'),
+                                child: ClipRRect(
+                                  child: Text(
+                                    categoryList[position],
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                        color: _colors[1],
+                                        fontSize: 13.0,
+                                        fontWeight: FontWeight.w900,
+                                        fontFamily: 'Comfortaa'),
+                                  ),
                                 ),
                               ),
                             )

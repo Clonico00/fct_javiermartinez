@@ -53,7 +53,8 @@ class _CamarerosScreenState extends State<CamarerosScreen> {
                   bottomRight: Radius.circular(10),
                   bottomLeft: Radius.circular(10))),
           title: Row(
-            mainAxisSize: MainAxisSize.max,
+            mainAxisSize: MainAxisSize.min,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               ClipRRect(
                 child: InkWell(
@@ -127,16 +128,18 @@ class _CamarerosScreenState extends State<CamarerosScreen> {
                 ),
               ),
               SizedBox(width: 20),
-              Text("Croissanteria Párraga: Mesas",
-                  style: TextStyle(
-                      color: _colorsRV[1],
-                      fontSize: 18,
-                      fontWeight: FontWeight.w900,
-                      fontFamily: 'Comfortaa'))
+              ClipRRect(
+                child: Text("Croissanteria Párraga: Mesas",
+                    style: TextStyle(
+                        color: Color.fromARGB(255, 6, 9, 94),
+                        fontSize: 16,
+                        fontWeight: FontWeight.w900,
+                        fontFamily: 'Comfortaa')),
+              )
             ],
           )),
-          //con el widget Stream Builder creamos la instancia de nuestra base de datos de Firebase, indicando de que coleccion
-          // leeremos los datos y tambien le añadimos la clausula where para que salgan los documentos ordenados segun el numero de mesa
+      //con el widget Stream Builder creamos la instancia de nuestra base de datos de Firebase, indicando de que coleccion
+      // leeremos los datos y tambien le añadimos la clausula where para que salgan los documentos ordenados segun el numero de mesa
       body: StreamBuilder(
           stream: FirebaseFirestore.instance
               .collection("cuenta")
@@ -184,7 +187,7 @@ class _CamarerosScreenState extends State<CamarerosScreen> {
                               menu.numeroMesa = (snapshot.data?.docs[index]
                                       ['numeromesa'])
                                   .toString();
-                                  // al cambiar de pantalla le pasamos nuestro objeto menu
+                              // al cambiar de pantalla le pasamos nuestro objeto menu
                               Navigator.of(context)
                                   .pushReplacement(MaterialPageRoute(
                                 builder: (context) => PantallaMenu(),
