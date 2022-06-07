@@ -24,6 +24,8 @@ class _PantallaMenuState extends State<PantallaMenu> {
     Color.fromARGB(255, 255, 255, 255),
     Color.fromARGB(255, 6, 9, 94),
   ];
+  //creamos dos listas, la primera con la ruta relativa de nuestros iconos del menu, y en la misma posicion pero en otra lista estaran los nombres de las distintas categorias
+  //para asi cuando las llamemos con el ListView.Builder vayan apareciendo juntas
   List imagesList = [
     ('assets/images/icons/BEBIDAS.png'),
     ('assets/images/icons/cafe.png'),
@@ -47,6 +49,7 @@ class _PantallaMenuState extends State<PantallaMenu> {
 
   @override
   Widget build(BuildContext context) {
+    //guardamos nuestro objeto menu que nos hemos pasado anteriormente para identificar los datos
     final menu = ModalRoute.of(context)!.settings.arguments as Menu;
 
     return Scaffold(
@@ -98,6 +101,7 @@ class _PantallaMenuState extends State<PantallaMenu> {
                   padding: const EdgeInsets.all(20.0),
                   child: InkWell(
                       onTap: () {
+                        // si el usuario pulsa en la opcion de envra a cocina y ha añadido algo a las comandas, añadimos esta comanda a nuestra base de datos con el metodo addComanda, de no haber nada le avisamos
                         if (categoryList[position] == 'Enviar a Cocina') {
                           if (menu.food != "") {
                             addComanda(menu);
@@ -152,6 +156,7 @@ class _PantallaMenuState extends State<PantallaMenu> {
                                 .showSnackBar(snackBar);
                           }
                         } else if (categoryList[position] == 'Cuenta') {
+                          // si el usuario elige la opcion de cuenta lo enviamos a su pantalla correspondiente y le pasamos a esta el objeto menu
                           Navigator.of(context)
                               .pushReplacement(MaterialPageRoute(
                             builder: (context) => PantallaCuenta(),
@@ -160,6 +165,8 @@ class _PantallaMenuState extends State<PantallaMenu> {
                             ),
                           ));
                         } else {
+                          // si el usuario elige cualquier otra opcion sera enviado a la pantalla del MenuDetalles donde saldra la comida dependiendo de la seccion pulsada
+                          //para ello guardamos en nuestro objeto menu la categoria pulsada, y este se lo pasamos a la pantalla siguiente
                           menu.categoria = categoryList[position];
                           Navigator.of(context)
                               .pushReplacement(MaterialPageRoute(
