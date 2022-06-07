@@ -29,7 +29,9 @@ class _PantallaCuentaState extends State<PantallaCuenta> {
 
   @override
   Widget build(BuildContext context) {
+    //guardamos nuestro objeto menu que nos hemos pasado anteriormente para identificar los datos
     final menu = ModalRoute.of(context)!.settings.arguments as Menu;
+    //nos creamos un objeto fecha y le damos formato
     DateTime now = DateTime.now();
     String formattedDate = DateFormat('dd-MM-yyyy  HH:mm').format(now);
 
@@ -48,6 +50,7 @@ class _PantallaCuentaState extends State<PantallaCuenta> {
             children: [
               InkWell(
                 onTap: () async {
+                  //si el usuario quiere volver para atras, volvemos a pasarle nuesto objeto menu a la anterior pantalla
                   Navigator.of(context).pushReplacement(MaterialPageRoute(
                     builder: (context) => PantallaMenu(),
                     settings: RouteSettings(
@@ -76,12 +79,15 @@ class _PantallaCuentaState extends State<PantallaCuenta> {
             Color.fromARGB(255, 255, 255, 255),
             Color.fromARGB(255, 18, 22, 134),
           ], begin: Alignment.topCenter, end: Alignment(0.0, 1.0))),
+          //con el widget Stream Builder creamos la instancia de nuestra base de datos de Firebase, indicando de que coleccion
+          // leeremos los datos y tambien le añadimos la clausula where para que salgan solo las comandas asociadas a esa mesa
           child: StreamBuilder(
               stream: FirebaseFirestore.instance
                   .collection("cuenta")
                   .where("numeromesa", isEqualTo: menu.numeroMesa)
                   .snapshots(),
               builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
+                //comprobamos que no haya nada en la cuenta de no haber nada simplemente mostramos lo mismo pero vacio
                 if ((snapshot.data?.docs[0]['food']) != null) {
                   return ListView(
                     padding: EdgeInsets.all(10.0),
@@ -121,6 +127,8 @@ class _PantallaCuentaState extends State<PantallaCuenta> {
                                     child: Padding(
                                       padding: const EdgeInsets.all(8.0),
                                       child: Text(
+                                          //esta vez como solo habra un documento no nos hace falta el index, con el 0 lo indicamos
+                                          //mostramos los datos de toda la comida que tiene en la cuenta
                                           snapshot.data?.docs[0]['food']
                                               .replaceFirst("\n", ""),
                                           textAlign: TextAlign.left,
@@ -141,6 +149,8 @@ class _PantallaCuentaState extends State<PantallaCuenta> {
                                     child: Padding(
                                       padding: const EdgeInsets.all(8.0),
                                       child: Text(
+                                          //esta vez como solo habra un documento no nos hace falta el index, con el 0 lo indicamos
+                                          //mostramos los datos de toda los precios que tiene en la cuenta
                                           snapshot.data?.docs[0]['prices']
                                               .replaceFirst("\n", ""),
                                           textAlign: TextAlign.right,
@@ -175,6 +185,9 @@ class _PantallaCuentaState extends State<PantallaCuenta> {
                                       fontWeight: FontWeight.w900,
                                       fontFamily: 'Comfortaa')),
                               trailing: Text(
+                                  //esta vez como solo habra un documento no nos hace falta el index, con el 0 lo indicamos
+                                  //mostramos el total que tiene en la cuenta
+
                                   (snapshot.data?.docs[0]['total']).toString() +
                                       "\€",
                                   style: TextStyle(
@@ -200,6 +213,8 @@ class _PantallaCuentaState extends State<PantallaCuenta> {
                                       borderRadius:
                                           BorderRadius.circular(10.0)),
                                   onPressed: () async {
+                                    //el siguiente alertdialog sirve para confirmar que se quiere reiniciar la cuenta, borrando asi todos los datos asociados(comida, precios y total)
+                                    // de ser asi los guardamos vacios en nuestro objeto menu para asi cuando se cambie de pantalla este esté vacio
                                     Widget cancelButton = TextButton(
                                       child: Text("No",
                                           style: TextStyle(
@@ -222,7 +237,9 @@ class _PantallaCuentaState extends State<PantallaCuenta> {
                                         menu.food = "";
                                         menu.prices = "";
                                         menu.total = 0;
+                                        //llamamos al siguiente metodo para actualizar los datos en nuestra base de datos pasandole el objeto menu
                                         updateCuenta(menu);
+                                        //le cambiamos de pantalla
                                         Navigator.of(context)
                                             .pushReplacement(MaterialPageRoute(
                                           builder: (context) => PantallaMenu(),
@@ -461,11 +478,11 @@ class _PantallaCuentaState extends State<PantallaCuenta> {
               })),
     );
   }
-
+  //con este metodo actualizamos los datos de la cuenta en la base de datos
   Future<void> updateCuenta(Menu menu) {
     CollectionReference cuenta =
         FirebaseFirestore.instance.collection('cuenta');
-
+    //como sabemos el numero de mesa y este a su vez es el mismo que el documento actualizamos los datos de este
     return cuenta
         .doc(menu.numeroMesa)
         .update({'food': menu.food, 'prices': menu.prices, 'total': 0})
