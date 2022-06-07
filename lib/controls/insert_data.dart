@@ -3,7 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 FirebaseFirestore firestore = FirebaseFirestore.instance;
 //creamos la instancia de la collecion que queramos añadir elementos identificada por su id
 CollectionReference comidas = firestore.collection('comidas');
-Future<void> addUser() {
+Future<void> addFood() {
   
   return comidas
   //los datos han sido añadidos uno a uno a traves del siguiente metodo, cambiando unicamente los valores
@@ -16,5 +16,5 @@ Future<void> addUser() {
         'stock': 200,
       })
       .then((value) => print("Comida añadida"))
-      .catchError((error) => print("Failed to add user: $error"));
+      .catchError((error) => print("Failed to add food: $error"));
 }

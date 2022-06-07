@@ -5,5 +5,6 @@ class Menu {
   String prices = "";
   String lugar = "";
   String num = "0";
-  double total = 0;
+  double total = 0; 
+  
 }
