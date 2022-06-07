@@ -19,6 +19,7 @@ class _CamarerosScreenState extends State<CamarerosScreen> {
   @override
   void initState() {
     super.initState();
+    //iniciamos la pantalla y recogemos las preferencias
     initial();
   }
 
@@ -26,6 +27,7 @@ class _CamarerosScreenState extends State<CamarerosScreen> {
     login = await SharedPreferences.getInstance();
   }
 
+  //creamos dos listas de colores para asi poder ir variando con los distintos widgets
   List<Color> _colors = [
     Color.fromARGB(255, 6, 9, 94),
     Color.fromARGB(255, 255, 255, 255),
@@ -37,6 +39,7 @@ class _CamarerosScreenState extends State<CamarerosScreen> {
 
   @override
   Widget build(BuildContext context) {
+    // creamos un objeto de la clase Menu vacio
     var menu = Menu();
     return Scaffold(
       appBar: AppBar(
@@ -55,7 +58,8 @@ class _CamarerosScreenState extends State<CamarerosScreen> {
               ClipRRect(
                 child: InkWell(
                   onTap: () {
-                    // set up the buttons
+                    // el siguiente alertdialog servira para cerrar la sesion de camareros y volver a la seccion de
+                    // login, tambien en el objeto creado anteriormente de Shared Preferences ponemos true para asi inidcar que se ha cerrado la sesion
                     Widget cancelButton = TextButton(
                       child: Text("No",
                           style: TextStyle(
@@ -131,18 +135,24 @@ class _CamarerosScreenState extends State<CamarerosScreen> {
                       fontFamily: 'Comfortaa'))
             ],
           )),
+          //con el widget Stream Builder creamos la instancia de nuestra base de datos de Firebase, indicando de que coleccion
+          // leeremos los datos y tambien le añadimos la clausula where para que salgan los documentos ordenados segun el numero de mesa
       body: StreamBuilder(
           stream: FirebaseFirestore.instance
               .collection("cuenta")
               .orderBy("numeromesa", descending: false)
               .snapshots(),
           builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
+            //comprobamos que nuestra consulta tiene datos, de lo contrario se mostrara vacio
             if (snapshot.hasData) {
+              //nos creamos un ListView para asi definir nuestra longitud de items, que sera el numero de documentos en Firebase
               return ListView.builder(
                 itemCount: snapshot.data!.docs.length,
                 shrinkWrap: true,
                 scrollDirection: Axis.vertical,
                 itemBuilder: (context, index) {
+                  //aqui para ir recorriendo todos los documentos de la consulta usamos el index del ListView.builder
+                  // que sera igual al numero de documentos
                   return Container(
                     height: 100,
                     alignment: Alignment.center,
@@ -153,6 +163,7 @@ class _CamarerosScreenState extends State<CamarerosScreen> {
                           padding: const EdgeInsets.only(left: 30),
                           child: Text(
                               "MESA " +
+                                  //aqui mostramos la informacion de nuestra coleccion cuenta, mostrando el parametro que nos interese
                                   snapshot.data?.docs[index]['numeromesa'] +
                                   " - " +
                                   snapshot.data?.docs[index]['lugar'],
@@ -166,11 +177,14 @@ class _CamarerosScreenState extends State<CamarerosScreen> {
                           padding: const EdgeInsets.only(right: 20),
                           child: InkWell(
                             onTap: () {
+                              //al pulsar sobre nuestra flecha guardamos en el objeto menu creado anteriormente, la informacion del lugar donde esta la mesa y su numero
+                              // para asi poder identicarla en las siguientes pantallas
                               menu.lugar = (snapshot.data?.docs[index]['lugar'])
                                   .toString();
                               menu.numeroMesa = (snapshot.data?.docs[index]
                                       ['numeromesa'])
                                   .toString();
+                                  // al cambiar de pantalla le pasamos nuestro objeto menu
                               Navigator.of(context)
                                   .pushReplacement(MaterialPageRoute(
                                 builder: (context) => PantallaMenu(),
