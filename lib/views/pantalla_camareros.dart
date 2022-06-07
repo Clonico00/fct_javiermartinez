@@ -65,7 +65,6 @@ class _CamarerosScreenState extends State<CamarerosScreen> {
                               fontFamily: 'Comfortaa')),
                       onPressed: () {
                         Navigator.of(context).pop();
-                        
                       },
                     );
                     Widget continueButton = TextButton(
@@ -135,7 +134,7 @@ class _CamarerosScreenState extends State<CamarerosScreen> {
       body: StreamBuilder(
           stream: FirebaseFirestore.instance
               .collection("cuenta")
-              .orderBy("lugar", descending: false)
+              .orderBy("numeromesa", descending: false)
               .snapshots(),
           builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
             if (snapshot.hasData) {
