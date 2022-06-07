@@ -28,13 +28,13 @@ class _PantallaMenuDetallesState extends State<PantallaMenuDetalles> {
   @override
   void initState() {
     super.initState();
-    //getDatas();
-    //getDocumentData();
   }
 
   @override
   Widget build(BuildContext context) {
+    //guardamos nuestro objeto menu que nos hemos pasado anteriormente para identificar los datos
     final Menu menu = ModalRoute.of(context)!.settings.arguments as Menu;
+    //tambien creamos el controlado del textfield que es el que guardara si el usuario quiere añadir algun comentario
     TextEditingController comentario = TextEditingController();
     return Scaffold(
       appBar: AppBar(
@@ -83,13 +83,17 @@ class _PantallaMenuDetallesState extends State<PantallaMenuDetalles> {
         ], begin: Alignment.topCenter, end: Alignment(0.0, 1.0))),
         child: ListTileTheme(
           contentPadding: EdgeInsets.all(25),
+          //con el widget Stream Builder creamos la instancia de nuestra base de datos de Firebase, indicando de que coleccion
+          // leeremos los datos y tambien le añadimos la clausula where para que salgan las comidas de la categoria accedida
           child: StreamBuilder(
             stream: FirebaseFirestore.instance
                 .collection("comidas")
                 .where("categoria", isEqualTo: menu.categoria.toLowerCase())
                 .snapshots(),
             builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
+              //comprobamos que la conuslta tenga datos
               if (snapshot.hasData) {
+                //guadramos en una lista del tipo comidas los resultados de la consulta
                 List<Comidas> listacomidas = [];
                 int unidades = 0;
                 for (int i = 0; i < snapshot.data!.docs.length; i++) {
@@ -102,11 +106,13 @@ class _PantallaMenuDetallesState extends State<PantallaMenuDetalles> {
                       snapshot.data?.docs[i]['precio']);
                   listacomidas.add(comida);
                 }
+
                 return ListView.builder(
                   itemCount: snapshot.data!.docs.length,
                   shrinkWrap: false,
                   scrollDirection: Axis.vertical,
                   itemBuilder: (context, index) {
+                    //guardamos el numero del documento
                     String document =
                         (snapshot.data?.docs[index].id).toString();
 
@@ -118,7 +124,8 @@ class _PantallaMenuDetallesState extends State<PantallaMenuDetalles> {
                               color: _colorsRV[index % 2], width: 1)),
                       child: ListTile(
                         onLongPress: () {
-// set up the buttons
+                          //el siguiente alertdialog saldra siempre y cuando mantenamos pulsado una opcion de la lista
+                          //aqui es donde podremos darle un comentario al plato qe queramos añadir a nuestra comanda
                           Widget cancelButton = TextButton(
                             child: Text("Cancelar",
                                 style: TextStyle(
@@ -139,17 +146,23 @@ class _PantallaMenuDetallesState extends State<PantallaMenuDetalles> {
                                     fontWeight: FontWeight.w400,
                                     fontFamily: 'Comfortaa')),
                             onPressed: () {
+                              //si el usuario quiere guardar el comentario comprobamos que este no este vacio
                               if (comentario.text != "") {
+                                //guardamos la comida seleccionada en nuevo objeto de la clase Comidas
                                 Comidas comida1 = listacomidas[index];
+                                //comprobamos que hay mas stock, de no existir mas, le avisamos al usuario
                                 if (comida1.stock <= 0) {
                                   showSnackBar(
                                       context, "No hay mas stock", index);
                                 } else {
+                                  //si hay mas stock, le restamos uno y guardamos la informacion de la comida en nuestro objeto menu para asi luego guardar este en nuestra base de datos
+                                  // tambien actualizamos el stock de la comida en la base de datos, y actualizamos la cuenta de la mesa
                                   comida1.stock -= 1;
 
                                   updateComida(document, comida1.stock);
                                   menu.num =
                                       (int.parse(menu.num) + 1).toString();
+                                  //guardamos el nombre de la comida en el mismo campo, para asi tener todas las comidas en un mismo string al igual que los precios
                                   menu.food = "\n" +
                                       "1x " +
                                       snapshot.data?.docs[index]['nombre'] +
@@ -164,11 +177,11 @@ class _PantallaMenuDetallesState extends State<PantallaMenuDetalles> {
                                       " \€" +
                                       "\n" +
                                       menu.prices;
+                                  //para el total vamos sumando el precio de cada plato al valor del total
                                   menu.total = snapshot.data?.docs[index]
                                           ['precio'] +
                                       menu.total;
-                                  print(menu.total);
-                                  print(menu.food);
+
                                   menu.total = double.parse(
                                       (menu.total).toStringAsFixed(2));
                                   updateCuenta(menu);
@@ -182,7 +195,6 @@ class _PantallaMenuDetallesState extends State<PantallaMenuDetalles> {
                             },
                           );
 
-                          // set up the AlertDialog
                           AlertDialog alert = AlertDialog(
                             backgroundColor: _colorsRV[0],
                             shape: RoundedRectangleBorder(
@@ -245,8 +257,7 @@ class _PantallaMenuDetallesState extends State<PantallaMenuDetalles> {
                           children: [
                             InkWell(
                               onTap: () {
-                                //si queremos añadir mas datos llamamos a este metodo
-                                //addUser();
+                                //aqui hacemos lo mismo que arriba simplemente que no añadimos el comentario sobre el plato
                                 Comidas comida1 = listacomidas[index];
                                 if (comida1.stock <= 0) {
                                   showSnackBar(
@@ -272,8 +283,6 @@ class _PantallaMenuDetallesState extends State<PantallaMenuDetalles> {
                                   menu.total = snapshot.data?.docs[index]
                                           ['precio'] +
                                       menu.total;
-                                  print(menu.total);
-                                  print(menu.food);
                                   menu.total = double.parse(
                                       (menu.total).toStringAsFixed(2));
                                   updateCuenta(menu);
@@ -281,7 +290,7 @@ class _PantallaMenuDetallesState extends State<PantallaMenuDetalles> {
                                   showSnackBar(
                                       context, "Comanda añadida", index);
                                 }
-                              }, // Handle your callback
+                              }, 
                               child: Image.asset(
                                 'assets/images/icons/mas.png',
                                 height: 20,
@@ -295,15 +304,18 @@ class _PantallaMenuDetallesState extends State<PantallaMenuDetalles> {
                             ),
                             InkWell(
                               onTap: () {
+                                //si el usuario quiere borrar el plato de la comanda, guardamos la comida seleccionada en nuevo objeto de la clase Comidas 
                                 Comidas comida1 = listacomidas[index];
-
+                                //comprobamos que al menos haya un plato del que se quiere borrar en nuestro objeto menu, de no ser asi le decimos al usuario que antes de borrar primero
+                                // debe añadir uno
+                                //con el siguiente if comprobamos que la comida que se quiera borrar tiene un comentario y de ser asi lo quitamos tambien
                                 if (menu.food.contains(comida1.nombre) &&
                                     menu.food.contains(comentario.text) &&
                                     comentario.text != "") {
-                                  print("holaaaaa" + comentario.text);
-                                  unidades = unidades + -1;
+                                      //aumentamos en uno el stock de la comida y lo actualizamos tambien en la base de datos
                                   comida1.stock += 1;
                                   updateComida(document, comida1.stock);
+                                  //buscamos en nuestro objeto menu la comida y la quitamos y lo mismo con el precio
                                   menu.food = menu.food.replaceFirst(
                                       "\n" +
                                           "1x " +
@@ -323,18 +335,16 @@ class _PantallaMenuDetallesState extends State<PantallaMenuDetalles> {
                                               "\n",
                                           "")
                                       .replaceAll("\n \n", "");
+                                      //para el total restamos el precio del alimento al total de la cuenta
                                   menu.total = (menu.total - comida1.precio);
                                   menu.total = double.parse(
                                       (menu.total).toStringAsFixed(2));
+                                      //actualizamos la cuenta
                                   updateCuenta(menu);
-                                  print(menu.food);
                                   showSnackBar(
                                       context, "Comanda quitada", index);
                                   comentario.text = "";
                                 } else if (menu.food.contains(comida1.nombre)) {
-                                  print("holaaaaa 2" + comentario.text);
-
-                                  unidades = unidades + -1;
                                   comida1.stock += 1;
                                   updateComida(document, comida1.stock);
                                   menu.food = menu.food.replaceFirst(
@@ -357,7 +367,6 @@ class _PantallaMenuDetallesState extends State<PantallaMenuDetalles> {
                                   menu.total = double.parse(
                                       (menu.total).toStringAsFixed(2));
                                   updateCuenta(menu);
-                                  print(menu.food);
                                   showSnackBar(
                                       context, "Comanda quitada", index);
                                 } else {
@@ -389,7 +398,7 @@ class _PantallaMenuDetallesState extends State<PantallaMenuDetalles> {
       ),
     );
   }
-
+  //con este metodo actualizamos los datos de la cuenta en la base de datos
   Future<void> updateComida(String document, int stock) {
     CollectionReference comidas =
         FirebaseFirestore.instance.collection('comidas');
@@ -400,6 +409,7 @@ class _PantallaMenuDetallesState extends State<PantallaMenuDetalles> {
         .then((value) => print("Comida Updated"))
         .catchError((error) => print("Failed to update comida: $error"));
   }
+  //con este metodo actualizamos los datos de la cuenta en la base de datos
 
   Future<void> updateCuenta(Menu menu) {
     CollectionReference cuenta =
