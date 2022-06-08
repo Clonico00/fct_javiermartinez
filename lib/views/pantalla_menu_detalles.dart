@@ -288,6 +288,7 @@ class _PantallaMenuDetallesState extends State<PantallaMenuDetalles> {
                                       menu.total;
                                   menu.total = double.parse(
                                       (menu.total).toStringAsFixed(2));
+                                  print(menu.toString());
                                   updateCuenta(menu);
 
                                   showSnackBar(
@@ -418,12 +419,21 @@ class _PantallaMenuDetallesState extends State<PantallaMenuDetalles> {
   Future<void> updateCuenta(Menu menu) {
     CollectionReference cuenta =
         FirebaseFirestore.instance.collection('cuenta');
-
-    return cuenta
-        .doc(menu.numeroMesa)
-        .update({'food': menu.food, 'prices': menu.prices, 'total': menu.total})
-        .then((value) => print("Cuenta Updated"))
-        .catchError((error) => print("Failed to update comida: $error"));
+    if (num.parse(menu.numeroMesa) < 10) {
+      return cuenta
+          .doc(menu.numeroMesa.replaceFirst("0", ""))
+          .update(
+              {'food': menu.food, 'prices': menu.prices, 'total': menu.total})
+          .then((value) => print("Cuenta Updated"))
+          .catchError((error) => print("Failed to update comida: $error"));
+    } else {
+      return cuenta
+          .doc(menu.numeroMesa)
+          .update(
+              {'food': menu.food, 'prices': menu.prices, 'total': menu.total})
+          .then((value) => print("Cuenta Updated"))
+          .catchError((error) => print("Failed to update comida: $error"));
+    }
   }
 
   void showSnackBar(BuildContext context, String error, int index) {

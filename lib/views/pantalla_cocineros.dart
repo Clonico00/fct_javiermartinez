@@ -260,7 +260,7 @@ class _CocinerosScreenState extends State<CocinerosScreen> {
                                                 fontWeight: FontWeight.w800,
                                                 fontFamily: 'Comfortaa')),
                                         content: Text(
-                                            "¿Seguro que quieres eliminar esta comanda",
+                                            "¿Seguro que quieres eliminar esta comanda?",
                                             style: TextStyle(
                                                 color: _colors[index % 2],
                                                 fontSize: 16.0,
