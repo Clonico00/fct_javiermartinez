@@ -7,4 +7,3 @@ Mi aplicacion está pensada especialmente para dispositivos Android, esta usa de
 ## Desarrollador
 
 - Javier Martínez García
-
