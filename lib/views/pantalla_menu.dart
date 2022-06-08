@@ -197,8 +197,8 @@ class _PantallaMenuState extends State<PantallaMenu> {
                                     padding: const EdgeInsets.all(5.0),
                                     child: Image.asset(
                                       imagesList[position],
-                                      height: 90,
-                                      width: 90,
+                                      height: 120,
+                                      width: 120,
                                       color: _colorsRV[1],
                                     ),
                                   ),
