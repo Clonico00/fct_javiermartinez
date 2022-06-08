@@ -122,7 +122,7 @@ class _CocinerosScreenState extends State<CocinerosScreen> {
                 ), // Handle your callback
               ),
               SizedBox(width: 20),
-              ClipRRect(
+              Expanded(
                 child: Text("Croissanteria Párraga: Comandas",
                     style: TextStyle(
                         color: _colorsRV[1],

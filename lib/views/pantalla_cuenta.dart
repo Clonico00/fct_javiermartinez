@@ -65,12 +65,17 @@ class _PantallaCuentaState extends State<PantallaCuenta> {
                 ),
               ),
               SizedBox(width: 20),
-              Text("Croissanteria Párraga: Mesa " + menu.numeroMesa + " Cuenta",
-                  style: TextStyle(
-                      color: _colorsRV[1],
-                      fontSize: 16,
-                      fontWeight: FontWeight.w900,
-                      fontFamily: 'Comfortaa'))
+              Expanded(
+                child: Text(
+                    "Croissanteria Párraga: Mesa " +
+                        menu.numeroMesa +
+                        " Cuenta",
+                    style: TextStyle(
+                        color: _colorsRV[1],
+                        fontSize: 15,
+                        fontWeight: FontWeight.w900,
+                        fontFamily: 'Comfortaa')),
+              )
             ],
           )),
       body: Container(
@@ -478,6 +483,7 @@ class _PantallaCuentaState extends State<PantallaCuenta> {
               })),
     );
   }
+
   //con este metodo actualizamos los datos de la cuenta en la base de datos
   Future<void> updateCuenta(Menu menu) {
     CollectionReference cuenta =

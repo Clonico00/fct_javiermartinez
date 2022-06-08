@@ -79,12 +79,14 @@ class _PantallaMenuState extends State<PantallaMenu> {
                 ),
               ),
               SizedBox(width: 20),
-              Text("Croissanteria Párraga: Mesa " + menu.numeroMesa,
-                  style: TextStyle(
-                      color: _colorsRV[1],
-                      fontSize: 16.0,
-                      fontWeight: FontWeight.w900,
-                      fontFamily: 'Comfortaa'))
+              Expanded(
+                child: Text("Croissanteria Párraga: Mesa " + menu.numeroMesa,
+                    style: TextStyle(
+                        color: _colorsRV[1],
+                        fontSize: 16.0,
+                        fontWeight: FontWeight.w900,
+                        fontFamily: 'Comfortaa')),
+              )
             ],
           )),
       body: Container(

@@ -65,7 +65,7 @@ class _PantallaMenuDetallesState extends State<PantallaMenuDetalles> {
                 ),
               ),
               SizedBox(width: 20),
-              ClipRRect(
+              Expanded(
                 child: Text(
                     "Croissanteria Párraga: Mesa " +
                         menu.numeroMesa +
@@ -73,7 +73,7 @@ class _PantallaMenuDetallesState extends State<PantallaMenuDetalles> {
                         menu.categoria,
                     style: TextStyle(
                         color: _colorsRV[1],
-                        fontSize: 13.0,
+                        fontSize: 14.0,
                         fontWeight: FontWeight.w900,
                         fontFamily: 'Comfortaa')),
               )
