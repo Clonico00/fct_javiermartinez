@@ -186,33 +186,37 @@ class _PantallaMenuState extends State<PantallaMenu> {
                           mainAxisSize: MainAxisSize.min,
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Center(
-                              child: Card(
-                                shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(100.0)),
-                                elevation: 5,
-                                child: Padding(
-                                  padding: const EdgeInsets.all(10.0),
-                                  child: Image.asset(
-                                    imagesList[position],
-                                    height: 90,
-                                    width: 90,
-                                    color: _colorsRV[1],
+                            Expanded(
+                              child: Center(
+                                child: Card(
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius:
+                                          BorderRadius.circular(100.0)),
+                                  elevation: 5,
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(5.0),
+                                    child: Image.asset(
+                                      imagesList[position],
+                                      height: 90,
+                                      width: 90,
+                                      color: _colorsRV[1],
+                                    ),
                                   ),
                                 ),
                               ),
                             ),
-                            Padding(
-                              padding: const EdgeInsets.all(10.0),
-                              child: Container(
-                                alignment: Alignment.bottomCenter,
-                                child: ClipRRect(
+                            Expanded(
+                              flex: 0,
+                              child: Padding(
+                                padding: const EdgeInsets.all(4.0),
+                                child: Container(
+                                  alignment: Alignment.bottomCenter,
                                   child: Text(
                                     categoryList[position],
                                     textAlign: TextAlign.center,
                                     style: TextStyle(
                                         color: _colors[1],
-                                        fontSize: 13.0,
+                                        fontSize: 16.0,
                                         fontWeight: FontWeight.w900,
                                         fontFamily: 'Comfortaa'),
                                   ),
