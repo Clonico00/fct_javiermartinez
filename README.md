@@ -1,16 +1,10 @@
-# fct_javiermartinez
+# Proyecto Final de Desarrollo de Aplicaciones Multiplataforma
 
-A new Flutter project.
+El proyecto final que he elegido para terminar el segundo año de Desarrollo de Aplicaciones Multiplataforma en el instituto I.E.S. Francisco Ayala ha sido una aplicacion multiplataforma desarrollada en Flutter, que es un SDK de código fuente abierto de desarrollo de aplicaciones móviles creado por Google.
 
-## Getting Started
+Mi aplicacion está pensada especialmente para dispositivos Android, esta usa de base de datos Firebase, mas concretamente Firestore Database, debido a la facilidad de uso gracias a unos plugins que permite el uso en Flutter.
 
-This project is a starting point for a Flutter application.
+## Desarrollador
 
-A few resources to get you started if this is your first Flutter project:
+- Javier Martínez García
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
-
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
