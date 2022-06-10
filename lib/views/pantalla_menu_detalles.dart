@@ -288,7 +288,6 @@ class _PantallaMenuDetallesState extends State<PantallaMenuDetalles> {
                                       menu.total;
                                   menu.total = double.parse(
                                       (menu.total).toStringAsFixed(2));
-                                  print(menu.toString());
                                   updateCuenta(menu);
 
                                   showSnackBar(
@@ -314,20 +313,22 @@ class _PantallaMenuDetallesState extends State<PantallaMenuDetalles> {
                                 // debe añadir uno
                                 //con el siguiente if comprobamos que la comida que se quiera borrar tiene un comentario y de ser asi lo quitamos tambien
                                 if (menu.food.contains(comida1.nombre) &&
-                                    menu.food.contains(comentario.text) &&
-                                    comentario.text != "") {
+                                    menu.food.contains(
+                                        snapshot.data?.docs[index]['nombre'] +
+                                            "\n" +
+                                            "( ")) {
+                                  print("adios");
+
                                   //aumentamos en uno el stock de la comida y lo actualizamos tambien en la base de datos
                                   comida1.stock += 1;
                                   updateComida(document, comida1.stock);
                                   //buscamos en nuestro objeto menu la comida y la quitamos y lo mismo con el precio
                                   menu.food = menu.food.replaceFirst(
-                                      "\n" +
+                                      new RegExp("\n" +
                                           "1x " +
                                           snapshot.data?.docs[index]['nombre'] +
                                           "\n" +
-                                          "( " +
-                                          comentario.text +
-                                          " )",
+                                          "\\(.*?\\)"),
                                       "");
                                   menu.prices = menu.prices
                                       .replaceFirst(
@@ -349,6 +350,7 @@ class _PantallaMenuDetallesState extends State<PantallaMenuDetalles> {
                                       context, "Comanda quitada", index);
                                   comentario.text = "";
                                 } else if (menu.food.contains(comida1.nombre)) {
+                                  print("hola");
                                   comida1.stock += 1;
                                   updateComida(document, comida1.stock);
                                   menu.food = menu.food.replaceFirst(
