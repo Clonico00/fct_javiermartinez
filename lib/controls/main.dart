@@ -28,7 +28,6 @@ class MyApp extends StatelessWidget {
   }
 }
 
-
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
 
@@ -80,6 +79,7 @@ class _LoginScreenState extends State<LoginScreen> {
     //con el uso de las preferencias de flutter, comprobramos que el usuario no haya cerrado sesion
     check_if_already_login();
   }
+
 //metodo para comprobar el login con Firebase Auth
   static Future<User?> loginUsingEmailPassword(
       {required String email,
@@ -90,20 +90,21 @@ class _LoginScreenState extends State<LoginScreen> {
     User? user;
     try {
       //comprobamos que hay internet
-      final result = await InternetAddress.lookup('example.com');
+      final result = await InternetAddress.lookup('google.com');
       if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
         //si hay internet leemos el usuario y comprobamos si existe, llamando al metodo de creacion de usuario
         UserCredential userCredential = await auth.signInWithEmailAndPassword(
             email: email, password: password);
         // si no existe ese usuario nos devolvera null de lo contrario nos devolvera un obejto de tipo usuario
-        //con totos los datos de este    
+        //con totos los datos de este
         user = userCredential.user;
       }
     } on FirebaseException catch (e) {
       if (e.code == "user-not-found") {
         print("No user found for that email");
       }
-    } on SocketException catch (_) {
+    } on SocketException catch (e) {
+      print(e.message);
       final snackBar = SnackBar(
         backgroundColor: Color.fromARGB(255, 252, 252, 252),
         margin: EdgeInsets.only(
@@ -124,14 +125,14 @@ class _LoginScreenState extends State<LoginScreen> {
                 fontFamily: 'Comfortaa')),
         action: SnackBarAction(
           label: 'Ok',
-          onPressed: () {
-          },
+          onPressed: () {},
         ),
       );
       ScaffoldMessenger.of(context).showSnackBar(snackBar);
     }
     return user;
   }
+
   //metodo para crear un usuario auque no se usa en nuestra app
   Future signUp(String email, String password) async {
     try {
@@ -161,7 +162,6 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
-    
     TextEditingController _emailController = TextEditingController();
     TextEditingController _passwordController = TextEditingController();
 
@@ -266,14 +266,14 @@ class _LoginScreenState extends State<LoginScreen> {
                                   if (!_emailController.text.isEmpty ||
                                       !_passwordController.text.isEmpty) {
                                     //ahora vemos si el usuario existe en nuestra Base de Datos, si no existe user valdra null
-                                    //tambien guardamos en las preferencias dependiendo de quien se haya logeado un id, para asi poder mantenter la sesion 
+                                    //tambien guardamos en las preferencias dependiendo de quien se haya logeado un id, para asi poder mantenter la sesion
                                     //abierta aunque se salga de la app
                                     User? user = await loginUsingEmailPassword(
                                         email: _emailController.text,
                                         password: _passwordController.text,
                                         context: context);
                                     if (user != null) {
-                                      // si es el correo y contraseña de camareros lo mandamos a su seccion                       
+                                      // si es el correo y contraseña de camareros lo mandamos a su seccion
                                       if (_emailController.text ==
                                           "waitress@gmail.com") {
                                         login.setBool('login', false);
@@ -283,7 +283,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                                 builder: (context) =>
                                                     CamarerosScreen()));
                                       } else {
-                                         // si es el correo y contraseña de cocineros lo mandamos a su seccion
+                                        // si es el correo y contraseña de cocineros lo mandamos a su seccion
                                         login.setBool('login', false);
                                         login.setString('user', 'cook');
                                         Navigator.of(context).pushReplacement(
@@ -398,8 +398,9 @@ class _LoginScreenState extends State<LoginScreen> {
           );
         }));
   }
+
   //metodo para comprobar en base a las preferencias si el usuario se ha logeado anteriormente y no ha cerrado sesion
-  void check_if_already_login() async { 
+  void check_if_already_login() async {
     // nos creamos una instancia de la clase SHARED PREFERENCES para ver los datos almacenados en ella
     login = await SharedPreferences.getInstance();
     newuser = (login.getBool('login') ?? true);
@@ -415,7 +416,8 @@ class _LoginScreenState extends State<LoginScreen> {
       }
     }
   }
-  // metodo que lo llamamos para crear un mensaje y al cual le pasamos solamento el contexto y el String del 
+
+  // metodo que lo llamamos para crear un mensaje y al cual le pasamos solamento el contexto y el String del
   // mensaje
   void showSnackBar(BuildContext context, String error) {
     final snackBar = SnackBar(

@@ -6,7 +6,7 @@ import 'package:fct_javiermartinez/models/menu_model.dart';
 import 'package:fct_javiermartinez/views/pantalla_menu.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-
+ 
 class PantallaMenuDetalles extends StatefulWidget {
   PantallaMenuDetalles({Key? key}) : super(key: key);
 

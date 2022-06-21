@@ -128,7 +128,7 @@ class _CamarerosScreenState extends State<CamarerosScreen> {
                 ),
               ),
               SizedBox(width: 20),
-              ClipRRect(
+              Expanded(
                 child: Text("Croissanteria Párraga: Mesas",
                     style: TextStyle(
                         color: Color.fromARGB(255, 6, 9, 94),
